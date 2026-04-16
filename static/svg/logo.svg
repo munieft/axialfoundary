@@ -1,0 +1,22 @@
+<svg width="360" height="84" viewBox="0 0 360 84" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="84" height="84" rx="22" fill="#08111F"/>
+  <rect x="1" y="1" width="82" height="82" rx="21" stroke="url(#paint0_linear)" stroke-opacity="0.18"/>
+  <path d="M24 58L42 20L60 58" stroke="url(#paint1_linear)" stroke-width="5.8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M31 45H53" stroke="#E9F2FF" stroke-width="4.6" stroke-linecap="round"/>
+  <path d="M54 28H63" stroke="#4EE7C2" stroke-width="4.2" stroke-linecap="round"/>
+  <path d="M57.5 28V37" stroke="#4EE7C2" stroke-width="4.2" stroke-linecap="round"/>
+  <circle cx="63" cy="28" r="3.5" fill="#4EE7C2"/>
+  <text x="106" y="39" fill="#FFFFFF" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="800" letter-spacing="-0.04em">Axial Foundry</text>
+  <text x="107" y="62" fill="#8EA4C0" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="600" letter-spacing="0.22em">SOFTWARE  ·  AI  ·  SYSTEMS</text>
+  <defs>
+    <linearGradient id="paint0_linear" x1="10" y1="8" x2="72" y2="76" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4799FF"/>
+      <stop offset="1" stop-color="#4EE7C2"/>
+    </linearGradient>
+    <linearGradient id="paint1_linear" x1="24" y1="20" x2="60" y2="58" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EAF4FF"/>
+      <stop offset="0.55" stop-color="#71B0FF"/>
+      <stop offset="1" stop-color="#4EE7C2"/>
+    </linearGradient>
+  </defs>
+</svg>

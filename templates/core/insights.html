@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% include 'includes/page_header.html' with kicker='Insights and research' title='Technical credibility that supports better delivery decisions.' intro='Research and deep technical work inform how Axial Foundry thinks about AI quality, implementation trade-offs, speech systems, and product architecture — but the studio stays focused on practical application.' supporting_copy='This page is intentionally secondary to the studio’s services. It exists to show depth without turning the website into an academic profile.' visual='insights' image='img/blue-beams.jpg' image_alt='Abstract blue light beams' %}
+
+<section class="section-shell">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="max-w-3xl">
+            <p class="eyebrow">Selected publication highlights</p>
+            <h2 class="section-title">Research grounding that strengthens implementation quality.</h2>
+        </div>
+        <div class="mt-10 grid gap-5 md:grid-cols-3">
+            {% for item in publication_highlights %}
+            <article class="surface-card h-full">
+                <p class="text-xs uppercase tracking-[0.22em] text-brand-300">{{ item.venue }}</p>
+                <h3 class="mt-3 font-display text-2xl font-semibold text-white">{{ item.title }}</h3>
+                <p class="mt-4 text-sm leading-7 text-slate-400">{{ item.body }}</p>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section-shell section-divider">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="max-w-3xl">
+            <p class="eyebrow">Practical thought leadership</p>
+            <h2 class="section-title">Topics the studio thinks about when shaping high-quality delivery.</h2>
+        </div>
+        <div class="mt-10 grid gap-5 lg:grid-cols-2 xl:grid-cols-3">
+            {% for item in insight_topics %}
+            <article class="surface-card h-full">
+                <h3 class="font-display text-xl font-semibold text-white">{{ item.title }}</h3>
+                <p class="mt-4 text-sm leading-7 text-slate-400">{{ item.body }}</p>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section-shell section-divider">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="max-w-3xl">
+            <p class="eyebrow">Core expertise areas</p>
+            <h2 class="section-title">Where research-grade thinking meets business-ready implementation.</h2>
+        </div>
+        <div class="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+            {% for item in expertise_cards %}
+            <article class="surface-card h-full">
+                {% if forloop.counter == 1 %}
+                    {% include 'includes/service_graphic.html' with variant='llm' compact=True %}
+                {% elif forloop.counter == 2 %}
+                    {% include 'includes/service_graphic.html' with variant='speech' compact=True %}
+                {% elif forloop.counter == 3 %}
+                    {% include 'includes/service_graphic.html' with variant='automation' compact=True %}
+                {% else %}
+                    {% include 'includes/service_graphic.html' with variant='strategy' compact=True %}
+                {% endif %}
+                <h3 class="mt-5 font-display text-xl font-semibold text-white">{{ item.title }}</h3>
+                <p class="mt-4 text-sm leading-7 text-slate-400">{{ item.body }}</p>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="mx-auto max-w-7xl px-6 py-10 lg:px-8 lg:py-16">
+    {% include 'includes/cta_band.html' %}
+</section>
+{% endblock %}

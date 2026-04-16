@@ -1,0 +1,251 @@
+{% load static %}
+<div class="page-visual page-visual--{{ visual|default:'services' }}" data-reveal>
+    <div class="media-carousel media-carousel--page pointer-glow" data-media-carousel data-interval="5600">
+        <div class="media-carousel__viewport">
+            {% if visual == 'services' %}
+                <article class="media-carousel__slide is-active" data-carousel-slide aria-hidden="false">
+                    <img src="{% static 'img/hero-network.jpg' %}" alt="Websites and digital presence" class="media-carousel__image">
+                    <div class="media-carousel__shade"></div>
+                    <div class="media-carousel__content media-carousel__content--page">
+                        <p class="media-carousel__eyebrow">Websites</p>
+                        <h3 class="media-carousel__title">Premium public-facing web experiences</h3>
+                        <p class="media-carousel__text">Positioning, performance, conversion, and content structure that support growth.</p>
+                        <div class="media-carousel__chips"><span>Company sites</span><span>Landing pages</span></div>
+                    </div>
+                </article>
+                <article class="media-carousel__slide" data-carousel-slide aria-hidden="true">
+                    <img src="{% static 'img/code-laptop.jpg' %}" alt="Custom applications and product delivery" class="media-carousel__image">
+                    <div class="media-carousel__shade"></div>
+                    <div class="media-carousel__content media-carousel__content--page">
+                        <p class="media-carousel__eyebrow">Software products</p>
+                        <h3 class="media-carousel__title">Apps, portals, and product engineering</h3>
+                        <p class="media-carousel__text">Custom systems for recurring workflows, client access, reporting, and operations.</p>
+                        <div class="media-carousel__chips"><span>Portals</span><span>Dashboards</span></div>
+                    </div>
+                </article>
+                <article class="media-carousel__slide" data-carousel-slide aria-hidden="true">
+                    <img src="{% static 'img/circuit-touch.jpg' %}" alt="AI assistant interface" class="media-carousel__image">
+                    <div class="media-carousel__shade"></div>
+                    <div class="media-carousel__content media-carousel__content--page">
+                        <p class="media-carousel__eyebrow">AI systems</p>
+                        <h3 class="media-carousel__title">Assistants, chatbots, and knowledge access</h3>
+                        <p class="media-carousel__text">Practical AI for search, support, lead handling, and internal knowledge workflows.</p>
+                        <div class="media-carousel__chips"><span>RAG</span><span>Prompt systems</span></div>
+                    </div>
+                </article>
+                <article class="media-carousel__slide" data-carousel-slide aria-hidden="true">
+                    <img src="{% static 'img/fiber-cables.jpg' %}" alt="Backend infrastructure and data systems" class="media-carousel__image">
+                    <div class="media-carousel__shade"></div>
+                    <div class="media-carousel__content media-carousel__content--page">
+                        <p class="media-carousel__eyebrow">Automation</p>
+                        <h3 class="media-carousel__title">Integrations, backend systems, and data flow</h3>
+                        <p class="media-carousel__text">Systems that connect tools, automate repetitive work, and provide cleaner visibility.</p>
+                        <div class="media-carousel__chips"><span>APIs</span><span>Pipelines</span></div>
+                    </div>
+                </article>
+            {% elif visual == 'about' %}
+                <article class="media-carousel__slide is-active" data-carousel-slide aria-hidden="false">
+                    <img src="{% static 'img/code-laptop.jpg' %}" alt="Collaborative product team working together" class="media-carousel__image">
+                    <div class="media-carousel__shade"></div>
+                    <div class="media-carousel__content media-carousel__content--page">
+                        <p class="media-carousel__eyebrow">How the studio works</p>
+                        <h3 class="media-carousel__title">Small-team clarity with technical depth</h3>
+                        <p class="media-carousel__text">A delivery model designed to stay commercially sharp and technically grounded.</p>
+                        <div class="media-carousel__chips"><span>Founder-led</span><span>Hands-on</span></div>
+                    </div>
+                </article>
+                <article class="media-carousel__slide" data-carousel-slide aria-hidden="true">
+                    <img src="{% static 'img/hero-network.jpg' %}" alt="Team workshop and planning session" class="media-carousel__image">
+                    <div class="media-carousel__shade"></div>
+                    <div class="media-carousel__content media-carousel__content--page">
+                        <p class="media-carousel__eyebrow">Studio mindset</p>
+                        <h3 class="media-carousel__title">Scope, structure, and collaborative planning</h3>
+                        <p class="media-carousel__text">Projects move forward through practical scoping, system thinking, and delivery discipline.</p>
+                        <div class="media-carousel__chips"><span>Planning</span><span>Execution</span></div>
+                    </div>
+                </article>
+                <article class="media-carousel__slide" data-carousel-slide aria-hidden="true">
+                    <img src="{% static 'img/code-laptop.jpg' %}" alt="Software engineering details" class="media-carousel__image">
+                    <div class="media-carousel__shade"></div>
+                    <div class="media-carousel__content media-carousel__content--page">
+                        <p class="media-carousel__eyebrow">Capability</p>
+                        <h3 class="media-carousel__title">Product, Python, AI, and backend delivery</h3>
+                        <p class="media-carousel__text">The studio combines strategy and implementation rather than separating them too early.</p>
+                        <div class="media-carousel__chips"><span>Python-first</span><span>Maintainable</span></div>
+                    </div>
+                </article>
+            {% elif visual == 'solutions' %}
+                <article class="media-carousel__slide is-active" data-carousel-slide aria-hidden="false">
+                    <img src="{% static 'img/code-laptop.jpg' %}" alt="Teams collaborating around a workstation" class="media-carousel__image">
+                    <div class="media-carousel__shade"></div>
+                    <div class="media-carousel__content media-carousel__content--page">
+                        <p class="media-carousel__eyebrow">Startups</p>
+                        <h3 class="media-carousel__title">Fast-moving product and MVP delivery</h3>
+                        <p class="media-carousel__text">Clearer launches, sharper scope, and working systems that support traction.</p>
+                        <div class="media-carousel__chips"><span>MVPs</span><span>Launches</span></div>
+                    </div>
+                </article>
+                <article class="media-carousel__slide" data-carousel-slide aria-hidden="true">
+                    <img src="{% static 'img/fiber-cables.jpg' %}" alt="Connected business systems" class="media-carousel__image">
+                    <div class="media-carousel__shade"></div>
+                    <div class="media-carousel__content media-carousel__content--page">
+                        <p class="media-carousel__eyebrow">SMEs</p>
+                        <h3 class="media-carousel__title">Operational systems that reduce friction</h3>
+                        <p class="media-carousel__text">Better lead handling, cleaner workflows, and more connected data across the business.</p>
+                        <div class="media-carousel__chips"><span>Automation</span><span>CRM flow</span></div>
+                    </div>
+                </article>
+                <article class="media-carousel__slide" data-carousel-slide aria-hidden="true">
+                    <img src="{% static 'img/blue-beams.jpg' %}" alt="Professional team discussion" class="media-carousel__image">
+                    <div class="media-carousel__shade"></div>
+                    <div class="media-carousel__content media-carousel__content--page">
+                        <p class="media-carousel__eyebrow">Enterprise teams</p>
+                        <h3 class="media-carousel__title">Internal tools, knowledge systems, and AI layers</h3>
+                        <p class="media-carousel__text">Custom software and retrieval workflows for teams working with complexity and scale.</p>
+                        <div class="media-carousel__chips"><span>Knowledge</span><span>Internal tools</span></div>
+                    </div>
+                </article>
+            {% elif visual == 'work' %}
+                <article class="media-carousel__slide is-active" data-carousel-slide aria-hidden="false">
+                    <img src="{% static 'img/circuit-touch.jpg' %}" alt="AI assistant interface" class="media-carousel__image">
+                    <div class="media-carousel__shade"></div>
+                    <div class="media-carousel__content media-carousel__content--page">
+                        <p class="media-carousel__eyebrow">Conversational AI</p>
+                        <h3 class="media-carousel__title">Assistants, QA systems, and CRM-connected workflows</h3>
+                        <p class="media-carousel__text">Representative builds across support, knowledge access, and customer communication.</p>
+                        <div class="media-carousel__chips"><span>Chatbots</span><span>WhatsApp</span></div>
+                    </div>
+                </article>
+                <article class="media-carousel__slide" data-carousel-slide aria-hidden="true">
+                    <img src="{% static 'img/fiber-cables.jpg' %}" alt="Data infrastructure" class="media-carousel__image">
+                    <div class="media-carousel__shade"></div>
+                    <div class="media-carousel__content media-carousel__content--page">
+                        <p class="media-carousel__eyebrow">Data systems</p>
+                        <h3 class="media-carousel__title">Scraping, pipelines, dashboards, and backend logic</h3>
+                        <p class="media-carousel__text">Business infrastructure work that powers reporting, automation, and operational clarity.</p>
+                        <div class="media-carousel__chips"><span>ETL</span><span>Dashboards</span></div>
+                    </div>
+                </article>
+                <article class="media-carousel__slide" data-carousel-slide aria-hidden="true">
+                    <img src="{% static 'img/hero-network.jpg' %}" alt="Networked digital systems" class="media-carousel__image">
+                    <div class="media-carousel__shade"></div>
+                    <div class="media-carousel__content media-carousel__content--page">
+                        <p class="media-carousel__eyebrow">Research-backed AI</p>
+                        <h3 class="media-carousel__title">Model adaptation, RAG, and evaluation work</h3>
+                        <p class="media-carousel__text">Anonymized examples that show breadth without drifting into academic portfolio territory.</p>
+                        <div class="media-carousel__chips"><span>Evaluation</span><span>LLMs</span></div>
+                    </div>
+                </article>
+            {% elif visual == 'insights' %}
+                <article class="media-carousel__slide is-active" data-carousel-slide aria-hidden="false">
+                    <img src="{% static 'img/blue-beams.jpg' %}" alt="Technical research and systems theme" class="media-carousel__image">
+                    <div class="media-carousel__shade"></div>
+                    <div class="media-carousel__content media-carousel__content--page">
+                        <p class="media-carousel__eyebrow">Implementation strategy</p>
+                        <h3 class="media-carousel__title">Research thinking translated into delivery decisions</h3>
+                        <p class="media-carousel__text">A practical view on when to use AI, how to evaluate it, and how to ship it well.</p>
+                        <div class="media-carousel__chips"><span>Strategy</span><span>Evaluation</span></div>
+                    </div>
+                </article>
+                <article class="media-carousel__slide" data-carousel-slide aria-hidden="true">
+                    <img src="{% static 'img/circuit-touch.jpg' %}" alt="AI system interface" class="media-carousel__image">
+                    <div class="media-carousel__shade"></div>
+                    <div class="media-carousel__content media-carousel__content--page">
+                        <p class="media-carousel__eyebrow">AI systems</p>
+                        <h3 class="media-carousel__title">LLM workflows, prompt design, and knowledge grounding</h3>
+                        <p class="media-carousel__text">Topics that matter to teams building AI features that need to be reliable and useful.</p>
+                        <div class="media-carousel__chips"><span>RAG</span><span>Prompting</span></div>
+                    </div>
+                </article>
+                <article class="media-carousel__slide" data-carousel-slide aria-hidden="true">
+                    <img src="{% static 'img/circuit-touch.jpg' %}" alt="Speech and system interfaces" class="media-carousel__image">
+                    <div class="media-carousel__shade"></div>
+                    <div class="media-carousel__content media-carousel__content--page">
+                        <p class="media-carousel__eyebrow">Speech systems</p>
+                        <h3 class="media-carousel__title">Speech AI, ASR, diarization, and voice-enabled workflows</h3>
+                        <p class="media-carousel__text">Selected technical areas where the studio has deeper engineering credibility.</p>
+                        <div class="media-carousel__chips"><span>ASR</span><span>Diarization</span></div>
+                    </div>
+                </article>
+            {% elif visual == 'contact' %}
+                <article class="media-carousel__slide is-active" data-carousel-slide aria-hidden="false">
+                    <img src="{% static 'img/code-laptop.jpg' %}" alt="Team collaborating on a digital project" class="media-carousel__image">
+                    <div class="media-carousel__shade"></div>
+                    <div class="media-carousel__content media-carousel__content--page">
+                        <p class="media-carousel__eyebrow">Project intake</p>
+                        <h3 class="media-carousel__title">A guided first contact, not a dead-end form</h3>
+                        <p class="media-carousel__text">Enough structure to qualify the work, keep it efficient, and make the next reply more useful.</p>
+                        <div class="media-carousel__chips"><span>Guided</span><span>Fast</span></div>
+                    </div>
+                </article>
+                <article class="media-carousel__slide" data-carousel-slide aria-hidden="true">
+                    <img src="{% static 'img/hero-network.jpg' %}" alt="Project planning and discovery session" class="media-carousel__image">
+                    <div class="media-carousel__shade"></div>
+                    <div class="media-carousel__content media-carousel__content--page">
+                        <p class="media-carousel__eyebrow">Discovery</p>
+                        <h3 class="media-carousel__title">Clearer scope, timing, and service fit</h3>
+                        <p class="media-carousel__text">The intake helps define whether the project needs a website, app, automation, AI system, or some combination.</p>
+                        <div class="media-carousel__chips"><span>Scope</span><span>Fit</span></div>
+                    </div>
+                </article>
+                <article class="media-carousel__slide" data-carousel-slide aria-hidden="true">
+                    <img src="{% static 'img/blue-beams.jpg' %}" alt="Business follow-up meeting" class="media-carousel__image">
+                    <div class="media-carousel__shade"></div>
+                    <div class="media-carousel__content media-carousel__content--page">
+                        <p class="media-carousel__eyebrow">Follow-up</p>
+                        <h3 class="media-carousel__title">Direct response with a practical next step</h3>
+                        <p class="media-carousel__text">That may be a scoped follow-up, a discovery call, or a recommendation on where to start.</p>
+                        <div class="media-carousel__chips"><span>Reply</span><span>Next step</span></div>
+                    </div>
+                </article>
+            {% else %}
+                <article class="media-carousel__slide is-active" data-carousel-slide aria-hidden="false">
+                    <img src="{% static 'img/blue-beams.jpg' %}" alt="Privacy and system security theme" class="media-carousel__image">
+                    <div class="media-carousel__shade"></div>
+                    <div class="media-carousel__content media-carousel__content--page">
+                        <p class="media-carousel__eyebrow">Responsible handling</p>
+                        <h3 class="media-carousel__title">Contact information is handled with care</h3>
+                        <p class="media-carousel__text">The site stores only the information needed to respond and manage enquiries appropriately.</p>
+                        <div class="media-carousel__chips"><span>Privacy</span><span>Lead handling</span></div>
+                    </div>
+                </article>
+                <article class="media-carousel__slide" data-carousel-slide aria-hidden="true">
+                    <img src="{% static 'img/fiber-cables.jpg' %}" alt="Protected systems and infrastructure" class="media-carousel__image">
+                    <div class="media-carousel__shade"></div>
+                    <div class="media-carousel__content media-carousel__content--page">
+                        <p class="media-carousel__eyebrow">System layer</p>
+                        <h3 class="media-carousel__title">Python-first backend with protected lead access</h3>
+                        <p class="media-carousel__text">Structured form handling, storage, and notification support for serious enquiry flow.</p>
+                        <div class="media-carousel__chips"><span>Django</span><span>Admin</span></div>
+                    </div>
+                </article>
+            {% endif %}
+        </div>
+
+        <div class="media-carousel__footer media-carousel__footer--page">
+            <div class="media-carousel__dots" role="tablist" aria-label="Page visual slides">
+                {% if visual == 'services' %}
+                    <button type="button" class="media-carousel__dot is-active" data-carousel-dot="0" aria-label="Go to first slide"></button>
+                    <button type="button" class="media-carousel__dot" data-carousel-dot="1" aria-label="Go to second slide"></button>
+                    <button type="button" class="media-carousel__dot" data-carousel-dot="2" aria-label="Go to third slide"></button>
+                    <button type="button" class="media-carousel__dot" data-carousel-dot="3" aria-label="Go to fourth slide"></button>
+                {% elif visual == 'privacy' %}
+                    <button type="button" class="media-carousel__dot is-active" data-carousel-dot="0" aria-label="Go to first slide"></button>
+                    <button type="button" class="media-carousel__dot" data-carousel-dot="1" aria-label="Go to second slide"></button>
+                {% else %}
+                    <button type="button" class="media-carousel__dot is-active" data-carousel-dot="0" aria-label="Go to first slide"></button>
+                    <button type="button" class="media-carousel__dot" data-carousel-dot="1" aria-label="Go to second slide"></button>
+                    <button type="button" class="media-carousel__dot" data-carousel-dot="2" aria-label="Go to third slide"></button>
+                {% endif %}
+            </div>
+            <div class="media-carousel__controls" aria-label="Page visual controls">
+                <button type="button" class="carousel-control" data-carousel-prev aria-label="Previous slide">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.5 6.5L9 12l5.5 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+                <button type="button" class="carousel-control" data-carousel-next aria-label="Next slide">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 6.5L15 12l-5.5 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

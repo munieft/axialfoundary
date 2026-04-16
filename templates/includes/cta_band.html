@@ -1,0 +1,20 @@
+<section class="relative overflow-hidden rounded-[2rem] border border-white/10 bg-gradient-to-br from-brand-600/20 via-slate-950 to-accent-500/10 px-8 py-12 shadow-glow lg:px-10 lg:py-14">
+    <div class="absolute -top-16 right-0 h-44 w-44 rounded-full bg-brand-500/[0.15] blur-3xl"></div>
+    <div class="absolute -bottom-12 left-0 h-36 w-36 rounded-full bg-accent-400/[0.15] blur-3xl"></div>
+    <div class="relative grid gap-8 lg:grid-cols-[1fr_.9fr] lg:items-center">
+        <div class="max-w-3xl">
+            <p class="eyebrow">Ready to talk?</p>
+            <h2 class="mt-4 font-display text-3xl font-bold tracking-tight text-white sm:text-4xl">Build the right system, not just another idea deck.</h2>
+            <p class="mt-5 text-base leading-7 text-slate-300">Whether you need a premium website, an internal tool, a product MVP, a knowledge assistant, or a deeper AI implementation, Axial Foundry can help shape and ship it.</p>
+            <div class="mt-8 flex flex-wrap gap-4">
+                <a href="{% url 'leads:contact' %}#contact-experience" class="button-primary">Start a project conversation</a>
+                <a href="mailto:{{ contact_email }}" class="button-secondary">Email the studio</a>
+            </div>
+        </div>
+        <div class="hidden lg:block">
+            <div class="surface-card border-white/10 bg-white/5">
+                {% include 'includes/service_graphic.html' with variant='product' %}
+            </div>
+        </div>
+    </div>
+</section>

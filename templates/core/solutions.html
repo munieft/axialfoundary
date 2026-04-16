@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% include 'includes/page_header.html' with kicker='Solutions and industries' title='Solutions shaped around business needs, team types, and delivery reality.' intro='Axial Foundry works with startups, SMEs, agencies, enterprise teams, service businesses, and knowledge-heavy organizations that need software, automation, websites, or AI capabilities that actually fit how they work.' supporting_copy='The same studio can support a sharp business website, a custom internal system, a portal, an AI assistant, or a broader product build depending on what the situation calls for.' visual='solutions' image='img/hero-network.jpg' image_alt='Connected city network' %}
+
+<section class="section-shell">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+            {% for item in audience_solutions %}
+            <article class="surface-card h-full">
+                <div class="solution-card__graphic">
+                    {% if forloop.counter == 1 %}
+                        {% include 'includes/service_graphic.html' with variant='product' compact=True %}
+                    {% elif forloop.counter == 2 %}
+                        {% include 'includes/service_graphic.html' with variant='website' compact=True %}
+                    {% elif forloop.counter == 3 %}
+                        {% include 'includes/service_graphic.html' with variant='portal' compact=True %}
+                    {% elif forloop.counter == 4 %}
+                        {% include 'includes/service_graphic.html' with variant='automation' compact=True %}
+                    {% elif forloop.counter == 5 %}
+                        {% include 'includes/service_graphic.html' with variant='knowledge' compact=True %}
+                    {% else %}
+                        {% include 'includes/service_graphic.html' with variant='dashboard' compact=True %}
+                    {% endif %}
+                </div>
+                <h2 class="mt-5 font-display text-2xl font-semibold text-white">{{ item.title }}</h2>
+                <p class="mt-4 text-sm leading-7 text-slate-400">{{ item.summary }}</p>
+                <ul class="mt-6 space-y-3 text-sm text-slate-300">
+                    {% for need in item.needs %}
+                    <li class="flex gap-3"><span class="mt-2 h-2 w-2 rounded-full bg-brand-400"></span><span>{{ need }}</span></li>
+                    {% endfor %}
+                </ul>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section-shell section-divider">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="max-w-3xl">
+            <p class="eyebrow">Business needs map</p>
+            <h2 class="section-title">How the studio maps capabilities to real operating problems.</h2>
+        </div>
+        <div class="mt-10 grid gap-5 lg:grid-cols-2 xl:grid-cols-3">
+            {% for item in need_map %}
+            <article class="surface-card h-full">
+                <h3 class="font-display text-xl font-semibold text-white">{{ item.title }}</h3>
+                <p class="mt-4 text-sm leading-7 text-slate-400">{{ item.body }}</p>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section-shell section-divider">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="max-w-3xl">
+            <p class="eyebrow">Representative solution types</p>
+            <h2 class="section-title">Examples of where the studio can add immediate value.</h2>
+        </div>
+        <div class="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+            {% for item in featured_solutions %}
+            <article class="surface-card h-full solution-card">
+                <div class="solution-card__graphic">
+                    {% if forloop.counter == 1 %}
+                        {% include 'includes/service_graphic.html' with variant='chatbot' compact=True %}
+                    {% elif forloop.counter == 2 %}
+                        {% include 'includes/service_graphic.html' with variant='knowledge' compact=True %}
+                    {% elif forloop.counter == 3 %}
+                        {% include 'includes/service_graphic.html' with variant='automation' compact=True %}
+                    {% elif forloop.counter == 4 %}
+                        {% include 'includes/service_graphic.html' with variant='dashboard' compact=True %}
+                    {% elif forloop.counter == 5 %}
+                        {% include 'includes/service_graphic.html' with variant='website' compact=True %}
+                    {% elif forloop.counter == 6 %}
+                        {% include 'includes/service_graphic.html' with variant='automation' compact=True %}
+                    {% elif forloop.counter == 7 %}
+                        {% include 'includes/service_graphic.html' with variant='portal' compact=True %}
+                    {% else %}
+                        {% include 'includes/service_graphic.html' with variant='speech' compact=True %}
+                    {% endif %}
+                </div>
+                <h3 class="mt-5 font-display text-xl font-semibold text-white">{{ item.title }}</h3>
+                <p class="mt-4 text-sm leading-7 text-slate-400">{{ item.body }}</p>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="mx-auto max-w-7xl px-6 py-10 lg:px-8 lg:py-16">
+    {% include 'includes/cta_band.html' %}
+</section>
+{% endblock %}

@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% include 'includes/page_header.html' with kicker='Services' title='Software, AI, websites, and operational systems built around real business needs.' intro='Axial Foundry serves companies that need a capable delivery partner — whether the project is a premium website, a product MVP, an internal tool, a workflow automation, or a deeper AI implementation.' supporting_copy='The goal is not to push the most complex stack. The goal is to design and build the right system for the client’s stage, users, and operating reality.' visual='services' image='img/fiber-cables.jpg' image_alt='Fiber optic connections and infrastructure' %}
+
+<section class="section-shell">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="grid gap-5 xl:grid-cols-2">
+            {% for cluster in service_clusters %}
+            <article class="surface-card h-full pointer-glow" data-reveal>
+                <div class="grid gap-5 lg:grid-cols-[1fr_190px] lg:items-center">
+                    <div>
+                        <h2 class="font-display text-2xl font-semibold text-white">{{ cluster.title }}</h2>
+                        <p class="mt-4 text-sm leading-7 text-slate-400">{{ cluster.summary }}</p>
+                        <ul class="mt-6 grid gap-3 sm:grid-cols-2">
+                            {% for item in cluster.items %}
+                            <li class="rounded-2xl border border-white/[0.08] bg-white/5 px-4 py-3 text-sm text-slate-300">{{ item }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="hidden lg:block">
+                        {% if forloop.counter == 1 %}
+                            {% include 'includes/service_graphic.html' with variant='chatbot' %}
+                        {% elif forloop.counter == 2 %}
+                            {% include 'includes/service_graphic.html' with variant='portal' %}
+                        {% elif forloop.counter == 3 %}
+                            {% include 'includes/service_graphic.html' with variant='website' %}
+                        {% else %}
+                            {% include 'includes/service_graphic.html' with variant='automation' %}
+                        {% endif %}
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section-shell section-divider">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="max-w-3xl">
+            <p class="eyebrow">Service detail</p>
+            <h2 class="section-title">What each engagement is, who it helps, and what clients receive.</h2>
+        </div>
+        <div class="mt-10 space-y-6">
+            {% for service in service_details %}
+            <article class="surface-card pointer-glow" data-reveal>
+                <div class="grid gap-8 xl:grid-cols-[0.9fr_0.78fr_0.6fr] xl:items-start">
+                    <div>
+                        <p class="text-xs uppercase tracking-[0.22em] text-brand-300">{{ service.group }}</p>
+                        <h3 class="mt-3 font-display text-2xl font-semibold text-white">{{ service.title }}</h3>
+                        <p class="mt-4 text-sm leading-7 text-slate-400"><span class="font-semibold text-slate-200">What it is:</span> {{ service.what_it_is }}</p>
+                        <p class="mt-4 text-sm leading-7 text-slate-400"><span class="font-semibold text-slate-200">Who it is for:</span> {{ service.who_it_is_for }}</p>
+                    </div>
+                    <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-1">
+                        <div>
+                            <h4 class="font-display text-lg font-semibold text-white">Problems it solves</h4>
+                            <ul class="mt-4 space-y-3 text-sm leading-7 text-slate-400">
+                                {% for item in service.problems_it_solves %}
+                                <li class="flex gap-3"><span class="mt-2 h-2 w-2 rounded-full bg-brand-400"></span><span>{{ item }}</span></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-display text-lg font-semibold text-white">What the client receives</h4>
+                            <ul class="mt-4 space-y-3 text-sm leading-7 text-slate-400">
+                                {% for item in service.client_receives %}
+                                <li class="flex gap-3"><span class="mt-2 h-2 w-2 rounded-full bg-accent-400"></span><span>{{ item }}</span></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="grid gap-5">
+                        <div class="surface-card h-full bg-white/5 pointer-glow">
+                            {% if service.title == 'AI Strategy and Implementation' %}
+                                {% include 'includes/service_graphic.html' with variant='strategy' %}
+                            {% elif service.title == 'AI Assistants and Chatbots' %}
+                                {% include 'includes/service_graphic.html' with variant='chatbot' %}
+                            {% elif service.title == 'RAG and Knowledge Assistants' %}
+                                {% include 'includes/service_graphic.html' with variant='knowledge' %}
+                            {% elif service.title == 'LLM Fine-tuning and Evaluation' %}
+                                {% include 'includes/service_graphic.html' with variant='llm' %}
+                            {% elif service.title == 'Speech AI Systems' %}
+                                {% include 'includes/service_graphic.html' with variant='speech' %}
+                            {% elif service.title == 'Custom Web Applications' %}
+                                {% include 'includes/service_graphic.html' with variant='webapp' %}
+                            {% elif service.title == 'Product and MVP Build' %}
+                                {% include 'includes/service_graphic.html' with variant='product' %}
+                            {% elif service.title == 'Premium Website Development' %}
+                                {% include 'includes/service_graphic.html' with variant='website' %}
+                            {% else %}
+                                {% include 'includes/service_graphic.html' with variant='automation' %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-8 rounded-2xl border border-white/[0.08] bg-white/5 px-5 py-4 text-sm leading-7 text-slate-300">
+                    <span class="font-semibold text-white">Typical engagement includes:</span> {{ service.typical_engagement }}
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="mx-auto max-w-7xl px-6 py-10 lg:px-8 lg:py-16">
+    {% include 'includes/cta_band.html' %}
+</section>
+{% endblock %}

@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% include 'includes/page_header.html' with kicker='About the Studio' title='A founder-led studio built to turn technical depth into practical delivery.' intro='Axial Foundry exists for companies that need a capable partner to scope and ship software, AI features, digital platforms, and operational systems without unnecessary complexity.' supporting_copy='The studio is not built around hype, inflated claims, or one narrow service line. It is built around solving the right problem well.' visual='about' image='img/code-laptop.jpg' image_alt='Programming interface' %}
+
+<section class="section-shell">
+    <div class="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-[1fr_.95fr] lg:px-8 lg:items-start">
+        <div>
+            <p class="eyebrow">Studio point of view</p>
+            <h2 class="section-title">{{ brand_story }}</h2>
+            <p class="mt-5 max-w-2xl text-base leading-8 text-slate-400">{{ positioning_statement }}</p>
+        </div>
+        <div class="surface-card pointer-glow" data-reveal>
+            <div class="grid gap-5 lg:grid-cols-[1fr_170px] lg:items-center">
+                <div>
+                    <h3 class="font-display text-2xl font-semibold text-white">What the studio builds</h3>
+                    <ul class="mt-5 space-y-3 text-sm leading-7 text-slate-300">
+                        <li>Premium business websites and landing pages</li>
+                        <li>Custom web applications, portals, dashboards, and internal tools</li>
+                        <li>Backend systems, APIs, and workflow automations</li>
+                        <li>AI assistants, RAG experiences, prompt systems, and evaluation layers</li>
+                        <li>Speech-enabled workflows and language-aware product capabilities</li>
+                    </ul>
+                </div>
+                <div class="hidden lg:block">
+                    {% include 'includes/service_graphic.html' with variant='product' %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-shell section-divider">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="max-w-3xl">
+            <p class="eyebrow">How the studio works</p>
+            <h2 class="section-title">A delivery model designed for clarity, quality, and maintainability.</h2>
+        </div>
+        <div class="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+            {% for item in about_principles %}
+            <article class="surface-card h-full pointer-glow" data-reveal>
+                <h3 class="font-display text-xl font-semibold text-white">{{ item.title }}</h3>
+                <p class="mt-4 text-sm leading-7 text-slate-400">{{ item.body }}</p>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section-shell section-divider">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="max-w-3xl">
+            <p class="eyebrow">Capabilities</p>
+            <h2 class="section-title">Software, AI, product, and data strengths that work together.</h2>
+        </div>
+        <div class="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+            {% for group in capability_groups %}
+            <article class="surface-card h-full pointer-glow" data-reveal>
+                <h3 class="font-display text-xl font-semibold text-white">{{ group.title }}</h3>
+                <div class="mt-5 flex flex-wrap gap-2">
+                    {% for item in group.items %}
+                    <span class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-300">{{ item }}</span>
+                    {% endfor %}
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section-shell section-divider">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="max-w-3xl">
+            <p class="eyebrow">Meet the team</p>
+            <h2 class="section-title">Structured placeholders for future team profiles.</h2>
+            <p class="section-intro">These cards are intentionally built with fixed image ratios and stable spacing so you can replace placeholder imagery with real team photos later without disturbing the visual flow.</p>
+        </div>
+        <div class="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            <article class="surface-card team-card pointer-glow" data-reveal>
+                <div class="team-card__media">
+                    <img src="https://images.unsplash.com/photo-1758873268745-dd2cf0d677b5?auto=format&fit=crop&fm=jpg&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&ixlib=rb-4.1.0&q=60&w=3000" alt="Placeholder collaborative team lead image" class="team-card__image">
+                    <span class="team-card__badge">Replace image later</span>
+                </div>
+                <div class="mt-5">
+                    <p class="eyebrow eyebrow--compact">Team lead placeholder</p>
+                    <h3 class="mt-3 font-display text-2xl font-semibold text-white">Product and Delivery Lead</h3>
+                    <p class="mt-4 text-sm leading-7 text-slate-400">Use this area for a short introduction covering delivery ownership, client communication, and cross-functional coordination.</p>
+                </div>
+            </article>
+            <article class="surface-card team-card pointer-glow" data-reveal>
+                <div class="team-card__media">
+                    <img src="https://images.unsplash.com/photo-1758873269035-aae0e1fd3422?auto=format&fit=crop&fm=jpg&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&ixlib=rb-4.1.0&q=60&w=3000" alt="Placeholder planning and workshop image" class="team-card__image">
+                    <span class="team-card__badge">Replace image later</span>
+                </div>
+                <div class="mt-5">
+                    <p class="eyebrow eyebrow--compact">Team lead placeholder</p>
+                    <h3 class="mt-3 font-display text-2xl font-semibold text-white">Engineering and Systems Lead</h3>
+                    <p class="mt-4 text-sm leading-7 text-slate-400">Use this block for backend, architecture, product engineering, or platform delivery leadership depending on the final team structure.</p>
+                </div>
+            </article>
+            <article class="surface-card team-card pointer-glow" data-reveal>
+                <div class="team-card__media">
+                    <img src="https://images.unsplash.com/photo-1758518727401-53823b36c47b?auto=format&fit=crop&fm=jpg&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&ixlib=rb-4.1.0&q=60&w=3000" alt="Placeholder professional team profile image" class="team-card__image">
+                    <span class="team-card__badge">Replace image later</span>
+                </div>
+                <div class="mt-5">
+                    <p class="eyebrow eyebrow--compact">Team lead placeholder</p>
+                    <h3 class="mt-3 font-display text-2xl font-semibold text-white">AI and Research Systems Lead</h3>
+                    <p class="mt-4 text-sm leading-7 text-slate-400">Use this card for a concise introduction covering AI implementation, model evaluation, experimentation, or technical advisory responsibility.</p>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section class="section-shell section-divider">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="max-w-3xl">
+            <p class="eyebrow">What clients can expect</p>
+            <h2 class="section-title">A structured path from scope to launch.</h2>
+        </div>
+        <div class="mt-10 grid gap-5 lg:grid-cols-2 xl:grid-cols-3">
+            {% for item in process_steps %}
+            <article class="surface-card h-full pointer-glow" data-reveal>
+                <span class="text-sm font-semibold tracking-[0.28em] text-brand-300">{{ item.step }}</span>
+                <h3 class="mt-4 font-display text-2xl font-semibold text-white">{{ item.title }}</h3>
+                <p class="mt-4 text-sm leading-7 text-slate-400">{{ item.body }}</p>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section-shell section-divider">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        {% include 'includes/owner_section.html' %}
+    </div>
+</section>
+
+<section class="mx-auto max-w-7xl px-6 py-10 lg:px-8 lg:py-16">
+    {% include 'includes/cta_band.html' %}
+</section>
+{% endblock %}

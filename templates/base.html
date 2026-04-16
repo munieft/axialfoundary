@@ -1,0 +1,117 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% if page_title %}{{ page_title }} · {% endif %}{{ site_name }}</title>
+    <meta name="description" content="{{ meta_description|default:'Premium software, AI, websites, and automation for ambitious teams.' }}">
+    <meta name="theme-color" content="#08111f">
+    {% if site_url %}
+    <link rel="canonical" href="{{ site_url }}{{ request.path }}">
+    {% endif %}
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="{{ site_name }}">
+    <meta property="og:title" content="{{ og_title|default:page_title|default:site_name }}">
+    <meta property="og:description" content="{{ og_description|default:meta_description }}">
+    {% if site_url %}
+    <meta property="og:url" content="{{ site_url }}{{ request.path }}">
+    <meta property="og:image" content="{{ site_url }}{{ og_image_path|default:default_og_path }}">
+    {% endif %}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ og_title|default:page_title|default:site_name }}">
+    <meta name="twitter:description" content="{{ og_description|default:meta_description }}">
+    {% if site_url %}
+    <meta name="twitter:image" content="{{ site_url }}{{ og_image_path|default:default_og_path }}">
+    {% endif %}
+    <link rel="icon" type="image/svg+xml" href="{% static 'svg/favicon.svg' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <script>
+        (function () {
+            try {
+                var stored = localStorage.getItem('axial-theme');
+                var prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+                var theme = stored || (prefersLight ? 'light' : 'dark');
+                document.documentElement.setAttribute('data-theme', theme);
+                var meta = document.querySelector('meta[name="theme-color"]');
+                if (meta) {
+                    meta.setAttribute('content', theme === 'light' ? '#f6f9fd' : '#08111f');
+                }
+            } catch (error) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        }());
+    </script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                        display: ['Space Grotesk', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef7ff',
+                            100: '#d9ebff',
+                            200: '#b9dbff',
+                            300: '#85c0ff',
+                            400: '#4799ff',
+                            500: '#1870f8',
+                            600: '#0e57d4',
+                            700: '#1147ab',
+                            800: '#153c87',
+                            900: '#172f68',
+                        },
+                        accent: {
+                            300: '#87f0d4',
+                            400: '#4ee7c2',
+                            500: '#10c79e',
+                        },
+                        ink: '#08111f',
+                        steel: '#0f172a',
+                        mist: '#dce6f3',
+                    },
+                    boxShadow: {
+                        glow: '0 0 0 1px rgba(71, 153, 255, 0.12), 0 24px 70px rgba(7, 17, 31, 0.35)',
+                    },
+                    backgroundImage: {
+                        'hero-radial': 'radial-gradient(circle at top right, rgba(71,153,255,0.25), transparent 30%), radial-gradient(circle at bottom left, rgba(78,231,194,0.16), transparent 26%)',
+                    },
+                },
+            },
+        }
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/theme.css' %}">
+</head>
+<body class="bg-ink text-slate-100 antialiased selection:bg-brand-400/30 selection:text-white">
+    <canvas class="site-canvas" data-animated-bg aria-hidden="true"></canvas>
+    <div class="site-grid"></div>
+    <div class="ambient-orb ambient-orb--one"></div>
+    <div class="ambient-orb ambient-orb--two"></div>
+    <div class="ambient-beam"></div>
+    {% include 'includes/header.html' %}
+
+    {% if messages %}
+    <div class="relative z-40 mx-auto max-w-7xl px-6 pt-6">
+        {% for message in messages %}
+            <div data-flash class="mb-3 flex items-start gap-3 rounded-2xl border border-white/10 bg-slate-900/[0.85] px-4 py-4 shadow-glow backdrop-blur-sm">
+                <div class="mt-1 h-2.5 w-2.5 rounded-full {% if message.tags == 'success' %}bg-accent-400{% elif message.tags == 'error' %}bg-rose-400{% else %}bg-brand-400{% endif %}"></div>
+                <p class="text-sm text-slate-200">{{ message }}</p>
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    {% include 'includes/footer.html' %}
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="mx-auto max-w-5xl px-6 py-24 lg:px-8 lg:py-32">
+    <div class="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+        <div class="mx-auto max-w-lg rounded-[2rem] border border-white/10 bg-slate-950/60 p-10 shadow-glow backdrop-blur-xl lg:mx-0">
+            <p class="eyebrow">404</p>
+            <h1 class="mt-4 font-display text-4xl font-bold tracking-tight text-white sm:text-5xl">That page does not exist.</h1>
+            <p class="mt-6 text-lg leading-8 text-slate-300">The page may have moved, or the link may be incorrect. Use the options below to get back on track.</p>
+            <div class="mt-8 flex flex-wrap gap-4">
+                <a href="{% url 'core:home' %}" class="button-primary">Go home</a>
+                <a href="{% url 'leads:contact' %}" class="button-secondary">Contact the studio</a>
+            </div>
+        </div>
+        <div class="surface-card">
+            {% include 'includes/service_graphic.html' with variant='product' %}
+        </div>
+    </div>
+</section>
+{% endblock %}

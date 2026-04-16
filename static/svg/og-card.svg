@@ -1,0 +1,60 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#08111F"/>
+  <rect width="1200" height="630" fill="url(#paint0_radial)" fill-opacity="0.55"/>
+  <rect x="74" y="64" width="1052" height="502" rx="38" fill="#0D1628" fill-opacity="0.92" stroke="url(#paint1_linear)" stroke-opacity="0.16"/>
+  <path d="M146 114H1054" stroke="#FFFFFF" stroke-opacity="0.06"/>
+  <rect x="116" y="101" width="82" height="82" rx="22" fill="#08111F"/>
+  <rect x="117" y="102" width="80" height="80" rx="21" stroke="url(#paint2_linear)" stroke-opacity="0.18"/>
+  <path d="M140 157L157 121L174 157" stroke="url(#paint3_linear)" stroke-width="5.4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M147 145H167" stroke="#E9F2FF" stroke-width="4.2" stroke-linecap="round"/>
+  <path d="M168 130H176" stroke="#4EE7C2" stroke-width="4" stroke-linecap="round"/>
+  <path d="M171.5 130V138" stroke="#4EE7C2" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="176" cy="130" r="3.3" fill="#4EE7C2"/>
+  <text x="218" y="138" fill="#FFFFFF" font-family="Inter, Arial, sans-serif" font-size="44" font-weight="800" letter-spacing="-0.04em">Axial Foundry</text>
+  <text x="118" y="264" fill="#FFFFFF" font-family="Space Grotesk, Inter, Arial, sans-serif" font-size="72" font-weight="700" letter-spacing="-0.05em">Software, AI, and digital systems</text>
+  <text x="118" y="336" fill="#FFFFFF" font-family="Space Grotesk, Inter, Arial, sans-serif" font-size="72" font-weight="700" letter-spacing="-0.05em">built to move business forward.</text>
+  <text x="118" y="410" fill="#BFD0E4" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="500">Premium websites, custom products, automation, internal tools, knowledge systems,</text>
+  <text x="118" y="450" fill="#BFD0E4" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="500">speech workflows, and applied AI delivery for ambitious teams.</text>
+  <rect x="118" y="490" width="245" height="54" rx="27" fill="#1672F8"/>
+  <text x="150" y="524" fill="#FFFFFF" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="700">axialfoundry.example</text>
+  <rect x="868" y="188" width="178" height="122" rx="24" fill="#111D31" stroke="#FFFFFF" stroke-opacity="0.10"/>
+  <rect x="882" y="205" width="78" height="11" rx="5.5" fill="#2B3D58"/>
+  <rect x="882" y="230" width="150" height="10" rx="5" fill="#1B2C45"/>
+  <rect x="882" y="249" width="126" height="10" rx="5" fill="#1B2C45"/>
+  <rect x="882" y="268" width="138" height="10" rx="5" fill="#1B2C45"/>
+  <rect x="1000" y="398" width="126" height="118" rx="24" fill="#111D31" stroke="#FFFFFF" stroke-opacity="0.10"/>
+  <circle cx="1062" cy="436" r="22" fill="#143868"/>
+  <path d="M1050 436L1060 446L1076 428" stroke="#87F0D4" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="1020" y="474" width="82" height="10" rx="5" fill="#1B2C45"/>
+  <rect x="1010" y="492" width="102" height="10" rx="5" fill="#1B2C45"/>
+  <path d="M866 346C904.5 332.5 923.5 318 957.5 283" stroke="url(#paint4_linear)" stroke-width="2.8" stroke-linecap="round" stroke-dasharray="8 10"/>
+  <path d="M953 411C974 413 992.5 422 1024 438" stroke="url(#paint5_linear)" stroke-width="2.8" stroke-linecap="round" stroke-dasharray="8 10"/>
+  <defs>
+    <radialGradient id="paint0_radial" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1120 72) rotate(131.224) scale(792.552 857.293)">
+      <stop stop-color="#1D74F8" stop-opacity="0.25"/>
+      <stop offset="0.395833" stop-color="#4EE7C2" stop-opacity="0.14"/>
+      <stop offset="1" stop-color="#08111F" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="paint1_linear" x1="82" y1="82" x2="1080" y2="548" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4799FF"/>
+      <stop offset="1" stop-color="#4EE7C2"/>
+    </linearGradient>
+    <linearGradient id="paint2_linear" x1="127" y1="109" x2="188" y2="174" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4799FF"/>
+      <stop offset="1" stop-color="#4EE7C2"/>
+    </linearGradient>
+    <linearGradient id="paint3_linear" x1="140" y1="121" x2="174" y2="157" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EAF4FF"/>
+      <stop offset="0.55" stop-color="#71B0FF"/>
+      <stop offset="1" stop-color="#4EE7C2"/>
+    </linearGradient>
+    <linearGradient id="paint4_linear" x1="866" y1="346" x2="957.5" y2="283" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4799FF"/>
+      <stop offset="1" stop-color="#4EE7C2"/>
+    </linearGradient>
+    <linearGradient id="paint5_linear" x1="953" y1="411" x2="1024" y2="438" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4799FF"/>
+      <stop offset="1" stop-color="#4EE7C2"/>
+    </linearGradient>
+  </defs>
+</svg>

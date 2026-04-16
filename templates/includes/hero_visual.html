@@ -1,0 +1,72 @@
+{% load static %}
+<div class="hero-carousel-shell" data-reveal>
+    <div class="hero-carousel-shell__glow"></div>
+    <div class="media-carousel media-carousel--hero pointer-glow" data-media-carousel data-interval="6200">
+        <div class="media-carousel__topbar">
+            <div class="console-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+            <div class="status-chip status-chip-live">Founder-led delivery</div>
+        </div>
+
+        <div class="media-carousel__viewport">
+            <article class="media-carousel__slide is-active" data-carousel-slide aria-hidden="false">
+                <img src="{% static 'img/hero-network.jpg' %}" alt="Digital network visual" class="media-carousel__image">
+                <div class="media-carousel__shade"></div>
+                <div class="media-carousel__content">
+                    <p class="media-carousel__eyebrow">Digital presence</p>
+                    <h3 class="media-carousel__title">Premium websites and landing pages</h3>
+                    <p class="media-carousel__text">Clear positioning, stronger trust, and conversion-focused customer journeys for modern companies.</p>
+                    <div class="media-carousel__chips"><span>Messaging</span><span>UX structure</span><span>Lead capture</span></div>
+                </div>
+            </article>
+            <article class="media-carousel__slide" data-carousel-slide aria-hidden="true">
+                <img src="{% static 'img/code-laptop.jpg' %}" alt="Software engineering and product build" class="media-carousel__image">
+                <div class="media-carousel__shade"></div>
+                <div class="media-carousel__content">
+                    <p class="media-carousel__eyebrow">Product engineering</p>
+                    <h3 class="media-carousel__title">Custom web apps, portals, and internal tools</h3>
+                    <p class="media-carousel__text">Operational systems that fit how teams really work, from internal dashboards to client-facing products.</p>
+                    <div class="media-carousel__chips"><span>Web apps</span><span>Portals</span><span>Dashboards</span></div>
+                </div>
+            </article>
+            <article class="media-carousel__slide" data-carousel-slide aria-hidden="true">
+                <img src="{% static 'img/circuit-touch.jpg' %}" alt="AI assistant interface" class="media-carousel__image">
+                <div class="media-carousel__shade"></div>
+                <div class="media-carousel__content">
+                    <p class="media-carousel__eyebrow">Applied AI</p>
+                    <h3 class="media-carousel__title">Assistants, RAG, and workflow AI</h3>
+                    <p class="media-carousel__text">Useful AI capability inside support, knowledge access, and customer operations — not just isolated demos.</p>
+                    <div class="media-carousel__chips"><span>Chatbots</span><span>RAG</span><span>LLM systems</span></div>
+                </div>
+            </article>
+            <article class="media-carousel__slide" data-carousel-slide aria-hidden="true">
+                <img src="{% static 'img/fiber-cables.jpg' %}" alt="Infrastructure and data systems" class="media-carousel__image">
+                <div class="media-carousel__shade"></div>
+                <div class="media-carousel__content">
+                    <p class="media-carousel__eyebrow">Automation and data</p>
+                    <h3 class="media-carousel__title">Backend systems, integrations, and pipelines</h3>
+                    <p class="media-carousel__text">Automations and data flows that reduce manual work, improve visibility, and connect the tools a business depends on.</p>
+                    <div class="media-carousel__chips"><span>APIs</span><span>Automation</span><span>Pipelines</span></div>
+                </div>
+            </article>
+        </div>
+
+        <div class="media-carousel__footer">
+            <div class="media-carousel__navlist">
+                <button type="button" class="media-carousel__navitem is-active" data-carousel-jump="0"><span class="media-carousel__navlabel">Websites</span><span class="media-carousel__navmeta">Premium business presence</span></button>
+                <button type="button" class="media-carousel__navitem" data-carousel-jump="1"><span class="media-carousel__navlabel">Web apps</span><span class="media-carousel__navmeta">Products and internal tools</span></button>
+                <button type="button" class="media-carousel__navitem" data-carousel-jump="2"><span class="media-carousel__navlabel">AI systems</span><span class="media-carousel__navmeta">Assistants and knowledge AI</span></button>
+                <button type="button" class="media-carousel__navitem" data-carousel-jump="3"><span class="media-carousel__navlabel">Automation</span><span class="media-carousel__navmeta">Integrations and data flow</span></button>
+            </div>
+            <div class="media-carousel__controls" aria-label="Hero visual controls">
+                <button type="button" class="carousel-control" data-carousel-prev aria-label="Previous slide"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.5 6.5L9 12l5.5 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                <div class="media-carousel__dots" role="tablist" aria-label="Hero slides">
+                    <button type="button" class="media-carousel__dot is-active" data-carousel-dot="0" aria-label="Go to slide 1"></button>
+                    <button type="button" class="media-carousel__dot" data-carousel-dot="1" aria-label="Go to slide 2"></button>
+                    <button type="button" class="media-carousel__dot" data-carousel-dot="2" aria-label="Go to slide 3"></button>
+                    <button type="button" class="media-carousel__dot" data-carousel-dot="3" aria-label="Go to slide 4"></button>
+                </div>
+                <button type="button" class="carousel-control" data-carousel-next aria-label="Next slide"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 6.5L15 12l-5.5 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,182 @@
+<div class="service-graphic service-graphic--{{ variant|default:'product' }}{% if compact %} service-graphic--compact{% endif %}" aria-hidden="true">
+{% if variant == 'chatbot' %}
+<svg viewBox="0 0 220 132" xmlns="http://www.w3.org/2000/svg" fill="none">
+    <defs>
+        <linearGradient id="sgChatA" x1="22" y1="14" x2="190" y2="118" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#4EE7C2"/>
+            <stop offset="1" stop-color="#1870F8"/>
+        </linearGradient>
+    </defs>
+    <rect x="18" y="14" width="184" height="104" rx="24" class="sg-panel"/>
+    <circle cx="36" cy="30" r="3" class="sg-dot sg-pulse"/>
+    <circle cx="48" cy="30" r="3" class="sg-dot sg-pulse"/>
+    <circle cx="60" cy="30" r="3" class="sg-dot sg-pulse"/>
+    <rect x="34" y="44" width="84" height="18" rx="9" fill="url(#sgChatA)" fill-opacity="0.95" class="sg-float"/>
+    <rect x="34" y="71" width="116" height="15" rx="7.5" class="sg-soft"/>
+    <rect x="156" y="76" width="30" height="30" rx="12" fill="url(#sgChatA)" fill-opacity="0.22"/>
+    <path d="M168.5 87.5c0-4.1 3.4-7.5 7.5-7.5s7.5 3.4 7.5 7.5" stroke="url(#sgChatA)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M170 94h12" stroke="url(#sgChatA)" stroke-width="2.4" stroke-linecap="round"/>
+    <rect x="84" y="94" width="72" height="10" rx="5" class="sg-soft"/>
+</svg>
+{% elif variant == 'knowledge' %}
+<svg viewBox="0 0 220 132" xmlns="http://www.w3.org/2000/svg" fill="none">
+    <defs>
+        <linearGradient id="sgKnowA" x1="40" y1="24" x2="178" y2="112" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#1870F8"/>
+            <stop offset="1" stop-color="#4EE7C2"/>
+        </linearGradient>
+    </defs>
+    <rect x="24" y="18" width="96" height="78" rx="18" class="sg-panel"/>
+    <rect x="38" y="34" width="54" height="8" rx="4" class="sg-soft"/>
+    <rect x="38" y="51" width="68" height="8" rx="4" class="sg-soft"/>
+    <rect x="38" y="68" width="58" height="8" rx="4" class="sg-soft"/>
+    <circle cx="158" cy="58" r="26" stroke="url(#sgKnowA)" stroke-width="2.6" class="sg-orbit"/>
+    <circle cx="158" cy="58" r="10" fill="url(#sgKnowA)" fill-opacity="0.28" class="sg-pulse"/>
+    <path d="M176 76l16 16" stroke="url(#sgKnowA)" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="132" cy="30" r="4" fill="#4EE7C2" class="sg-pulse"/>
+    <circle cx="187" cy="38" r="4" fill="#1870F8" class="sg-pulse"/>
+    <circle cx="194" cy="88" r="4" fill="#4EE7C2" class="sg-pulse"/>
+</svg>
+{% elif variant == 'automation' %}
+<svg viewBox="0 0 220 132" xmlns="http://www.w3.org/2000/svg" fill="none">
+    <defs>
+        <linearGradient id="sgAutoA" x1="26" y1="34" x2="194" y2="82" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#4EE7C2"/>
+            <stop offset="1" stop-color="#1870F8"/>
+        </linearGradient>
+    </defs>
+    <rect x="20" y="28" width="36" height="36" rx="14" class="sg-panel"/>
+    <rect x="92" y="18" width="36" height="36" rx="14" class="sg-panel"/>
+    <rect x="164" y="58" width="36" height="36" rx="14" class="sg-panel"/>
+    <path d="M56 46h36M128 36h24c18 0 24 14 24 28" stroke="url(#sgAutoA)" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" class="sg-dash"/>
+    <path d="M77 42l15 4-15 4" stroke="url(#sgAutoA)" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M176 50l10 14-16 4" stroke="url(#sgAutoA)" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="38" cy="46" r="8" fill="#4EE7C2" fill-opacity="0.23" class="sg-pulse"/>
+    <circle cx="110" cy="36" r="8" fill="#1870F8" fill-opacity="0.23" class="sg-pulse"/>
+    <circle cx="182" cy="76" r="8" fill="#4EE7C2" fill-opacity="0.23" class="sg-pulse"/>
+    <rect x="26" y="84" width="110" height="22" rx="11" class="sg-soft"/>
+</svg>
+{% elif variant == 'speech' %}
+<svg viewBox="0 0 220 132" xmlns="http://www.w3.org/2000/svg" fill="none">
+    <defs>
+        <linearGradient id="sgSpeechA" x1="34" y1="66" x2="192" y2="66" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#1870F8"/>
+            <stop offset="1" stop-color="#4EE7C2"/>
+        </linearGradient>
+    </defs>
+    <rect x="24" y="24" width="172" height="84" rx="24" class="sg-panel"/>
+    <path d="M42 66h8l8-20 12 40 14-58 14 76 14-52 12 28 10-14 10 0 12-10 16 0" stroke="url(#sgSpeechA)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="sg-dash"/>
+    <circle cx="166" cy="48" r="14" fill="url(#sgSpeechA)" fill-opacity="0.24" class="sg-pulse"/>
+    <path d="M166 42v12M160 47c0-3.2 2.6-5.8 5.8-5.8S171.6 43.8 171.6 47" stroke="url(#sgSpeechA)" stroke-width="2.2" stroke-linecap="round"/>
+</svg>
+{% elif variant == 'website' %}
+<svg viewBox="0 0 220 132" xmlns="http://www.w3.org/2000/svg" fill="none">
+    <defs>
+        <linearGradient id="sgWebA" x1="28" y1="20" x2="190" y2="102" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#1870F8"/>
+            <stop offset="1" stop-color="#4EE7C2"/>
+        </linearGradient>
+    </defs>
+    <rect x="22" y="16" width="176" height="100" rx="26" class="sg-panel"/>
+    <circle cx="42" cy="34" r="3" class="sg-dot"/>
+    <circle cx="54" cy="34" r="3" class="sg-dot"/>
+    <circle cx="66" cy="34" r="3" class="sg-dot"/>
+    <rect x="40" y="50" width="68" height="34" rx="14" fill="url(#sgWebA)" fill-opacity="0.22"/>
+    <rect x="118" y="50" width="44" height="10" rx="5" class="sg-soft"/>
+    <rect x="118" y="68" width="52" height="10" rx="5" class="sg-soft"/>
+    <rect x="118" y="88" width="38" height="12" rx="6" fill="url(#sgWebA)" fill-opacity="0.85" class="sg-float"/>
+</svg>
+{% elif variant == 'dashboard' %}
+<svg viewBox="0 0 220 132" xmlns="http://www.w3.org/2000/svg" fill="none">
+    <defs>
+        <linearGradient id="sgDashA" x1="26" y1="20" x2="190" y2="108" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#4EE7C2"/>
+            <stop offset="1" stop-color="#1870F8"/>
+        </linearGradient>
+    </defs>
+    <rect x="20" y="16" width="180" height="100" rx="24" class="sg-panel"/>
+    <path d="M42 88V54M70 88V42M98 88V60M126 88V34" stroke="url(#sgDashA)" stroke-width="8" stroke-linecap="round"/>
+    <path d="M44 40c18 10 32 10 46 0 13-9 29-9 44 3 12 9 26 11 44 4" stroke="url(#sgDashA)" stroke-width="3" stroke-linecap="round" class="sg-dash"/>
+    <circle cx="168" cy="42" r="12" fill="#4EE7C2" fill-opacity="0.18" class="sg-pulse"/>
+</svg>
+{% elif variant == 'llm' %}
+<svg viewBox="0 0 220 132" xmlns="http://www.w3.org/2000/svg" fill="none">
+    <defs>
+        <linearGradient id="sgLlmA" x1="34" y1="20" x2="186" y2="100" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#1870F8"/>
+            <stop offset="1" stop-color="#4EE7C2"/>
+        </linearGradient>
+    </defs>
+    <rect x="28" y="20" width="52" height="80" rx="18" class="sg-panel"/>
+    <rect x="84" y="26" width="52" height="68" rx="18" class="sg-panel"/>
+    <rect x="140" y="34" width="52" height="52" rx="18" class="sg-panel"/>
+    <path d="M80 38h4c8 0 14 6 14 14v0c0 8 6 14 14 14h28" stroke="url(#sgLlmA)" stroke-width="2.6" stroke-linecap="round" class="sg-dash"/>
+    <path d="M80 82h4c8 0 14-6 14-14v0c0-8 6-14 14-14h28" stroke="url(#sgLlmA)" stroke-width="2.6" stroke-linecap="round" class="sg-dash"/>
+    <circle cx="54" cy="60" r="8" fill="#1870F8" fill-opacity="0.24" class="sg-pulse"/>
+    <circle cx="110" cy="60" r="8" fill="#4EE7C2" fill-opacity="0.24" class="sg-pulse"/>
+    <circle cx="166" cy="60" r="8" fill="#1870F8" fill-opacity="0.24" class="sg-pulse"/>
+</svg>
+{% elif variant == 'portal' or variant == 'webapp' or variant == 'product' %}
+<svg viewBox="0 0 220 132" xmlns="http://www.w3.org/2000/svg" fill="none">
+    <defs>
+        <linearGradient id="sgProdA" x1="26" y1="20" x2="188" y2="110" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#1870F8"/>
+            <stop offset="1" stop-color="#4EE7C2"/>
+        </linearGradient>
+    </defs>
+    <rect x="20" y="16" width="118" height="98" rx="24" class="sg-panel"/>
+    <rect x="146" y="28" width="54" height="34" rx="16" class="sg-panel"/>
+    <rect x="146" y="70" width="54" height="26" rx="14" fill="url(#sgProdA)" fill-opacity="0.18"/>
+    <rect x="38" y="34" width="82" height="12" rx="6" class="sg-soft"/>
+    <rect x="38" y="54" width="60" height="28" rx="14" fill="url(#sgProdA)" fill-opacity="0.9" class="sg-float"/>
+    <rect x="104" y="54" width="16" height="28" rx="8" class="sg-soft"/>
+    <rect x="38" y="90" width="82" height="8" rx="4" class="sg-soft"/>
+</svg>
+{% elif variant == 'strategy' %}
+<svg viewBox="0 0 220 132" xmlns="http://www.w3.org/2000/svg" fill="none">
+    <defs>
+        <linearGradient id="sgStrategyA" x1="44" y1="16" x2="170" y2="110" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#4EE7C2"/>
+            <stop offset="1" stop-color="#1870F8"/>
+        </linearGradient>
+    </defs>
+    <circle cx="110" cy="66" r="32" stroke="url(#sgStrategyA)" stroke-width="2.6" class="sg-orbit"/>
+    <circle cx="110" cy="66" r="54" stroke="rgba(24,112,248,0.22)" stroke-width="1.4"/>
+    <circle cx="110" cy="66" r="16" fill="url(#sgStrategyA)" fill-opacity="0.24" class="sg-pulse"/>
+    <rect x="28" y="22" width="54" height="18" rx="9" class="sg-soft"/>
+    <rect x="150" y="92" width="42" height="18" rx="9" class="sg-soft"/>
+    <rect x="32" y="90" width="46" height="18" rx="9" fill="url(#sgStrategyA)" fill-opacity="0.84" class="sg-float"/>
+    <circle cx="162" cy="34" r="6" fill="#1870F8" class="sg-pulse"/>
+    <circle cx="58" cy="62" r="6" fill="#4EE7C2" class="sg-pulse"/>
+    <circle cx="168" cy="80" r="6" fill="#4EE7C2" class="sg-pulse"/>
+</svg>
+{% elif variant == 'lock' %}
+<svg viewBox="0 0 220 132" xmlns="http://www.w3.org/2000/svg" fill="none">
+    <defs>
+        <linearGradient id="sgLockA" x1="56" y1="18" x2="164" y2="116" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#1870F8"/>
+            <stop offset="1" stop-color="#4EE7C2"/>
+        </linearGradient>
+    </defs>
+    <rect x="58" y="44" width="104" height="60" rx="22" class="sg-panel"/>
+    <path d="M82 48V38c0-16 12-28 28-28s28 12 28 28v10" stroke="url(#sgLockA)" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="110" cy="72" r="11" fill="url(#sgLockA)" fill-opacity="0.2" class="sg-pulse"/>
+    <path d="M110 68v10" stroke="url(#sgLockA)" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M102 72c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="url(#sgLockA)" stroke-width="2.6" stroke-linecap="round"/>
+</svg>
+{% else %}
+<svg viewBox="0 0 220 132" xmlns="http://www.w3.org/2000/svg" fill="none">
+    <defs>
+        <linearGradient id="sgDefaultA" x1="30" y1="22" x2="188" y2="108" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#1870F8"/>
+            <stop offset="1" stop-color="#4EE7C2"/>
+        </linearGradient>
+    </defs>
+    <rect x="22" y="18" width="176" height="96" rx="24" class="sg-panel"/>
+    <path d="M42 90c26-30 54-46 84-46s42 7 52 16" stroke="url(#sgDefaultA)" stroke-width="3" stroke-linecap="round" class="sg-dash"/>
+    <circle cx="72" cy="70" r="10" fill="#1870F8" fill-opacity="0.24" class="sg-pulse"/>
+    <circle cx="128" cy="54" r="10" fill="#4EE7C2" fill-opacity="0.24" class="sg-pulse"/>
+    <circle cx="170" cy="78" r="10" fill="#1870F8" fill-opacity="0.24" class="sg-pulse"/>
+</svg>
+{% endif %}
+</div>

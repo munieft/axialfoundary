@@ -1,0 +1,299 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="relative overflow-hidden border-b border-white/[0.08] hero-home-shell">
+    <div class="absolute inset-0 bg-hero-radial opacity-90"></div>
+    <div class="mx-auto grid max-w-7xl gap-14 px-6 py-20 lg:grid-cols-[0.88fr_1.12fr] lg:items-center lg:px-8 lg:py-28">
+        <div class="relative z-10 max-w-2xl">
+            <p class="eyebrow">Premium software and AI studio</p>
+            <h1 class="mt-5 max-w-3xl font-display text-5xl font-bold tracking-tight text-white sm:text-6xl">
+                Software, AI, and digital systems <span class="gradient-text">built for teams that need execution.</span>
+            </h1>
+            <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
+                Axial Foundry helps startups, SMEs, agencies, and enterprise teams ship premium websites, custom software, automation, internal tools, and applied AI systems.
+            </p>
+            <div class="mt-7 grid gap-3 sm:grid-cols-3">
+                <div class="hero-benefit">Websites that sell clearly</div>
+                <div class="hero-benefit">Apps and portals that fit operations</div>
+                <div class="hero-benefit">AI and automation with real utility</div>
+            </div>
+            <div class="mt-8 flex flex-wrap gap-4">
+                <a href="{% url 'leads:contact' %}#contact-experience" class="button-primary">Start a project</a>
+                <a href="{% url 'core:services' %}" class="button-secondary">Explore services</a>
+            </div>
+            <div class="mt-10 flex flex-wrap gap-3 text-sm text-slate-300">
+                <a href="mailto:{{ contact_email }}" class="pill-link">{{ contact_email }}</a>
+                <a href="tel:{{ contact_phone }}" class="pill-link">{{ contact_phone }}</a>
+                <span class="pill-link">{{ contact_location }}</span>
+            </div>
+        </div>
+        <div class="relative z-10">
+            {% include 'includes/hero_visual.html' %}
+        </div>
+    </div>
+</section>
+
+<section class="section-shell">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="max-w-3xl">
+            <p class="eyebrow">Authority and credibility</p>
+            <h2 class="section-title">Research-backed capability, production-focused delivery.</h2>
+            <p class="section-intro">The studio pairs business-friendly product thinking with real depth in AI systems, Python engineering, and technical implementation.</p>
+        </div>
+        <div class="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+            {% for item in authority_points %}
+            <article class="surface-card authority-card pointer-glow h-full" data-reveal>
+                <div class="authority-card__header">
+                    <div class="authority-card__number">0{{ forloop.counter }}</div>
+                    <div class="authority-card__line"></div>
+                </div>
+                <h3 class="mt-6 font-display text-xl font-semibold text-white">{{ item.title }}</h3>
+                <p class="mt-4 text-sm leading-7 text-slate-400">{{ item.body }}</p>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section-shell section-divider">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+            <div class="max-w-3xl">
+                <p class="eyebrow">What the studio builds</p>
+                <h2 class="section-title">A broader studio offering than a typical AI shop.</h2>
+                <p class="section-intro">Some clients need advanced AI. Others need a premium website, a custom portal, a backend system, or a faster internal workflow. Axial Foundry handles both.</p>
+            </div>
+            <a href="{% url 'core:services' %}" class="button-secondary self-start lg:self-auto">See all services</a>
+        </div>
+        <div class="mt-10 grid gap-5 xl:grid-cols-2">
+            {% for cluster in service_clusters %}
+            <article class="surface-card h-full pointer-glow cluster-card" data-reveal>
+                <div class="grid gap-5 lg:grid-cols-[1fr_190px] lg:items-center">
+                    <div>
+                        <p class="text-xs uppercase tracking-[0.22em] text-brand-300">{{ forloop.counter|stringformat:'02d' }}</p>
+                        <h3 class="mt-3 font-display text-2xl font-semibold text-white">{{ cluster.title }}</h3>
+                        <p class="mt-4 text-sm leading-7 text-slate-400">{{ cluster.summary }}</p>
+                        <div class="mt-6 flex flex-wrap gap-2">
+                            {% for item in cluster.items %}
+                            <span class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-300">{{ item }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="hidden lg:block">
+                        {% if forloop.counter == 1 %}
+                            {% include 'includes/service_graphic.html' with variant='chatbot' %}
+                        {% elif forloop.counter == 2 %}
+                            {% include 'includes/service_graphic.html' with variant='portal' %}
+                        {% elif forloop.counter == 3 %}
+                            {% include 'includes/service_graphic.html' with variant='website' %}
+                        {% else %}
+                            {% include 'includes/service_graphic.html' with variant='automation' %}
+                        {% endif %}
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section-shell section-divider">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="max-w-3xl">
+            <p class="eyebrow">Why choose this studio</p>
+            <h2 class="section-title">Custom delivery with the feel of a serious product partner.</h2>
+        </div>
+        <div class="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+            {% for item in why_choose %}
+            <article class="surface-card h-full pointer-glow" data-reveal>
+                <h3 class="font-display text-xl font-semibold text-white">{{ item.title }}</h3>
+                <p class="mt-4 text-sm leading-7 text-slate-400">{{ item.body }}</p>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section-shell section-divider">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="max-w-3xl">
+            <p class="eyebrow">Featured solutions and use cases</p>
+            <h2 class="section-title">Concrete solution types buyers can immediately relate to.</h2>
+        </div>
+        <div class="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+            {% for item in featured_solutions %}
+            <article class="surface-card h-full solution-card pointer-glow" data-reveal>
+                <div class="solution-card__graphic">
+                    {% if forloop.counter == 1 %}
+                        {% include 'includes/service_graphic.html' with variant='chatbot' compact=True %}
+                    {% elif forloop.counter == 2 %}
+                        {% include 'includes/service_graphic.html' with variant='knowledge' compact=True %}
+                    {% elif forloop.counter == 3 %}
+                        {% include 'includes/service_graphic.html' with variant='automation' compact=True %}
+                    {% elif forloop.counter == 4 %}
+                        {% include 'includes/service_graphic.html' with variant='dashboard' compact=True %}
+                    {% elif forloop.counter == 5 %}
+                        {% include 'includes/service_graphic.html' with variant='website' compact=True %}
+                    {% elif forloop.counter == 6 %}
+                        {% include 'includes/service_graphic.html' with variant='automation' compact=True %}
+                    {% elif forloop.counter == 7 %}
+                        {% include 'includes/service_graphic.html' with variant='portal' compact=True %}
+                    {% else %}
+                        {% include 'includes/service_graphic.html' with variant='speech' compact=True %}
+                    {% endif %}
+                </div>
+                <h3 class="mt-5 font-display text-xl font-semibold text-white">{{ item.title }}</h3>
+                <p class="mt-4 text-sm leading-7 text-slate-400">{{ item.body }}</p>
+                <div class="mt-6 flex flex-wrap gap-2">
+                    {% for tag in item.tags %}
+                    <span class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-300">{{ tag }}</span>
+                    {% endfor %}
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section-shell section-divider">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="max-w-3xl">
+            <p class="eyebrow">What clients can expect</p>
+            <h2 class="section-title">A professional delivery model from scope to launch.</h2>
+        </div>
+        <div class="mt-10 grid gap-5 lg:grid-cols-2 xl:grid-cols-3">
+            {% for item in process_steps %}
+            <article class="surface-card h-full pointer-glow" data-reveal>
+                <span class="text-sm font-semibold tracking-[0.28em] text-brand-300">{{ item.step }}</span>
+                <h3 class="mt-4 font-display text-2xl font-semibold text-white">{{ item.title }}</h3>
+                <p class="mt-4 text-sm leading-7 text-slate-400">{{ item.body }}</p>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section-shell section-divider">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="grid gap-8 lg:grid-cols-[1fr_1.05fr] lg:items-start">
+            <div>
+                <p class="eyebrow">Studio overview</p>
+                <h2 class="section-title">{{ brand_story }}</h2>
+                <p class="mt-5 max-w-2xl text-base leading-8 text-slate-400">{{ positioning_statement }}</p>
+                <div class="mt-8 grid gap-4 sm:grid-cols-2">
+                    <div class="overview-stat">
+                        <span class="overview-stat__kicker">Delivery model</span>
+                        <span class="overview-stat__value">Strategy to launch</span>
+                    </div>
+                    <div class="overview-stat">
+                        <span class="overview-stat__kicker">Capability mix</span>
+                        <span class="overview-stat__value">Software + AI + automation</span>
+                    </div>
+                    <div class="overview-stat">
+                        <span class="overview-stat__kicker">Working style</span>
+                        <span class="overview-stat__value">Founder-led and hands-on</span>
+                    </div>
+                    <div class="overview-stat">
+                        <span class="overview-stat__kicker">Client fit</span>
+                        <span class="overview-stat__value">International and product-minded</span>
+                    </div>
+                </div>
+            </div>
+            <div class="overview-board surface-card pointer-glow" data-reveal>
+                <div class="overview-board__hero">
+                    <img src="https://images.unsplash.com/photo-1758873268745-dd2cf0d677b5?auto=format&fit=crop&fm=jpg&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&ixlib=rb-4.1.0&q=60&w=3000" alt="Collaborative software team" class="overview-board__image">
+                    <div class="overview-board__shade"></div>
+                    <div class="overview-board__copy">
+                        <p class="overview-board__eyebrow">Actual product partner energy</p>
+                        <h3 class="overview-board__title">The studio is designed to feel like an extension of the client team.</h3>
+                    </div>
+                </div>
+                <div class="overview-board__grid">
+                    <div class="overview-mini-card">
+                        <span class="overview-mini-card__title">Premium websites</span>
+                        <span class="overview-mini-card__text">Positioning and conversion that look credible internationally.</span>
+                    </div>
+                    <div class="overview-mini-card">
+                        <span class="overview-mini-card__title">Custom systems</span>
+                        <span class="overview-mini-card__text">Apps, portals, and internal tools shaped around operations.</span>
+                    </div>
+                    <div class="overview-mini-card">
+                        <span class="overview-mini-card__title">Applied AI</span>
+                        <span class="overview-mini-card__text">Assistants, retrieval, and workflow intelligence where it makes sense.</span>
+                    </div>
+                    <div class="overview-mini-card">
+                        <span class="overview-mini-card__title">Automation</span>
+                        <span class="overview-mini-card__text">Integrations and backend systems that save time and reduce friction.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-shell section-divider">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+            <div class="max-w-3xl">
+                <p class="eyebrow">Featured work</p>
+                <h2 class="section-title">Anonymized case studies that show technical breadth.</h2>
+                <p class="section-intro">Grounded examples across AI systems, software platforms, backend and data systems, and business workflow delivery.</p>
+            </div>
+            <a href="{% url 'core:work' %}" class="button-secondary self-start lg:self-auto">View all case studies</a>
+        </div>
+        <div class="mt-10 grid gap-5 xl:grid-cols-2">
+            {% for case in featured_work %}
+            <article class="surface-card h-full pointer-glow" data-reveal>
+                <div class="grid gap-5 lg:grid-cols-[1fr_180px] lg:items-center">
+                    <div>
+                        <p class="text-xs uppercase tracking-[0.22em] text-brand-300">{{ case.category }}</p>
+                        <h3 class="mt-3 font-display text-2xl font-semibold text-white">{{ case.title }}</h3>
+                        <p class="mt-4 text-sm leading-7 text-slate-400">{{ case.summary }}</p>
+                    </div>
+                    <div class="hidden lg:block">
+                        {% if forloop.counter == 1 %}
+                            {% include 'includes/service_graphic.html' with variant='knowledge' %}
+                        {% elif forloop.counter == 2 %}
+                            {% include 'includes/service_graphic.html' with variant='chatbot' %}
+                        {% elif forloop.counter == 3 %}
+                            {% include 'includes/service_graphic.html' with variant='speech' %}
+                        {% else %}
+                            {% include 'includes/service_graphic.html' with variant='llm' %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="mt-6 flex flex-wrap gap-2">
+                    {% for cap in case.capabilities %}
+                    <span class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-300">{{ cap }}</span>
+                    {% endfor %}
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section-shell section-divider">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        {% include 'includes/owner_section.html' %}
+    </div>
+</section>
+
+<section class="section-shell section-divider">
+    <div class="mx-auto max-w-5xl px-6 lg:px-8">
+        <div class="max-w-3xl">
+            <p class="eyebrow">FAQ</p>
+            <h2 class="section-title">Common questions from prospective clients.</h2>
+        </div>
+        <div class="mt-10 space-y-4">
+            {% for item in faqs %}
+                {% include 'includes/faq_item.html' %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="mx-auto max-w-7xl px-6 py-10 lg:px-8 lg:py-16">
+    {% include 'includes/cta_band.html' %}
+</section>
+{% endblock %}

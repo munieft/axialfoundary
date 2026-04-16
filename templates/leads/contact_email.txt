@@ -1,0 +1,15 @@
+New lead received for {{ site_name }}.
+
+Name: {{ lead.name }}
+Email: {{ lead.email }}
+Phone: {{ lead.phone|default:'—' }}
+Company: {{ lead.company|default:'—' }}
+Service interest: {{ lead.get_service_interest_display }}
+Budget: {{ lead.get_budget_display|default:'—' }}
+Timeline: {{ lead.timeline|default:'—' }}
+Inquiry type: {{ lead.get_inquiry_type_display }}
+Submitted: {{ lead.created_at|date:'Y-m-d H:i' }}
+IP address: {{ lead.ip_address|default:'—' }}
+
+Message:
+{{ lead.message }}

@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% include 'includes/page_header.html' with kicker='Work and case studies' title='Representative build themes grounded in real delivery experience.' intro='These case studies are anonymized and intentionally avoid client names, inflated claims, or made-up ROI numbers. They are designed to show breadth across AI systems, software engineering, speech workflows, automation, and data infrastructure.' supporting_copy='The goal is to give prospects a credible view of what the studio can build, while respecting confidential implementation details.' visual='work' image='img/circuit-touch.jpg' image_alt='Interactive circuit interface' %}
+
+<section class="section-shell">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="space-y-6">
+            {% for case in case_studies %}
+            <article class="surface-card">
+                <div class="grid gap-8 xl:grid-cols-[0.8fr_1fr_0.5fr] xl:items-start">
+                    <div>
+                        <p class="text-xs uppercase tracking-[0.22em] text-brand-300">{{ case.category }}</p>
+                        <h2 class="mt-3 font-display text-3xl font-semibold text-white">{{ case.title }}</h2>
+                        <p class="mt-4 text-sm leading-7 text-slate-400">{{ case.summary }}</p>
+                        <div class="mt-6 flex flex-wrap gap-2">
+                            {% for cap in case.capabilities %}
+                            <span class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-300">{{ cap }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="grid gap-6 md:grid-cols-2">
+                        <div>
+                            <h3 class="font-display text-lg font-semibold text-white">Challenge</h3>
+                            <p class="mt-3 text-sm leading-7 text-slate-400">{{ case.challenge }}</p>
+                        </div>
+                        <div>
+                            <h3 class="font-display text-lg font-semibold text-white">What was built</h3>
+                            <p class="mt-3 text-sm leading-7 text-slate-400">{{ case.solution }}</p>
+                        </div>
+                    </div>
+                    <div class="hidden xl:block">
+                        {% if forloop.counter == 1 %}
+                            {% include 'includes/service_graphic.html' with variant='knowledge' %}
+                        {% elif forloop.counter == 2 %}
+                            {% include 'includes/service_graphic.html' with variant='chatbot' %}
+                        {% elif forloop.counter == 3 %}
+                            {% include 'includes/service_graphic.html' with variant='speech' %}
+                        {% elif forloop.counter == 4 %}
+                            {% include 'includes/service_graphic.html' with variant='llm' %}
+                        {% elif forloop.counter == 5 %}
+                            {% include 'includes/service_graphic.html' with variant='automation' %}
+                        {% else %}
+                            {% include 'includes/service_graphic.html' with variant='portal' %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="mt-8 grid gap-6 lg:grid-cols-[1.1fr_.9fr]">
+                    <div>
+                        <h3 class="font-display text-lg font-semibold text-white">Typical deliverables</h3>
+                        <ul class="mt-4 grid gap-3 sm:grid-cols-2">
+                            {% for item in case.deliverables %}
+                            <li class="rounded-2xl border border-white/[0.08] bg-white/5 px-4 py-3 text-sm text-slate-300">{{ item }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="rounded-2xl border border-brand-400/[0.15] bg-brand-400/10 p-5 text-sm leading-7 text-slate-200">
+                        <span class="font-semibold text-white">Scope note:</span> {{ case.note }}
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="mx-auto max-w-7xl px-6 py-10 lg:px-8 lg:py-16">
+    {% include 'includes/cta_band.html' %}
+</section>
+{% endblock %}
