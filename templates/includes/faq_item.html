@@ -1,0 +1,13 @@
+<div x-data="{open:false}" class="faq-card" :class="{'is-open': open}">
+    <button @click="open = !open" class="faq-card__trigger" :aria-expanded="open.toString()">
+        <span class="faq-card__question">{{ item.question }}</span>
+        <span class="faq-card__icon" :class="{'is-open': open}" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6" />
+            </svg>
+        </span>
+    </button>
+    <div x-show="open" x-transition:enter="faq-card__reveal" x-transition:enter-start="opacity-0 -translate-y-1" x-transition:enter-end="opacity-100 translate-y-0" x-cloak class="faq-card__body">
+        <p>{{ item.answer }}</p>
+    </div>
+</div>

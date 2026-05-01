@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% include 'includes/page_header.html' with kicker='Privacy policy' title='Privacy information for website visitors and contact enquiries.' intro='This policy explains how Axial Foundry handles information submitted through this website and how that information is used to respond to business enquiries.' visual='privacy' %}
+
+<section class="section-shell">
+    <div class="mx-auto max-w-4xl px-6 lg:px-8">
+        <div class="surface-card prose prose-invert max-w-none prose-p:text-slate-300 prose-li:text-slate-300 prose-strong:text-white prose-headings:font-display prose-headings:text-white">
+            <h2>Information collected</h2>
+            <p>Axial Foundry may collect personal and business contact information submitted through the contact form, including your name, email address, phone number, company name, project details, budget range, and timeline information.</p>
+
+            <h2>How information is used</h2>
+            <p>Submitted information is used to review enquiries, respond to project requests, evaluate service fit, and continue relevant business communication. Information is not sold to third parties.</p>
+
+            <h2>Lead handling and storage</h2>
+            <p>Contact submissions are stored in the site database for follow-up and business recordkeeping. Anti-spam and lightweight security measures may record technical details such as IP address, user agent, and referral source when a form is submitted.</p>
+
+            <h2>Email communication</h2>
+            <p>If email delivery is configured, submitted enquiries may trigger an internal notification so the studio can respond efficiently. Replying to an enquiry may continue the conversation over email or phone using the contact details you provided.</p>
+
+            <h2>Cookies and analytics</h2>
+            <p>This website is designed to operate with minimal complexity. If analytics or additional tracking tools are added in the future, this policy should be updated to reflect the tools used and the purpose they serve.</p>
+
+            <h2>Data retention</h2>
+            <p>Enquiry data may be retained for business continuity, project history, relationship management, legal compliance, and security review unless deletion is requested and retention is not otherwise required.</p>
+
+            <h2>Your choices</h2>
+            <p>You may request access to, correction of, or deletion of the contact information you have submitted, subject to any legal or operational requirements that apply.</p>
+
+            <h2>Contact</h2>
+            <p>For privacy-related questions, contact <a href="mailto:{{ contact_email }}">{{ contact_email }}</a> or call <a href="tel:{{ contact_phone }}">{{ contact_phone }}</a>.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

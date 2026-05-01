@@ -1,0 +1,97 @@
+{% load static %}
+{% spaceless %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "{{ site_url }}#organization",
+      "name": "{{ site_name }}",
+      "url": "{{ site_url }}/",
+      "logo": "{{ site_url }}{% static 'svg/logo.svg' %}",
+      "image": "{{ site_url }}{% static 'img/og/default.png' %}",
+      "description": "Software and AI studio building websites, custom applications, automation, and applied AI systems for startups, SMEs, and enterprise teams.",
+      "email": "{{ contact_email }}",
+      "telephone": "{{ contact_phone }}",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Lahore",
+        "addressRegion": "Punjab",
+        "addressCountry": "PK"
+      },
+      "areaServed": [
+        { "@type": "Country", "name": "Pakistan" },
+        { "@type": "Place", "name": "Global remote delivery" }
+      ],
+      "knowsAbout": [
+        "Artificial Intelligence",
+        "Large Language Models",
+        "Retrieval-Augmented Generation",
+        "Speech AI",
+        "Custom Web Applications",
+        "Software Engineering",
+        "Workflow Automation",
+        "Web Development",
+        "GIS and Spatial Systems"
+      ],
+      "founder": [
+        {
+          "@type": "Person",
+          "@id": "{{ site_url }}#founder-munief",
+          "name": "Munief Hassan Tahir",
+          "jobTitle": "Co-founder & ML Engineer",
+          "url": "https://www.linkedin.com/in/munief-hassan/",
+          "sameAs": [
+            "https://www.linkedin.com/in/munief-hassan/"
+          ],
+          "knowsAbout": [
+            "Natural Language Processing",
+            "Large Language Models",
+            "Speech AI",
+            "Retrieval-Augmented Generation",
+            "Urdu NLP"
+          ]
+        },
+        {
+          "@type": "Person",
+          "@id": "{{ site_url }}#founder-afief",
+          "name": "Afief Tahir",
+          "jobTitle": "Co-founder & Web GIS Engineer",
+          "knowsAbout": [
+            "Geographic Information Systems",
+            "Web GIS",
+            "Spatial Data Analysis",
+            "Mapbox",
+            "Google Earth Engine"
+          ]
+        }
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "{{ site_url }}#website",
+      "url": "{{ site_url }}/",
+      "name": "{{ site_name }}",
+      "description": "{{ meta_description }}",
+      "publisher": { "@id": "{{ site_url }}#organization" },
+      "inLanguage": "en"
+    }{% if breadcrumb_trail %},
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {% for crumb in breadcrumb_trail %}
+        {
+          "@type": "ListItem",
+          "position": {{ forloop.counter }},
+          "name": "{{ crumb.name }}",
+          "item": "{{ site_url }}{{ crumb.url }}"
+        }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+      ]
+    }{% endif %}{% if jsonld_extra %},
+    {{ jsonld_extra|safe }}{% endif %}
+  ]
+}
+</script>
+{% endspaceless %}

@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="wrk-hero">
+    <div class="wrk-hero__grid" aria-hidden="true"></div>
+    <div class="wrk-hero__beam" aria-hidden="true"></div>
+
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="wrk-hero__inner">
+            <p class="eyebrow">Selected work</p>
+            <h1 class="wrk-hero__title">
+                Engagements,
+                <span class="block gradient-text typed-line"
+                      data-typed
+                      data-typed-text="not portfolio filler."
+                      data-typed-speed="55"
+                      data-typed-start-delay="200"
+                      data-typed-hold="2400"
+                      data-typed-hold-empty="700">
+                    <span class="typed-line__inner"><span class="typed-target">not portfolio filler.</span><span class="typed-cursor" aria-hidden="true">|</span></span>
+                </span>
+            </h1>
+            <p class="wrk-hero__lede">
+                A small set of real engagements, anonymised at the client&rsquo;s request, including work led by the founding team prior to operating as Axial Foundry.
+            </p>
+            <p class="wrk-hero__note">Below the featured engagements, additional capability themes show the breadth the studio can deliver across.</p>
+        </div>
+    </div>
+</section>
+
+<section class="wrk-featured">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="wrk-section-head">
+            <p class="eyebrow">Featured engagements</p>
+            <h2 class="wrk-section-title">Two real, anonymised case studies.</h2>
+        </div>
+
+        <ol class="wrk-cases">
+            {% for case in case_studies %}
+            {% if case.featured %}
+            <li class="wrk-case" data-reveal>
+                <div class="wrk-case__rail">
+                    <span class="wrk-case__num">0{{ forloop.counter }}</span>
+                    <span class="wrk-case__rail-line" aria-hidden="true"></span>
+                </div>
+
+                <div class="wrk-case__head">
+                    <p class="wrk-case__category">{{ case.category }}</p>
+                    <h3 class="wrk-case__title">{{ case.title }}</h3>
+
+                    <ul class="wrk-case__meta">
+                        <li><span class="wrk-case__meta-label">Sector</span><span class="wrk-case__meta-value">{{ case.sector }}</span></li>
+                        <li><span class="wrk-case__meta-label">Region</span><span class="wrk-case__meta-value">{{ case.region }}</span></li>
+                        <li><span class="wrk-case__meta-label">Year</span><span class="wrk-case__meta-value">{{ case.year }}</span></li>
+                    </ul>
+                </div>
+
+                <div class="wrk-case__icon">
+                    {% if case.slug == 'medical-distributor-whatsapp-assistant' %}
+                        {% include 'includes/service_graphic.html' with variant='chatbot' %}
+                    {% elif case.slug == 'restaurant-intelligence-data-platform' %}
+                        {% include 'includes/service_graphic.html' with variant='automation' %}
+                    {% else %}
+                        {% include 'includes/service_graphic.html' with variant='knowledge' %}
+                    {% endif %}
+                </div>
+
+                <p class="wrk-case__summary">{{ case.summary }}</p>
+
+                <div class="wrk-case__detail">
+                    <div class="wrk-case__col">
+                        <p class="wrk-case__col-label">Challenge</p>
+                        <p class="wrk-case__col-text">{{ case.challenge }}</p>
+                    </div>
+                    <div class="wrk-case__col">
+                        <p class="wrk-case__col-label">What was built</p>
+                        <p class="wrk-case__col-text">{{ case.solution }}</p>
+                    </div>
+                    <div class="wrk-case__col">
+                        <p class="wrk-case__col-label">Outcome</p>
+                        <p class="wrk-case__col-text">{{ case.outcome }}</p>
+                    </div>
+                </div>
+
+                <div class="wrk-case__lists">
+                    <div class="wrk-case__list-block">
+                        <p class="wrk-case__col-label">Delivered</p>
+                        <ul class="wrk-case__list">
+                            {% for item in case.deliverables %}
+                            <li><span class="wrk-case__bullet" aria-hidden="true"></span>{{ item }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="wrk-case__list-block">
+                        <p class="wrk-case__col-label">Stack</p>
+                        <ul class="wrk-case__caps">
+                            {% for cap in case.capabilities %}
+                            <li class="wrk-case__cap">{{ cap }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+                <p class="wrk-case__note">{{ case.note }}</p>
+            </li>
+            {% endif %}
+            {% endfor %}
+        </ol>
+    </div>
+</section>
+
+<section class="wrk-themes">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="wrk-section-head">
+            <p class="eyebrow">Additional capability themes</p>
+            <h2 class="wrk-section-title">Other delivery areas the studio works across.</h2>
+            <p class="wrk-section-lede">Representative of the breadth of work the team can pick up beyond the two featured engagements above.</p>
+        </div>
+
+        <div class="wrk-themes__grid">
+            {% for case in case_studies %}
+            {% if not case.featured %}
+            <article class="wrk-theme" data-reveal>
+                <p class="wrk-theme__category">{{ case.category }}</p>
+                <h3 class="wrk-theme__title">{{ case.title }}</h3>
+                <p class="wrk-theme__summary">{{ case.summary }}</p>
+                <ul class="wrk-theme__caps">
+                    {% for cap in case.capabilities %}
+                    <li class="wrk-theme__cap">{{ cap }}</li>
+                    {% endfor %}
+                </ul>
+            </article>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="mx-auto max-w-7xl px-6 pb-20 pt-4 lg:px-8 lg:pb-28">
+    {% include 'includes/cta_band.html' %}
+</section>
+{% endblock %}

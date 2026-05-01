@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="who-hero">
+    <div class="who-hero__grid" aria-hidden="true"></div>
+    <div class="who-hero__beam" aria-hidden="true"></div>
+    <div class="who-hero__scatter" aria-hidden="true">
+        <span class="who-hero__scatter-dot who-hero__scatter-dot--a"></span>
+        <span class="who-hero__scatter-dot who-hero__scatter-dot--b"></span>
+        <span class="who-hero__scatter-dot who-hero__scatter-dot--c"></span>
+        <span class="who-hero__scatter-dot who-hero__scatter-dot--d"></span>
+    </div>
+
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="who-hero__inner">
+            <p class="eyebrow">Who we help</p>
+            <h1 class="who-hero__title">
+                Different teams,
+                <span class="block gradient-text typed-line"
+                      data-typed
+                      data-typed-text="one delivery partner that fits."
+                      data-typed-speed="55"
+                      data-typed-start-delay="200"
+                      data-typed-hold="2400"
+                      data-typed-hold-empty="700">
+                    <span class="typed-line__inner"><span class="typed-target">one delivery partner that fits.</span><span class="typed-cursor" aria-hidden="true">|</span></span>
+                </span>
+            </h1>
+            <p class="who-hero__lede">
+                Six audiences. Six working realities. The studio shapes delivery around where you actually sit.
+            </p>
+
+            <div class="who-hero__meta">
+                <span class="who-hero__meta-item"><span class="who-hero__meta-dot"></span>Founder-led scoping</span>
+                <span class="who-hero__meta-item"><span class="who-hero__meta-dot who-hero__meta-dot--accent"></span>Right-sized engagements</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="who-audiences">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="who-section-head">
+            <p class="eyebrow">Audience profiles</p>
+            <h2 class="who-section-title">Pick the profile that sounds like your team.</h2>
+        </div>
+
+        <ol class="who-list">
+            {% for item in audience_solutions %}
+            <li class="who-profile" data-reveal>
+                <div class="who-profile__rail">
+                    <span class="who-profile__num">0{{ forloop.counter }}</span>
+                    <span class="who-profile__rail-line" aria-hidden="true"></span>
+                </div>
+
+                <div class="who-profile__icon">
+                    {% if forloop.counter == 1 %}
+                        {% include 'includes/service_graphic.html' with variant='dashboard' %}
+                    {% elif forloop.counter == 2 %}
+                        {% include 'includes/service_graphic.html' with variant='website' %}
+                    {% elif forloop.counter == 3 %}
+                        {% include 'includes/service_graphic.html' with variant='portal' %}
+                    {% elif forloop.counter == 4 %}
+                        {% include 'includes/service_graphic.html' with variant='strategy' %}
+                    {% elif forloop.counter == 5 %}
+                        {% include 'includes/service_graphic.html' with variant='knowledge' %}
+                    {% else %}
+                        {% include 'includes/service_graphic.html' with variant='automation' %}
+                    {% endif %}
+                </div>
+
+                <div class="who-profile__body">
+                    <h3 class="who-profile__title">{{ item.title }}</h3>
+                    <p class="who-profile__summary">{{ item.summary }}</p>
+                </div>
+
+                <ul class="who-profile__needs">
+                    <li class="who-profile__needs-label">Typical needs</li>
+                    {% for need in item.needs %}
+                    <li class="who-profile__need">
+                        <span class="who-profile__need-mark" aria-hidden="true"></span>
+                        <span>{{ need }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </li>
+            {% endfor %}
+        </ol>
+    </div>
+</section>
+
+<section class="who-ledger">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="who-section-head">
+            <p class="eyebrow">Business need map</p>
+            <h2 class="who-section-title">Problems to capabilities, at a glance.</h2>
+            <p class="who-section-lede">If your reality starts with a problem on the left, the studio applies one of the capabilities on the right.</p>
+        </div>
+
+        <div class="who-ledger__frame">
+            <div class="who-ledger__head">
+                <span>Problem domain</span>
+                <span class="who-ledger__head-arrow" aria-hidden="true">&rarr;</span>
+                <span>How the studio answers it</span>
+            </div>
+
+            <ol class="who-ledger__list">
+                {% for item in need_map %}
+                <li class="who-row" data-reveal>
+                    <div class="who-row__left">
+                        <span class="who-row__num">0{{ forloop.counter }}</span>
+                        <span class="who-row__title">{{ item.title }}</span>
+                    </div>
+                    <div class="who-row__connector" aria-hidden="true">
+                        <span class="who-row__connector-dot"></span>
+                        <span class="who-row__connector-line"></span>
+                        <span class="who-row__connector-arrow">&rarr;</span>
+                    </div>
+                    <div class="who-row__right">
+                        <p>{{ item.body }}</p>
+                    </div>
+                </li>
+                {% endfor %}
+            </ol>
+        </div>
+    </div>
+</section>
+
+<section class="mx-auto max-w-7xl px-6 pb-20 pt-4 lg:px-8 lg:pb-28">
+    {% include 'includes/cta_band.html' %}
+</section>
+{% endblock %}

@@ -1,0 +1,340 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="ctc-hero">
+    <div class="ctc-hero__grid" aria-hidden="true"></div>
+    <div class="ctc-hero__beam" aria-hidden="true"></div>
+
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="ctc-hero__inner">
+            <p class="eyebrow">Contact</p>
+            <h1 class="ctc-hero__title">
+                Tell us what you need.
+                <span class="block gradient-text typed-line"
+                      data-typed
+                      data-typed-text="We'll come back with a plan, not a pitch."
+                      data-typed-speed="55"
+                      data-typed-start-delay="200"
+                      data-typed-hold="2400"
+                      data-typed-hold-empty="700">
+                    <span class="typed-line__inner"><span class="typed-target">We&#39;ll come back with a plan, not a pitch.</span><span class="typed-cursor" aria-hidden="true">|</span></span>
+                </span>
+            </h1>
+            <p class="ctc-hero__lede">
+                Six focused questions. Around two minutes. The brief lands with the founders, not a queue.
+            </p>
+
+            <div class="ctc-hero__direct">
+                <a href="mailto:{{ contact_email }}" class="ctc-hero__direct-item">
+                    <span class="ctc-hero__direct-mark"></span>
+                    <span>{{ contact_email }}</span>
+                </a>
+                <a href="tel:{{ contact_phone }}" class="ctc-hero__direct-item">
+                    <span class="ctc-hero__direct-mark ctc-hero__direct-mark--accent"></span>
+                    <span>{{ contact_phone }}</span>
+                </a>
+                <span class="ctc-hero__direct-item ctc-hero__direct-item--plain">
+                    <span class="ctc-hero__direct-mark"></span>
+                    <span>{{ contact_location }}</span>
+                </span>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% if submitted %}
+<section class="ctc-confirm">
+    <div class="mx-auto max-w-5xl px-6 lg:px-8">
+        <div class="ctc-confirm__frame" id="contact-confirmation">
+            <div class="ctc-confirm__rail" aria-hidden="true">
+                <span class="ctc-confirm__rail-mark"></span>
+            </div>
+            <div class="ctc-confirm__body">
+                <p class="eyebrow">Submission received</p>
+                <h2 class="ctc-confirm__title">Brief received. The founders are on it.</h2>
+                <p class="ctc-confirm__text">{{ success_message }}</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<section class="ctc-funnel-section">
+    <div class="mx-auto max-w-5xl px-6 lg:px-8">
+        <div x-data="contactExperience()" id="contact-experience">
+            <div class="ctc-funnel">
+                <div class="ctc-funnel__head">
+                    <div class="ctc-funnel__progress" role="progressbar"
+                         :aria-valuenow="step" aria-valuemin="1" aria-valuemax="7" aria-label="Project intake progress">
+                        <template x-for="item in steps" :key="item.index">
+                            <button type="button" class="ctc-progress-bar"
+                                    :class="step >= item.index ? 'is-active' : ''"
+                                    @click="goTo(item.index)"
+                                    :aria-label="`Go to step ${item.index}: ${item.label}`">
+                                <span></span>
+                            </button>
+                        </template>
+                    </div>
+                    <div class="ctc-funnel__meta">
+                        <span class="ctc-funnel__step-num"><span x-text="step"></span><span class="ctc-funnel__step-num-divider">/</span><span x-text="steps.length"></span></span>
+                        <span class="ctc-funnel__step-label" x-text="currentStep.label"></span>
+                        <span class="ctc-funnel__step-hint" x-text="currentStep.hint"></span>
+                    </div>
+                </div>
+
+                <form x-ref="wizardForm" method="post" action="{% url 'leads:contact' %}" @submit.prevent="submit($refs.wizardForm)" class="ctc-funnel__form">
+                    {% csrf_token %}
+                    <input type="hidden" name="referrer" value="" data-referrer-field>
+                    <input type="hidden" name="inquiry_type" :value="form.inquiry_type">
+                    <input type="hidden" name="submission_mode" value="guided">
+                    <input type="hidden" name="website" value="">
+                    <input type="hidden" name="service_interest" :value="form.service_interest">
+                    <input type="hidden" name="budget" :value="form.budget">
+                    <input type="hidden" name="timeline" :value="form.timeline">
+                    <input type="hidden" name="name" :value="form.name">
+                    <input type="hidden" name="email" :value="form.email">
+                    <input type="hidden" name="company" :value="form.company">
+                    <input type="hidden" name="phone" :value="form.phone">
+                    <input type="hidden" name="message" :value="form.message">
+
+                    <div class="ctc-funnel__panels">
+                        <section x-show="step === 1" x-transition.opacity.duration.250ms class="ctc-panel">
+                            <div class="ctc-panel__head">
+                                <span class="ctc-panel__num">01</span>
+                                <h3 class="ctc-panel__title">What do you need help with?</h3>
+                            </div>
+                            <p class="ctc-panel__hint">Pick the closest fit. Detail comes later.</p>
+                            <ul class="ctc-options ctc-options--cols">
+                                {% for value, label in service_choices %}
+                                <li>
+                                    <button type="button" class="ctc-option" :class="form.service_interest === '{{ value }}' ? 'is-selected' : ''" @click="pickService('{{ value }}')">
+                                        <span class="ctc-option__mark" aria-hidden="true"></span>
+                                        <span class="ctc-option__title">{{ label }}</span>
+                                        <span class="ctc-option__hint">{% if value == 'ai-strategy' %}Roadmap and direction{% elif value == 'ai-chatbot' %}Support, lead, or assistant flow{% elif value == 'rag-knowledge' %}Grounded knowledge access{% elif value == 'llm-fine-tuning' %}Adaptation and evaluation{% elif value == 'speech-ai' %}ASR · diarization · TTS{% elif value == 'website-development' %}Premium public-facing site{% elif value == 'web-application-development' %}Portals · SaaS · internal apps{% elif value == 'automation-backend-systems' %}Integrations and backend logic{% elif value == 'data-pipelines-scraping' %}Pipelines and structured data{% elif value == 'product-mvp-build' %}From concept to launch{% elif value == 'research-collaboration' %}Research-led collaboration{% else %}Something adjacent{% endif %}</span>
+                                    </button>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            <p class="ctc-error" x-cloak x-show="serverErrors.service_interest" x-text="serverErrors.service_interest"></p>
+                        </section>
+
+                        <section x-show="step === 2" x-transition.opacity.duration.250ms class="ctc-panel">
+                            <div class="ctc-panel__head">
+                                <span class="ctc-panel__num">02</span>
+                                <h3 class="ctc-panel__title">What budget range are you working with?</h3>
+                            </div>
+                            <p class="ctc-panel__hint">A realistic range helps us recommend the right delivery shape.</p>
+                            <ul class="ctc-options">
+                                {% for value, label in budget_choices %}
+                                <li>
+                                    <button type="button" class="ctc-option ctc-option--row" :class="form.budget === '{{ value }}' ? 'is-selected' : ''" @click="pickBudget('{{ value }}')">
+                                        <span class="ctc-option__mark" aria-hidden="true"></span>
+                                        <span class="ctc-option__title">{{ label }}</span>
+                                    </button>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </section>
+
+                        <section x-show="step === 3" x-transition.opacity.duration.250ms class="ctc-panel">
+                            <div class="ctc-panel__head">
+                                <span class="ctc-panel__num">03</span>
+                                <h3 class="ctc-panel__title">What timeline are you aiming for?</h3>
+                            </div>
+                            <p class="ctc-panel__hint">Pick a starting point, or type your own.</p>
+                            <ul class="ctc-options">
+                                <li><button type="button" class="ctc-option ctc-option--row" :class="form.timeline === 'As soon as possible' ? 'is-selected' : ''" @click="pickTimeline('As soon as possible')"><span class="ctc-option__mark" aria-hidden="true"></span><span class="ctc-option__title">As soon as possible</span></button></li>
+                                <li><button type="button" class="ctc-option ctc-option--row" :class="form.timeline === 'Within 2–4 weeks' ? 'is-selected' : ''" @click="pickTimeline('Within 2–4 weeks')"><span class="ctc-option__mark" aria-hidden="true"></span><span class="ctc-option__title">Within 2–4 weeks</span></button></li>
+                                <li><button type="button" class="ctc-option ctc-option--row" :class="form.timeline === 'This quarter' ? 'is-selected' : ''" @click="pickTimeline('This quarter')"><span class="ctc-option__mark" aria-hidden="true"></span><span class="ctc-option__title">This quarter</span></button></li>
+                                <li><button type="button" class="ctc-option ctc-option--row" :class="form.timeline === 'Next quarter' ? 'is-selected' : ''" @click="pickTimeline('Next quarter')"><span class="ctc-option__mark" aria-hidden="true"></span><span class="ctc-option__title">Next quarter</span></button></li>
+                                <li><button type="button" class="ctc-option ctc-option--row" :class="form.timeline === 'Flexible' ? 'is-selected' : ''" @click="pickTimeline('Flexible')"><span class="ctc-option__mark" aria-hidden="true"></span><span class="ctc-option__title">Flexible</span></button></li>
+                            </ul>
+                            <div class="ctc-field">
+                                <label class="ctc-field__label" for="wizard_timeline">Or describe it</label>
+                                <input id="wizard_timeline" type="text" class="ctc-input" x-model="form.timeline" placeholder="After funding · next month · after internal approval">
+                            </div>
+                        </section>
+
+                        <section x-show="step === 4" x-transition.opacity.duration.250ms class="ctc-panel">
+                            <div class="ctc-panel__head">
+                                <span class="ctc-panel__num">04</span>
+                                <h3 class="ctc-panel__title">Who should we reply to?</h3>
+                            </div>
+                            <p class="ctc-panel__hint">The main contact for the conversation.</p>
+                            <div class="ctc-fields ctc-fields--two">
+                                <div class="ctc-field">
+                                    <label class="ctc-field__label" for="wizard_name">Name<span aria-hidden="true">*</span></label>
+                                    <input id="wizard_name" type="text" class="ctc-input" x-model="form.name" placeholder="Your name">
+                                    <p class="ctc-error" x-cloak x-show="serverErrors.name" x-text="serverErrors.name"></p>
+                                </div>
+                                <div class="ctc-field">
+                                    <label class="ctc-field__label" for="wizard_email">Email<span aria-hidden="true">*</span></label>
+                                    <input id="wizard_email" type="email" class="ctc-input" x-model="form.email" placeholder="you@company.com">
+                                    <p class="ctc-error" x-cloak x-show="serverErrors.email" x-text="serverErrors.email"></p>
+                                </div>
+                            </div>
+                            <div class="ctc-fields ctc-fields--two ctc-fields--soft">
+                                <div class="ctc-field">
+                                    <label class="ctc-field__label" for="wizard_company">Company<span class="ctc-field__optional"> (optional)</span></label>
+                                    <input id="wizard_company" type="text" class="ctc-input" x-model="form.company" placeholder="Company or organisation">
+                                </div>
+                                <div class="ctc-field">
+                                    <label class="ctc-field__label" for="wizard_phone">Phone<span class="ctc-field__optional"> (optional)</span></label>
+                                    <input id="wizard_phone" type="text" class="ctc-input" x-model="form.phone" placeholder="+92 300 0000000">
+                                </div>
+                            </div>
+                        </section>
+
+                        <section x-show="step === 5" x-transition.opacity.duration.250ms class="ctc-panel">
+                            <div class="ctc-panel__head">
+                                <span class="ctc-panel__num">05</span>
+                                <h3 class="ctc-panel__title">What should we know about the project?</h3>
+                            </div>
+                            <p class="ctc-panel__hint">The goal, what to build or improve, and anything that matters for scope.</p>
+                            <div class="ctc-field">
+                                <label class="ctc-field__label" for="wizard_message">Project brief<span aria-hidden="true">*</span></label>
+                                <textarea id="wizard_message" rows="7" class="ctc-input ctc-input--textarea" x-model="form.message" placeholder="Tell us what you want to build, improve, automate, or launch."></textarea>
+                                <p class="ctc-error" x-cloak x-show="serverErrors.message" x-text="serverErrors.message"></p>
+                            </div>
+                        </section>
+
+                        <section x-show="step === 6" x-transition.opacity.duration.250ms class="ctc-panel">
+                            <div class="ctc-panel__head">
+                                <span class="ctc-panel__num">06</span>
+                                <h3 class="ctc-panel__title">Review and send.</h3>
+                            </div>
+                            <p class="ctc-panel__hint">Quick check before it lands with the founders.</p>
+                            <dl class="ctc-review">
+                                <div class="ctc-review__row">
+                                    <dt>Service</dt>
+                                    <dd x-text="readableService"></dd>
+                                </div>
+                                <div class="ctc-review__row">
+                                    <dt>Budget</dt>
+                                    <dd x-text="readableBudget"></dd>
+                                </div>
+                                <div class="ctc-review__row">
+                                    <dt>Timeline</dt>
+                                    <dd x-text="form.timeline || 'Not specified'"></dd>
+                                </div>
+                                <div class="ctc-review__row">
+                                    <dt>Contact</dt>
+                                    <dd x-text="`${form.name || '—'} · ${form.email || '—'}`"></dd>
+                                </div>
+                                <div class="ctc-review__row ctc-review__row--block">
+                                    <dt>Brief</dt>
+                                    <dd x-text="form.message || 'No project brief added yet.'"></dd>
+                                </div>
+                            </dl>
+                            <p class="ctc-error" x-cloak x-show="errorMessage" x-text="errorMessage"></p>
+                        </section>
+                    </div>
+
+                    <div class="ctc-funnel__actions">
+                        <button type="button" class="button-secondary" x-show="step > 1" x-cloak @click="goBack()">Back</button>
+                        <div class="ctc-funnel__actions-right">
+                            <a href="mailto:{{ contact_email }}" class="ctc-funnel__email">Email instead</a>
+                            <button type="button" class="button-primary" x-show="step < steps.length" @click="goNext()">Continue</button>
+                            <button type="submit" class="button-primary" x-show="step === steps.length" :disabled="submitting" :class="{'opacity-70 cursor-not-allowed': submitting}">
+                                <span x-show="!submitting">Send brief</span>
+                                <span x-show="submitting" x-cloak>Sending…</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <noscript>
+            <div class="ctc-noscript">
+                <p class="eyebrow">JavaScript fallback</p>
+                <h3 class="ctc-noscript__title">Use the standard enquiry form.</h3>
+                <form method="post" action="{% url 'leads:contact' %}" class="ctc-noscript__form">
+                    {% csrf_token %}
+                    <input type="hidden" name="referrer" value="">
+                    <input type="hidden" name="inquiry_type" value="project">
+                    <input type="hidden" name="submission_mode" value="guided">
+                    <input type="text" name="website" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true">
+                    <div class="ctc-fields ctc-fields--two">
+                        <div class="ctc-field">
+                            <label for="fallback_name" class="ctc-field__label">Name *</label>
+                            <input id="fallback_name" type="text" name="name" class="ctc-input" required>
+                        </div>
+                        <div class="ctc-field">
+                            <label for="fallback_email" class="ctc-field__label">Email *</label>
+                            <input id="fallback_email" type="email" name="email" class="ctc-input" required>
+                        </div>
+                        <div class="ctc-field">
+                            <label for="fallback_service_interest" class="ctc-field__label">Service interest *</label>
+                            <select id="fallback_service_interest" name="service_interest" class="ctc-input" required>
+                                <option value="">Select a service</option>
+                                {% for value, label in service_choices %}
+                                    <option value="{{ value }}">{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="ctc-field">
+                            <label for="fallback_budget" class="ctc-field__label">Budget range</label>
+                            <select id="fallback_budget" name="budget" class="ctc-input">
+                                <option value="">Select a budget range</option>
+                                {% for value, label in budget_choices %}
+                                    <option value="{{ value }}">{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="ctc-field">
+                            <label for="fallback_timeline" class="ctc-field__label">Timeline</label>
+                            <input id="fallback_timeline" type="text" name="timeline" class="ctc-input">
+                        </div>
+                        <div class="ctc-field">
+                            <label for="fallback_phone" class="ctc-field__label">Phone</label>
+                            <input id="fallback_phone" type="text" name="phone" class="ctc-input">
+                        </div>
+                        <div class="ctc-field ctc-field--span">
+                            <label for="fallback_company" class="ctc-field__label">Company</label>
+                            <input id="fallback_company" type="text" name="company" class="ctc-input">
+                        </div>
+                        <div class="ctc-field ctc-field--span">
+                            <label for="fallback_message" class="ctc-field__label">Message *</label>
+                            <textarea id="fallback_message" name="message" rows="6" class="ctc-input ctc-input--textarea" required></textarea>
+                        </div>
+                        <div class="ctc-field ctc-field--span">
+                            <button type="submit" class="button-primary">Submit enquiry</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </noscript>
+    </div>
+</section>
+
+<section class="ctc-next">
+    <div class="mx-auto max-w-5xl px-6 lg:px-8">
+        <div class="ctc-next__head">
+            <p class="eyebrow">After you send</p>
+            <h2 class="ctc-next__title">No black box. Just a clear three-step reply path.</h2>
+        </div>
+        <ol class="ctc-next__list">
+            <li class="ctc-next__step">
+                <span class="ctc-next__num">01</span>
+                <span class="ctc-next__line" aria-hidden="true"></span>
+                <h3 class="ctc-next__step-title">Brief review</h3>
+                <p class="ctc-next__step-text">We read the brief, check fit across software, websites, automation, and AI, and identify the right way to scope it.</p>
+            </li>
+            <li class="ctc-next__step">
+                <span class="ctc-next__num">02</span>
+                <span class="ctc-next__line" aria-hidden="true"></span>
+                <h3 class="ctc-next__step-title">Direct reply</h3>
+                <p class="ctc-next__step-text">A real reply with a recommended route — discovery call, scoped follow-up, or a clearer implementation starting point.</p>
+            </li>
+            <li class="ctc-next__step">
+                <span class="ctc-next__num">03</span>
+                <span class="ctc-next__line ctc-next__line--last" aria-hidden="true"></span>
+                <h3 class="ctc-next__step-title">Scope shaping</h3>
+                <p class="ctc-next__step-text">If the fit is right, we move into clearer scoping, system planning, and delivery structure together.</p>
+            </li>
+        </ol>
+    </div>
+</section>
+{% endblock %}

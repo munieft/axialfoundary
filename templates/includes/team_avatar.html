@@ -1,0 +1,34 @@
+{% load static %}
+<div class="team-avatar team-avatar--{{ avatar|default:'avatar-1' }}">
+    {% if image_src %}
+        <img src="{% static image_src %}" alt="{{ alt|default:'Team member portrait' }}" class="team-avatar__photo" width="200" height="200" loading="lazy" decoding="async">
+    {% else %}
+        <svg class="team-avatar__svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <defs>
+                <linearGradient id="ta-bg-{{ avatar }}" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="var(--ta-bg-a)"/>
+                    <stop offset="100%" stop-color="var(--ta-bg-b)"/>
+                </linearGradient>
+                <linearGradient id="ta-fg-{{ avatar }}" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="var(--ta-fg-a)"/>
+                    <stop offset="100%" stop-color="var(--ta-fg-b)"/>
+                </linearGradient>
+            </defs>
+            <rect width="120" height="120" fill="url(#ta-bg-{{ avatar }})"/>
+            <g class="team-avatar__rings" stroke="rgba(255,255,255,0.18)" fill="none" stroke-width="0.6">
+                <circle cx="60" cy="60" r="28"/>
+                <circle cx="60" cy="60" r="44"/>
+            </g>
+            <g class="team-avatar__figure">
+                <circle cx="60" cy="48" r="16" fill="url(#ta-fg-{{ avatar }})"/>
+                <path d="M30 102c2-16 14-26 30-26s28 10 30 26z" fill="url(#ta-fg-{{ avatar }})"/>
+            </g>
+            <g class="team-avatar__corners" fill="rgba(255,255,255,0.22)">
+                <rect x="10" y="10" width="6" height="1.2"/><rect x="10" y="10" width="1.2" height="6"/>
+                <rect x="104" y="10" width="6" height="1.2"/><rect x="108.8" y="10" width="1.2" height="6"/>
+                <rect x="10" y="108.8" width="6" height="1.2"/><rect x="10" y="104" width="1.2" height="6"/>
+                <rect x="104" y="108.8" width="6" height="1.2"/><rect x="108.8" y="104" width="1.2" height="6"/>
+            </g>
+        </svg>
+    {% endif %}
+</div>

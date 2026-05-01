@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="abt-hero">
+    <div class="abt-hero__grid" aria-hidden="true"></div>
+    <div class="abt-hero__beam" aria-hidden="true"></div>
+
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="abt-hero__inner">
+            <p class="eyebrow">About the studio</p>
+            <h1 class="abt-hero__title">
+                A small studio.
+                <span class="block gradient-text typed-line"
+                      data-typed
+                      data-typed-text="A specific way of working."
+                      data-typed-speed="55"
+                      data-typed-start-delay="200"
+                      data-typed-hold="2400"
+                      data-typed-hold-empty="700">
+                    <span class="typed-line__inner"><span class="typed-target">A specific way of working.</span><span class="typed-cursor" aria-hidden="true">|</span></span>
+                </span>
+            </h1>
+            <p class="abt-hero__lede">
+                Axial Foundry is a hand-picked group covering AI engineering, software, design, and GIS — built so a single team can take a project from scope to launch without a dozen handoffs.
+            </p>
+
+            <div class="abt-hero__stats">
+                <div class="abt-hero__stat">
+                    <span class="abt-hero__stat-num">8</span>
+                    <span class="abt-hero__stat-label">people</span>
+                </div>
+                <span class="abt-hero__stat-divider" aria-hidden="true"></span>
+                <div class="abt-hero__stat">
+                    <span class="abt-hero__stat-num">4</span>
+                    <span class="abt-hero__stat-label">international clients shipped</span>
+                </div>
+                <span class="abt-hero__stat-divider" aria-hidden="true"></span>
+                <div class="abt-hero__stat">
+                    <span class="abt-hero__stat-num">3</span>
+                    <span class="abt-hero__stat-label">peer-reviewed publications</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="abt-team">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="abt-section-head">
+            <p class="eyebrow">The team</p>
+            <h2 class="abt-section-title">The people you'll actually work with.</h2>
+            <p class="abt-section-lede">A tight, hand-picked team grouped by what each person does day-to-day. No padded titles. No invisible offshore layer.</p>
+        </div>
+
+        {% for group in team_groups %}
+        <div class="abt-team__group" data-reveal>
+            <div class="abt-team__group-head">
+                <span class="abt-team__group-num">0{{ forloop.counter }}</span>
+                <h3 class="abt-team__group-title">{{ group.name }}</h3>
+                <span class="abt-team__group-count">{{ group.members|length }} {% if group.members|length == 1 %}person{% else %}people{% endif %}</span>
+                <span class="abt-team__group-line" aria-hidden="true"></span>
+            </div>
+
+            <ul class="abt-team__list">
+                {% for member in group.members %}
+                <li class="abt-member">
+                    {% include 'includes/team_avatar.html' with avatar=member.avatar alt=member.name image_src=member.image %}
+                    <h4 class="abt-member__name">{{ member.name }}</h4>
+                    <p class="abt-member__role">{{ member.role }}</p>
+                    <p class="abt-member__bio">{{ member.bio }}</p>
+                    <div class="abt-member__meta">
+                        {% if member.tags %}
+                        <ul class="abt-member__tags">
+                            {% for tag in member.tags %}
+                            <li class="abt-member__tag"><span aria-hidden="true">·</span>{{ tag }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                        {% if member.links %}
+                        <div class="abt-member__links">
+                            {% for link in member.links %}
+                            <a href="{{ link.url }}" class="abt-member__link" target="_blank" rel="noopener">
+                                <span aria-hidden="true">↗</span>
+                                <span>{{ link.label }}</span>
+                            </a>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="abt-caps">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="abt-section-head">
+            <p class="eyebrow">Capabilities</p>
+            <h2 class="abt-section-title">What the combined team covers.</h2>
+        </div>
+
+        <div class="abt-caps__matrix">
+            {% for group in capability_groups %}
+            <div class="abt-caps__col" data-reveal>
+                <p class="abt-caps__col-num">0{{ forloop.counter }}</p>
+                <h3 class="abt-caps__col-title">{{ group.title }}</h3>
+                <ul class="abt-caps__list">
+                    {% for item in group.items %}
+                    <li class="abt-caps__line">
+                        <span class="abt-caps__line-mark" aria-hidden="true"></span>
+                        <span>{{ item }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="mx-auto max-w-7xl px-6 pb-20 pt-4 lg:px-8 lg:pb-28">
+    {% include 'includes/cta_band.html' %}
+</section>
+{% endblock %}

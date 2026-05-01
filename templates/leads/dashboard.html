@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="section-shell">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+                <p class="eyebrow">Internal view</p>
+                <h1 class="section-title">Leads dashboard</h1>
+                <p class="section-intro">Protected internal list of contact submissions.</p>
+            </div>
+            <div class="rounded-2xl border border-white/10 bg-slate-950/[0.55] px-4 py-3 text-sm text-slate-300">
+                {{ lead_count }} lead{{ lead_count|pluralize }}
+            </div>
+        </div>
+
+        <div class="mt-8 surface-card">
+            <form method="get" class="flex flex-col gap-4 md:flex-row">
+                <input type="text" name="q" value="{{ query }}" placeholder="Search leads by name, email, company, phone, or message" class="mt-0 w-full rounded-2xl border border-white/[0.12] bg-slate-950/50 px-4 py-3 text-sm text-slate-100 placeholder:text-slate-500 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30">
+                <button type="submit" class="button-secondary justify-center">Search</button>
+            </form>
+
+            <div class="mt-8 overflow-x-auto">
+                <table class="min-w-full divide-y divide-white/10 text-left text-sm">
+                    <thead>
+                        <tr class="text-slate-400">
+                            <th class="pb-4 pr-6 font-medium">Name</th>
+                            <th class="pb-4 pr-6 font-medium">Company</th>
+                            <th class="pb-4 pr-6 font-medium">Service</th>
+                            <th class="pb-4 pr-6 font-medium">Budget</th>
+                            <th class="pb-4 pr-6 font-medium">Submitted</th>
+                            <th class="pb-4 font-medium">Details</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-white/[0.08] text-slate-300">
+                        {% for lead in page_obj %}
+                        <tr>
+                            <td class="py-5 pr-6 align-top">
+                                <div class="font-medium text-white">{{ lead.name }}</div>
+                                <a href="mailto:{{ lead.email }}" class="mt-1 block text-slate-400 hover:text-white">{{ lead.email }}</a>
+                                {% if lead.phone %}<a href="tel:{{ lead.phone }}" class="mt-1 block text-slate-500 hover:text-white">{{ lead.phone }}</a>{% endif %}
+                            </td>
+                            <td class="py-5 pr-6 align-top">{{ lead.company|default:'—' }}</td>
+                            <td class="py-5 pr-6 align-top">{{ lead.get_service_interest_display }}</td>
+                            <td class="py-5 pr-6 align-top">{{ lead.get_budget_display|default:'—' }}</td>
+                            <td class="py-5 pr-6 align-top">{{ lead.created_at|date:'M j, Y · H:i' }}</td>
+                            <td class="py-5 align-top">
+                                <div class="max-w-sm text-slate-400">{{ lead.message|truncatechars:180 }}</div>
+                                {% if lead.is_spam %}<span class="mt-2 inline-flex rounded-full border border-rose-400/20 bg-rose-500/10 px-3 py-1 text-xs text-rose-200">Spam flag</span>{% endif %}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" class="py-10 text-center text-slate-500">No leads found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% if page_obj.paginator.num_pages > 1 %}
+            <div class="mt-6 flex flex-wrap items-center justify-between gap-4 text-sm text-slate-400">
+                <p>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</p>
+                <div class="flex gap-2">
+                    {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}" class="button-secondary">Previous</a>
+                    {% endif %}
+                    {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}" class="button-secondary">Next</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

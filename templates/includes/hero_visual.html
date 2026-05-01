@@ -1,0 +1,120 @@
+{% load static %}
+<div class="hero-panel" data-reveal>
+    <div class="hero-panel__grid" aria-hidden="true"></div>
+    <div class="hero-panel__beam" aria-hidden="true"></div>
+
+    <div class="hero-panel__frame media-carousel media-carousel--stage pointer-glow"
+         data-media-carousel
+         data-interval="5200">
+
+        <div class="hero-panel__chrome">
+            <div class="hero-panel__dots" aria-hidden="true">
+                <span></span><span></span><span></span>
+            </div>
+            <div class="hero-panel__chrome-label">axialfoundry · live preview</div>
+            <div class="hero-panel__chrome-chip">
+                <span class="hero-panel__chrome-chip-dot"></span>
+                founder-led
+            </div>
+        </div>
+
+        <div class="hero-panel__screen media-carousel__viewport">
+            <article class="hero-panel__slide media-carousel__slide is-active" data-carousel-slide aria-hidden="false">
+                <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?auto=format&fit=crop&w=1600&q=75"
+                     alt="Premium website design and digital presence"
+                     class="hero-panel__image"
+                     width="1600" height="1200"
+                     loading="eager" fetchpriority="high" decoding="async">
+                <div class="hero-panel__shade"></div>
+                <div class="hero-panel__caption">
+                    <span class="hero-panel__caption-index">01</span>
+                    <h3 class="hero-panel__caption-title">Premium Websites</h3>
+                </div>
+            </article>
+
+            <article class="hero-panel__slide media-carousel__slide" data-carousel-slide aria-hidden="true">
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=75"
+                     alt="Custom web application and product dashboard"
+                     class="hero-panel__image"
+                     width="1600" height="1200"
+                     loading="lazy" decoding="async">
+                <div class="hero-panel__shade"></div>
+                <div class="hero-panel__caption">
+                    <span class="hero-panel__caption-index">02</span>
+                    <h3 class="hero-panel__caption-title">Web Apps &amp; Portals</h3>
+                </div>
+            </article>
+
+            <article class="hero-panel__slide media-carousel__slide" data-carousel-slide aria-hidden="true">
+                <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1600&q=75"
+                     alt="Applied AI systems and intelligent assistants"
+                     class="hero-panel__image"
+                     width="1600" height="1200"
+                     loading="lazy" decoding="async">
+                <div class="hero-panel__shade"></div>
+                <div class="hero-panel__caption">
+                    <span class="hero-panel__caption-index">03</span>
+                    <h3 class="hero-panel__caption-title">Applied AI Systems</h3>
+                </div>
+            </article>
+
+            <article class="hero-panel__slide media-carousel__slide" data-carousel-slide aria-hidden="true">
+                <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1600&q=75"
+                     alt="Backend automation, integrations, and data pipelines"
+                     class="hero-panel__image"
+                     width="1600" height="1200"
+                     loading="lazy" decoding="async">
+                <div class="hero-panel__shade"></div>
+                <div class="hero-panel__caption">
+                    <span class="hero-panel__caption-index">04</span>
+                    <h3 class="hero-panel__caption-title">Automation &amp; Data</h3>
+                </div>
+            </article>
+        </div>
+
+        <div class="hero-panel__bar">
+            <button type="button" class="hero-panel__nav" data-carousel-prev aria-label="Previous slide">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M14.5 6.5L9 12l5.5 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div class="hero-panel__progress" role="tablist" aria-label="Hero slides">
+                <button type="button" class="hero-panel__progress-bar is-active" data-carousel-dot="0" aria-label="Premium websites"><span></span></button>
+                <button type="button" class="hero-panel__progress-bar"           data-carousel-dot="1" aria-label="Web apps and portals"><span></span></button>
+                <button type="button" class="hero-panel__progress-bar"           data-carousel-dot="2" aria-label="Applied AI"><span></span></button>
+                <button type="button" class="hero-panel__progress-bar"           data-carousel-dot="3" aria-label="Automation and data"><span></span></button>
+            </div>
+            <button type="button" class="hero-panel__nav" data-carousel-next aria-label="Next slide">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M9.5 6.5L15 12l-5.5 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <aside class="hero-panel__side-card" aria-hidden="true">
+        <div class="hero-panel__side-card-row">
+            <div class="hero-panel__side-card-avatar">
+                <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M4 12l3.5-3.5L11 12l5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="16" cy="7" r="1.6" fill="currentColor"/>
+                </svg>
+            </div>
+            <div class="hero-panel__side-card-body">
+                <p class="hero-panel__side-card-label">Delivery cadence</p>
+                <p class="hero-panel__side-card-value">ship weekly · review biweekly</p>
+            </div>
+        </div>
+        <div class="hero-panel__side-card-row hero-panel__side-card-row--tight">
+            <div class="hero-panel__side-card-metric">
+                <span class="hero-panel__side-card-metric-dot"></span>
+                <span>4+ yrs</span>
+            </div>
+            <div class="hero-panel__side-card-metric">
+                <span class="hero-panel__side-card-metric-dot hero-panel__side-card-metric-dot--accent"></span>
+                <span>AI · software · data</span>
+            </div>
+        </div>
+    </aside>
+
+    <div class="hero-panel__ping" aria-hidden="true">
+        <span class="hero-panel__ping-dot"></span>
+        <span>Live studio</span>
+    </div>
+</div>

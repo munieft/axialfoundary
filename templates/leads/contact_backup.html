@@ -1,0 +1,360 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% include 'includes/page_header.html' with kicker='Contact' title='Start with a guided project intake.' intro='This contact experience is designed like a lightweight product flow: one question at a time, clear progress, and enough structure to turn a good enquiry into a useful next step.' supporting_copy='It is intentionally more guided than a generic contact form, while still staying quick for serious buyers.' visual='contact' image='img/circuit-touch.jpg' image_alt='Interactive circuit interface' %}
+
+<section class="section-shell">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        {% if submitted %}
+        <div class="confirmation-inline-panel mb-8" id="contact-confirmation">
+            <div class="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+                <div>
+                    <p class="eyebrow">Enquiry received</p>
+                    <h2 class="mt-4 font-display text-3xl font-semibold text-white">Your information has been submitted.</h2>
+                    <p class="mt-3 max-w-2xl text-sm leading-7 text-slate-300">{{ success_message }}</p>
+                </div>
+                <div class="rounded-3xl border border-accent-400/20 bg-accent-400/10 px-5 py-4 text-sm text-accent-100">
+                    <div class="font-semibold text-white">Next step</div>
+                    <div class="mt-1 text-accent-100/85">Our team will review the brief and contact you directly.</div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div x-data="contactExperience()" id="contact-experience" class="grid gap-8 lg:grid-cols-[1.06fr_.94fr]">
+            <div class="surface-card pointer-glow relative overflow-hidden contact-flow-shell">
+                <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand-300/60 to-transparent"></div>
+                <div class="absolute -right-10 top-10 h-40 w-40 rounded-full bg-brand-500/10 blur-3xl"></div>
+                <div class="absolute -left-8 bottom-0 h-36 w-36 rounded-full bg-accent-400/10 blur-3xl"></div>
+
+                <div class="relative z-10">
+                    <div class="flex flex-col gap-6 border-b border-white/10 pb-6 lg:flex-row lg:items-end lg:justify-between">
+                        <div class="max-w-2xl">
+                            <p class="eyebrow">Guided intake</p>
+                            <h2 class="mt-4 font-display text-3xl font-bold tracking-tight text-white">Tell us what you need in a few focused steps.</h2>
+                            <p class="mt-4 text-sm leading-7 text-slate-400">This is the recommended route for the studio. It qualifies scope quickly, reduces vague back-and-forth, and helps us respond with a practical next step.</p>
+                        </div>
+                        <div class="wizard-status-card">
+                            <div class="wizard-status-card__top">
+                                <span class="font-medium text-white">Progress</span>
+                                <span class="text-sm text-slate-300" x-text="`${step}/${steps.length}`"></span>
+                            </div>
+                            <div class="stepper-bar mt-4"><div class="stepper-bar__progress" :style="`width:${progress}%`"></div></div>
+                            <div class="mt-4 text-sm text-slate-400" x-text="currentStep.hint"></div>
+                        </div>
+                    </div>
+
+                    <form x-ref="wizardForm" method="post" action="{% url 'leads:contact' %}" @submit.prevent="submit($refs.wizardForm)" class="mt-8 grid gap-8">
+                        {% csrf_token %}
+                        <input type="hidden" name="referrer" value="" data-referrer-field>
+                        <input type="hidden" name="inquiry_type" :value="form.inquiry_type">
+                        <input type="hidden" name="submission_mode" value="guided">
+                        <input type="hidden" name="website" value="">
+                        <input type="hidden" name="service_interest" :value="form.service_interest">
+                        <input type="hidden" name="budget" :value="form.budget">
+                        <input type="hidden" name="timeline" :value="form.timeline">
+                        <input type="hidden" name="name" :value="form.name">
+                        <input type="hidden" name="email" :value="form.email">
+                        <input type="hidden" name="company" :value="form.company">
+                        <input type="hidden" name="phone" :value="form.phone">
+                        <input type="hidden" name="message" :value="form.message">
+
+                        <div class="wizard-steps wizard-steps--rail" aria-label="Project intake steps">
+                            <template x-for="item in steps" :key="item.index">
+                                <button type="button" class="step-chip text-left" :class="step >= item.index ? 'is-current' : ''" @click="goTo(item.index)">
+                                    <span class="step-chip__index" x-text="item.index"></span>
+                                    <span>
+                                        <span class="block text-sm font-medium text-white" x-text="item.label"></span>
+                                        <span class="step-chip__hint mt-1 block text-xs leading-5 text-slate-400" x-text="item.hint"></span>
+                                    </span>
+                                </button>
+                            </template>
+                        </div>
+
+                        <div class="wizard-panel-stack">
+                            <section x-show="step === 1" x-transition.opacity.duration.250ms class="wizard-panel">
+                                <div>
+                                    <p class="wizard-panel__eyebrow">Step 1</p>
+                                    <h3 class="wizard-panel__title">What do you need us to help with?</h3>
+                                    <p class="wizard-panel__text">Choose the closest fit. You can add detail later.</p>
+                                </div>
+                                <div class="choice-grid choice-grid--services mt-8">
+                                    {% for value, label in service_choices %}
+                                    <button type="button" class="choice-card" :class="form.service_interest === '{{ value }}' ? 'is-selected' : ''" @click="pickService('{{ value }}')">
+                                        <span class="choice-card__title">{{ label }}</span>
+                                        <span class="choice-card__meta">
+                                            {% if value == 'ai-strategy' %}Roadmap and implementation direction{% elif value == 'ai-chatbot' %}Support, lead capture, or assistant flows{% elif value == 'rag-knowledge' %}Knowledge access grounded in your content{% elif value == 'llm-fine-tuning' %}Model adaptation and evaluation{% elif value == 'speech-ai' %}ASR, diarization, TTS, voice workflows{% elif value == 'website-development' %}Premium public-facing web presence{% elif value == 'web-application-development' %}Custom portals, SaaS, and internal apps{% elif value == 'automation-backend-systems' %}Integrations, rules, and backend logic{% elif value == 'data-pipelines-scraping' %}Pipelines, reporting, and structured data{% elif value == 'product-mvp-build' %}Product delivery from concept to launch{% elif value == 'research-collaboration' %}Technical collaboration and research-led work{% else %}Something adjacent or still being shaped{% endif %}
+                                        </span>
+                                    </button>
+                                    {% endfor %}
+                                </div>
+                                <p class="error-text" x-cloak x-show="serverErrors.service_interest" x-text="serverErrors.service_interest"></p>
+                            </section>
+
+                            <section x-show="step === 2" x-transition.opacity.duration.250ms class="wizard-panel">
+                                <div>
+                                    <p class="wizard-panel__eyebrow">Step 2</p>
+                                    <h3 class="wizard-panel__title">What budget range are you working with?</h3>
+                                    <p class="wizard-panel__text">A realistic range helps us recommend the right delivery shape.</p>
+                                </div>
+                                <div class="choice-grid mt-8">
+                                    {% for value, label in budget_choices %}
+                                    <button type="button" class="choice-card choice-card--compact" :class="form.budget === '{{ value }}' ? 'is-selected' : ''" @click="pickBudget('{{ value }}')">
+                                        <span class="choice-card__title">{{ label }}</span>
+                                    </button>
+                                    {% endfor %}
+                                </div>
+                            </section>
+
+                            <section x-show="step === 3" x-transition.opacity.duration.250ms class="wizard-panel">
+                                <div>
+                                    <p class="wizard-panel__eyebrow">Step 3</p>
+                                    <h3 class="wizard-panel__title">What timeline are you aiming for?</h3>
+                                    <p class="wizard-panel__text">Select a starting point or type a custom timeframe.</p>
+                                </div>
+                                <div class="choice-grid mt-8">
+                                    <button type="button" class="choice-card choice-card--compact" :class="form.timeline === 'As soon as possible' ? 'is-selected' : ''" @click="pickTimeline('As soon as possible')"><span class="choice-card__title">As soon as possible</span></button>
+                                    <button type="button" class="choice-card choice-card--compact" :class="form.timeline === 'Within 2–4 weeks' ? 'is-selected' : ''" @click="pickTimeline('Within 2–4 weeks')"><span class="choice-card__title">Within 2–4 weeks</span></button>
+                                    <button type="button" class="choice-card choice-card--compact" :class="form.timeline === 'This quarter' ? 'is-selected' : ''" @click="pickTimeline('This quarter')"><span class="choice-card__title">This quarter</span></button>
+                                    <button type="button" class="choice-card choice-card--compact" :class="form.timeline === 'Next quarter' ? 'is-selected' : ''" @click="pickTimeline('Next quarter')"><span class="choice-card__title">Next quarter</span></button>
+                                    <button type="button" class="choice-card choice-card--compact" :class="form.timeline === 'Flexible' ? 'is-selected' : ''" @click="pickTimeline('Flexible')"><span class="choice-card__title">Flexible</span></button>
+                                </div>
+                                <div class="mt-6">
+                                    <label class="label-field" for="wizard_timeline">Custom timeline</label>
+                                    <input id="wizard_timeline" type="text" class="field-control" x-model="form.timeline" placeholder="For example: after funding, next month, or after internal approval">
+                                </div>
+                            </section>
+
+                            <section x-show="step === 4" x-transition.opacity.duration.250ms class="wizard-panel">
+                                <div>
+                                    <p class="wizard-panel__eyebrow">Step 4</p>
+                                    <h3 class="wizard-panel__title">Who should we reply to?</h3>
+                                    <p class="wizard-panel__text">Add the main contact details for the conversation.</p>
+                                </div>
+                                <div class="mt-8 grid gap-5 md:grid-cols-2">
+                                    <div>
+                                        <label class="label-field" for="wizard_name">Name *</label>
+                                        <input id="wizard_name" type="text" class="field-control" x-model="form.name" placeholder="Your name">
+                                        <p class="error-text" x-cloak x-show="serverErrors.name" x-text="serverErrors.name"></p>
+                                    </div>
+                                    <div>
+                                        <label class="label-field" for="wizard_email">Email *</label>
+                                        <input id="wizard_email" type="email" class="field-control" x-model="form.email" placeholder="you@company.com">
+                                        <p class="error-text" x-cloak x-show="serverErrors.email" x-text="serverErrors.email"></p>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <section x-show="step === 5" x-transition.opacity.duration.250ms class="wizard-panel">
+                                <div>
+                                    <p class="wizard-panel__eyebrow">Step 5</p>
+                                    <h3 class="wizard-panel__title">Add a little business context.</h3>
+                                    <p class="wizard-panel__text">These fields are optional, but they help us respond more practically.</p>
+                                </div>
+                                <div class="mt-8 grid gap-5 md:grid-cols-2">
+                                    <div>
+                                        <label class="label-field" for="wizard_company">Company</label>
+                                        <input id="wizard_company" type="text" class="field-control" x-model="form.company" placeholder="Company or organization">
+                                    </div>
+                                    <div>
+                                        <label class="label-field" for="wizard_phone">Phone</label>
+                                        <input id="wizard_phone" type="text" class="field-control" x-model="form.phone" placeholder="+1 555 123 4567">
+                                    </div>
+                                </div>
+                            </section>
+
+                            <section x-show="step === 6" x-transition.opacity.duration.250ms class="wizard-panel">
+                                <div>
+                                    <p class="wizard-panel__eyebrow">Step 6</p>
+                                    <h3 class="wizard-panel__title">What should we know about the project?</h3>
+                                    <p class="wizard-panel__text">Share the goal, what needs to be built or improved, and anything that matters for scope.</p>
+                                </div>
+                                <div class="mt-8">
+                                    <label class="label-field" for="wizard_message">Project brief *</label>
+                                    <textarea id="wizard_message" rows="7" class="field-control field-control--textarea" x-model="form.message" placeholder="Tell us what you want to build, improve, automate, or launch."></textarea>
+                                    <p class="error-text" x-cloak x-show="serverErrors.message" x-text="serverErrors.message"></p>
+                                </div>
+                            </section>
+
+                            <section x-show="step === 7" x-transition.opacity.duration.250ms class="wizard-panel">
+                                <div>
+                                    <p class="wizard-panel__eyebrow">Final step</p>
+                                    <h3 class="wizard-panel__title">Review and submit.</h3>
+                                    <p class="wizard-panel__text">Make sure the summary looks right, then send it through.</p>
+                                </div>
+                                <div class="wizard-review mt-8 grid gap-4 md:grid-cols-2">
+                                    <div class="wizard-review__item"><span class="wizard-review__label">Service</span><span class="wizard-review__value" x-text="readableService"></span></div>
+                                    <div class="wizard-review__item"><span class="wizard-review__label">Budget</span><span class="wizard-review__value" x-text="readableBudget"></span></div>
+                                    <div class="wizard-review__item"><span class="wizard-review__label">Timeline</span><span class="wizard-review__value" x-text="form.timeline || 'Not specified' "></span></div>
+                                    <div class="wizard-review__item"><span class="wizard-review__label">Contact</span><span class="wizard-review__value" x-text="`${form.name || '—'} · ${form.email || '—'}`"></span></div>
+                                    <div class="wizard-review__item md:col-span-2"><span class="wizard-review__label">Message</span><span class="wizard-review__value wizard-review__value--block" x-text="form.message || 'No project brief added yet.'"></span></div>
+                                </div>
+                                <div x-cloak x-show="errorMessage" class="mt-6 rounded-2xl border border-rose-400/20 bg-rose-500/10 px-4 py-3 text-sm text-rose-100" x-text="errorMessage"></div>
+                            </section>
+                        </div>
+
+                        <div class="wizard-actions">
+                            <button type="button" class="button-secondary" x-show="step > 1" x-cloak @click="goBack()">Back</button>
+                            <div class="ml-auto flex flex-wrap gap-3">
+                                <a href="mailto:{{ contact_email }}" class="button-secondary">Email instead</a>
+                                <button type="button" class="button-primary" x-show="step < steps.length" @click="goNext()">Continue</button>
+                                <button type="submit" class="button-primary" x-show="step === steps.length" :disabled="submitting" :class="{'opacity-70 cursor-not-allowed': submitting}">
+                                    <span x-show="!submitting">Submit project intake</span>
+                                    <span x-show="submitting" x-cloak>Submitting…</span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div x-cloak x-show="successOpen" class="fixed inset-0 z-[70] flex items-center justify-center bg-slate-950/78 px-5 backdrop-blur-md" @click.self="successOpen = false" @keydown.escape.window="successOpen = false">
+                    <div class="success-panel relative w-full max-w-2xl overflow-hidden rounded-[2rem] border border-white/12 bg-slate-950/95 p-7 shadow-glow md:p-8">
+                        <div class="absolute right-0 top-0 h-44 w-44 rounded-full bg-accent-400/12 blur-3xl"></div>
+                        <button type="button" class="absolute right-5 top-5 inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-300 hover:bg-white/10 hover:text-white" @click="successOpen = false" aria-label="Close confirmation panel">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                        </button>
+                        <div class="relative z-10">
+                            <div class="icon-chip success-icon mb-5">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                            </div>
+                            <p class="eyebrow">Submission confirmed</p>
+                            <h3 class="mt-4 font-display text-3xl font-bold text-white">Your information has been submitted.</h3>
+                            <p class="mt-4 max-w-2xl text-base leading-8 text-slate-300" x-text="successMessage"></p>
+                            <div class="mt-6 grid gap-3">
+                                <template x-for="item in successSteps" :key="item">
+                                    <div class="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-slate-200" x-text="item"></div>
+                                </template>
+                            </div>
+                            <div class="mt-8 flex flex-wrap gap-3">
+                                <a href="mailto:{{ contact_email }}" class="button-secondary">Email the studio directly</a>
+                                <button type="button" class="button-primary" @click="successOpen = false">Close panel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <noscript>
+                    <div class="mt-8 rounded-[1.6rem] border border-white/10 bg-slate-950/55 p-5 md:p-6">
+                        <p class="text-xs uppercase tracking-[0.22em] text-slate-400">JavaScript fallback</p>
+                        <h3 class="mt-3 font-display text-2xl font-semibold text-white">Use the standard enquiry form.</h3>
+                        <form method="post" action="{% url 'leads:contact' %}" class="mt-6 grid gap-6 md:grid-cols-2">
+                            {% csrf_token %}
+                            <input type="hidden" name="referrer" value="">
+                            <input type="hidden" name="inquiry_type" value="project">
+                            <input type="hidden" name="submission_mode" value="guided">
+                            <input type="text" name="website" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true">
+                            <div>
+                                <label for="fallback_name" class="label-field">Name *</label>
+                                <input id="fallback_name" type="text" name="name" class="field-control" required>
+                            </div>
+                            <div>
+                                <label for="fallback_email" class="label-field">Email *</label>
+                                <input id="fallback_email" type="email" name="email" class="field-control" required>
+                            </div>
+                            <div>
+                                <label for="fallback_company" class="label-field">Company</label>
+                                <input id="fallback_company" type="text" name="company" class="field-control">
+                            </div>
+                            <div>
+                                <label for="fallback_service_interest" class="label-field">Service interest *</label>
+                                <select id="fallback_service_interest" name="service_interest" class="field-control" required>
+                                    <option value="">Select a service</option>
+                                    {% for value, label in service_choices %}
+                                        <option value="{{ value }}">{{ label }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div>
+                                <label for="fallback_budget" class="label-field">Budget range</label>
+                                <select id="fallback_budget" name="budget" class="field-control">
+                                    <option value="">Select a budget range</option>
+                                    {% for value, label in budget_choices %}
+                                        <option value="{{ value }}">{{ label }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div>
+                                <label for="fallback_timeline" class="label-field">Timeline</label>
+                                <input id="fallback_timeline" type="text" name="timeline" class="field-control">
+                            </div>
+                            <div>
+                                <label for="fallback_phone" class="label-field">Phone</label>
+                                <input id="fallback_phone" type="text" name="phone" class="field-control">
+                            </div>
+                            <div class="md:col-span-2">
+                                <label for="fallback_message" class="label-field">Message *</label>
+                                <textarea id="fallback_message" name="message" rows="6" class="field-control field-control--textarea" required></textarea>
+                            </div>
+                            <div class="md:col-span-2">
+                                <button type="submit" class="button-primary">Submit enquiry</button>
+                            </div>
+                        </form>
+                    </div>
+                </noscript>
+            </div>
+
+            <div class="grid gap-5">
+                <article class="surface-card">
+                    <p class="eyebrow">What happens next</p>
+                    <h2 class="mt-4 font-display text-2xl font-semibold text-white">A clear follow-up sequence, not a black box.</h2>
+                    <div class="timeline-list mt-6">
+                        <div class="timeline-item">
+                            <span class="timeline-item__index">01</span>
+                            <div>
+                                <h3 class="font-medium text-white">Brief review</h3>
+                                <p class="mt-2 text-sm leading-7 text-slate-400">We review the project type, scope, and technical fit across software, websites, automation, and AI.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <span class="timeline-item__index">02</span>
+                            <div>
+                                <h3 class="font-medium text-white">Practical next-step response</h3>
+                                <p class="mt-2 text-sm leading-7 text-slate-400">You get a direct reply with a recommended route, whether that is a discovery call, scoped follow-up, or a clearer implementation starting point.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <span class="timeline-item__index">03</span>
+                            <div>
+                                <h3 class="font-medium text-white">Scope shaping</h3>
+                                <p class="mt-2 text-sm leading-7 text-slate-400">If the fit is right, the studio moves into clearer scoping, system planning, and delivery structure.</p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="surface-card">
+                    <p class="eyebrow">Direct contact</p>
+                    <h2 class="mt-4 font-display text-2xl font-semibold text-white">Prefer email or phone?</h2>
+                    <div class="mt-6 grid gap-4 text-sm text-slate-300">
+                        <a href="mailto:{{ contact_email }}" class="contact-row">{{ contact_email }}</a>
+                        <a href="tel:{{ contact_phone }}" class="contact-row">{{ contact_phone }}</a>
+                        <div class="contact-row">{{ contact_location }}</div>
+                    </div>
+                </article>
+
+                <article class="surface-card">
+                    <p class="eyebrow">Good fit projects</p>
+                    <div class="mt-5 grid gap-3">
+                        <div class="contact-tile">
+                            <div class="font-medium text-white">Premium websites and conversion-led pages</div>
+                            <div class="mt-1 text-sm leading-6 text-slate-400">For businesses that need stronger digital positioning and lead capture.</div>
+                        </div>
+                        <div class="contact-tile">
+                            <div class="font-medium text-white">Custom apps, portals, and internal systems</div>
+                            <div class="mt-1 text-sm leading-6 text-slate-400">For recurring workflows that need a better interface and backend logic.</div>
+                        </div>
+                        <div class="contact-tile">
+                            <div class="font-medium text-white">Automation, dashboards, and data pipelines</div>
+                            <div class="mt-1 text-sm leading-6 text-slate-400">For operations that need less manual work and more visibility.</div>
+                        </div>
+                        <div class="contact-tile">
+                            <div class="font-medium text-white">Assistants, RAG systems, and speech workflows</div>
+                            <div class="mt-1 text-sm leading-6 text-slate-400">For teams that want practical AI capability wrapped in working software.</div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

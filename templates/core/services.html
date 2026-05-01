@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="srv-hero">
+    <div class="srv-hero__grid" aria-hidden="true"></div>
+    <div class="srv-hero__beam" aria-hidden="true"></div>
+
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="srv-hero__inner">
+            <p class="eyebrow">Services</p>
+            <h1 class="srv-hero__title">
+                Four capability tracks.
+                <span class="block gradient-text typed-line"
+                      data-typed
+                      data-typed-text="One studio shipping real systems."
+                      data-typed-speed="55"
+                      data-typed-start-delay="200"
+                      data-typed-hold="2400"
+                      data-typed-hold-empty="700">
+                    <span class="typed-line__inner"><span class="typed-target">One studio shipping real systems.</span><span class="typed-cursor" aria-hidden="true">|</span></span>
+                </span>
+            </h1>
+            <p class="srv-hero__lede">
+                Pick the shape of work that fits. Each track is built for delivery, not decks.
+            </p>
+
+            <nav class="srv-jump" aria-label="Jump to track">
+                {% for cluster in service_clusters %}
+                <a href="#{{ cluster.slug }}" class="srv-jump__link">
+                    <span class="srv-jump__index">0{{ forloop.counter }}</span>
+                    <span>{{ cluster.title }}</span>
+                </a>
+                {% endfor %}
+            </nav>
+        </div>
+    </div>
+</section>
+
+<section class="srv-matrix-section">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="srv-matrix">
+            {% for cluster in service_clusters %}
+            <div id="{{ cluster.slug }}" class="srv-col" data-reveal>
+                <div class="srv-col__head">
+                    <span class="srv-col__index">0{{ forloop.counter }}</span>
+                    <div class="srv-col__icon">
+                        {% if forloop.counter == 1 %}
+                            {% include 'includes/service_graphic.html' with variant='llm' compact=True %}
+                        {% elif forloop.counter == 2 %}
+                            {% include 'includes/service_graphic.html' with variant='portal' compact=True %}
+                        {% elif forloop.counter == 3 %}
+                            {% include 'includes/service_graphic.html' with variant='website' compact=True %}
+                        {% else %}
+                            {% include 'includes/service_graphic.html' with variant='automation' compact=True %}
+                        {% endif %}
+                    </div>
+                    <h2 class="srv-col__title">{{ cluster.title }}</h2>
+                    <p class="srv-col__summary">{{ cluster.summary }}</p>
+                </div>
+
+                <ul class="srv-col__list">
+                    {% for item in cluster.items %}
+                    <li class="srv-col__line">
+                        <span class="srv-col__line-dot" aria-hidden="true"></span>
+                        <span class="srv-col__line-text">{{ item }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="srv-specs-section">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="srv-specs__head">
+            <p class="eyebrow">Service detail</p>
+            <h2 class="srv-specs__title">Ten engagements, individually scoped.</h2>
+        </div>
+
+        <ol class="srv-specs">
+            {% for service in service_details %}
+            <li class="srv-spec" data-reveal>
+                <div class="srv-spec__rail">
+                    <span class="srv-spec__num">{% if forloop.counter < 10 %}0{% endif %}{{ forloop.counter }}</span>
+                    <span class="srv-spec__rail-line" aria-hidden="true"></span>
+                </div>
+
+                <div class="srv-spec__icon">
+                    {% if service.title == 'AI Strategy and Implementation' %}
+                        {% include 'includes/service_graphic.html' with variant='strategy' %}
+                    {% elif service.title == 'AI Assistants and Chatbots' %}
+                        {% include 'includes/service_graphic.html' with variant='chatbot' %}
+                    {% elif service.title == 'RAG and Knowledge Assistants' %}
+                        {% include 'includes/service_graphic.html' with variant='knowledge' %}
+                    {% elif service.title == 'LLM Fine-tuning and Evaluation' %}
+                        {% include 'includes/service_graphic.html' with variant='llm' %}
+                    {% elif service.title == 'Speech AI Systems' %}
+                        {% include 'includes/service_graphic.html' with variant='speech' %}
+                    {% elif service.title == 'Custom Web Applications' %}
+                        {% include 'includes/service_graphic.html' with variant='portal' %}
+                    {% elif service.title == 'Product and MVP Build' %}
+                        {% include 'includes/service_graphic.html' with variant='dashboard' %}
+                    {% elif service.title == 'Premium Website Development' %}
+                        {% include 'includes/service_graphic.html' with variant='website' %}
+                    {% elif service.title == 'Automation and Backend Systems' %}
+                        {% include 'includes/service_graphic.html' with variant='automation' %}
+                    {% elif service.title == 'Data Pipelines and Scraping' %}
+                        {% include 'includes/service_graphic.html' with variant='automation' %}
+                    {% else %}
+                        {% include 'includes/service_graphic.html' with variant='strategy' %}
+                    {% endif %}
+                </div>
+
+                <div class="srv-spec__body">
+                    <p class="srv-spec__group">{{ service.group }}</p>
+                    <h3 class="srv-spec__title">{{ service.title }}</h3>
+                    <p class="srv-spec__what">{{ service.what_it_is }}</p>
+                    <p class="srv-spec__who"><span>For</span> {{ service.who_it_is_for }}</p>
+                </div>
+
+                <div class="srv-spec__cols">
+                    <div class="srv-spec__col">
+                        <p class="srv-spec__col-label">Solves</p>
+                        <ul class="srv-spec__col-list">
+                            {% for item in service.problems_it_solves %}
+                            <li><span class="srv-spec__bullet srv-spec__bullet--a" aria-hidden="true"></span>{{ item }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="srv-spec__col">
+                        <p class="srv-spec__col-label">Delivers</p>
+                        <ul class="srv-spec__col-list">
+                            {% for item in service.client_receives %}
+                            <li><span class="srv-spec__bullet srv-spec__bullet--b" aria-hidden="true"></span>{{ item }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+        </ol>
+    </div>
+</section>
+
+<section class="mx-auto max-w-7xl px-6 pb-20 pt-4 lg:px-8 lg:pb-28">
+    {% include 'includes/cta_band.html' %}
+</section>
+{% endblock %}
