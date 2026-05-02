@@ -56,11 +56,16 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',
     'core',
     'leads',
+    # ── Chatbot ───────────────────────────────────────────────
+    'rest_framework',
+    'corsheaders',
+    'chatbot',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -172,4 +177,39 @@ LOGGING = {
         'handlers': ['console'],
         'level': os.getenv('LOG_LEVEL', 'INFO'),
     },
+    'loggers': {
+        'chatbot': {
+            'handlers': ['console'],
+            'level': os.getenv('CHATBOT_LOG_LEVEL', 'INFO'),
+            'propagate': False,
+        },
+    },
+}
+
+# ─── Chatbot ─────────────────────────────────────────────────────────────────────
+GEMINI_API_KEY = os.getenv('GEMINI_API_KEY', '')
+CHATBOT_GEMINI_MODEL = os.getenv('CHATBOT_GEMINI_MODEL', 'gemini-2.5-flash')
+CHATBOT_EMBED_MODEL = os.getenv('CHATBOT_EMBED_MODEL', 'all-MiniLM-L6-v2')
+CHROMA_DB_PATH = BASE_DIR / 'chroma_db'
+KNOWLEDGE_BASE_PATH = BASE_DIR / 'data' / 'knowledge_base.md'
+CHATBOT_MAX_HISTORY_TURNS = int(os.getenv('CHATBOT_MAX_HISTORY_TURNS', '10'))
+CHATBOT_RETRY_DELAY_SECONDS = int(os.getenv('CHATBOT_RETRY_DELAY_SECONDS', '30'))
+CHATBOT_STATIC_FALLBACK_MSG = os.getenv(
+    'CHATBOT_STATIC_FALLBACK_MSG',
+    'I am having a brief technical issue. Please try again in a moment, or use the '
+    'contact form below — I will get back to you shortly.',
+)
+
+# ─── CORS (open in DEBUG, otherwise restricted to the configured origins) ────────
+CORS_ALLOWED_ORIGINS = env_list(
+    'CORS_ALLOWED_ORIGINS',
+    'https://axialfoundary.com,https://www.axialfoundary.com',
+)
+CORS_ALLOW_ALL_ORIGINS = DEBUG  # convenient for local development only
+
+# ─── Django REST Framework ───────────────────────────────────────────────────────
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': ['rest_framework.renderers.JSONRenderer'],
+    'DEFAULT_THROTTLE_CLASSES': ['rest_framework.throttling.AnonRateThrottle'],
+    'DEFAULT_THROTTLE_RATES': {'anon': '60/min'},
 }

@@ -264,7 +264,7 @@ body {
     transform: translateY(-1px);
     border-color: rgba(255, 255, 255, 0.22);
     background: rgba(255, 255, 255, 0.08);
-    color: #ffffff;
+    color: #000000;
 }
 
 .pill-link {
@@ -1386,6 +1386,50 @@ html[data-theme='light'] .field-control {
     position: relative;
 }
 
+/* Contain the homepage hero so decorative beams / absolute callouts can never
+   trigger horizontal page scroll, and let long words break inside the heading
+   on narrow viewports. `overflow-x: clip` is preferred over `hidden` so it
+   does not establish a scroll container for nested sticky elements. */
+.hero-home-shell {
+    overflow-x: clip;
+}
+
+/* ROOT-CAUSE FIX for the hero clipping text on mobile.
+   Grid items default to `min-width: auto`, which means the grid track refuses
+   to shrink below the intrinsic min-content of its children. With an
+   `inline-block` typed line + gradient ::before pseudo-element inside a
+   text-5xl heading, that intrinsic size on a phone is wider than the
+   viewport — the grid column expands, the section grows past the viewport,
+   and any content past the visible width gets clipped from view.
+   Setting `min-width: 0` on the grid children lets them shrink to the
+   track width and forces text to wrap inside the column instead of
+   pushing the column wider. Same pattern used elsewhere in this file:
+   .wizard-status-card, .hero-panel__side-card-body, .abt-member__body. */
+.hero-home-shell .grid > * {
+    min-width: 0;
+}
+
+.hero-home-shell h1 {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+/* Defensive cap on hero media so an unexpectedly tall asset never blows out
+   the layout. Aspect-ratio + object-fit on .hero-panel__screen still drive
+   the actual sizing — this is just a ceiling. */
+.hero-home-shell img,
+.hero-home-shell svg {
+    max-width: 100%;
+}
+
+/* Allow the typed tagline to wrap to a new line on narrow screens instead
+   of forcing the parent to grow beyond the viewport. The typed-line is
+   display:inline-block so its inner content needs explicit wrapping. */
+.typed-line__inner {
+    white-space: normal;
+    max-width: 100%;
+}
+
 @media (max-width: 1023px) {
     .hero-media__screen,
     .page-visual__frame {
@@ -2159,6 +2203,8 @@ html[data-theme='light'] .team-card__badge {
     position: relative;
     display: inline-flex;
     align-items: center;
+    overflow: hidden;
+box-sizing: border-box;
     justify-content: space-between;
     gap: 1.55rem;
     width: 3.5rem;
@@ -2168,8 +2214,8 @@ html[data-theme='light'] .team-card__badge {
     padding: 0 0.35rem;
 }
 
-html[data-theme='light'] .theme-toggle-switch__track {
-    background: rgba(15, 23, 42, 0.05);
+html[data-theme='light'] .theme-toggle-switch__thumb {
+    transform: translateX(calc(100% - 1.64rem - 0.36rem));
 }
 
 .theme-toggle-switch__thumb {
@@ -2502,24 +2548,6 @@ html[data-theme='light'] .success-panel .bg-white\/5 {
     }
 }
 
-/* ===========================================================
-   HOME V3 REVISIONS
-   - Typewriter heading (.typed-*)
-   - Compact solution cards (.solution-card--compact)
-   - Minimal hero carousel (.media-carousel--minimal)
-   - Why-choose horizontal marquee (.why-*)
-   - Upgraded FAQ card (.faq-card)
-   - Redesigned Ready-to-talk CTA band (.cta-band)
-   =========================================================== */
-
-/* --- Hero headline tagline (typed once, then static glass sheen) ---
-   Flow:
-     1. On page load the JS-driven .typed-target types the text in one
-        character at a time. The cursor sits next to the live text.
-     2. When typing finishes, JS adds .is-typed-complete on the host.
-        That hides .typed-target and reveals ::before, which renders the
-        full tagline statically with a slow gradient sheen.
-   The cursor keeps blinking through both phases. */
 .typed-line {
     display: inline-block;
     min-height: 1.05em;
@@ -3688,13 +3716,103 @@ html[data-theme='light'] .hero-panel__ping {
     100% { box-shadow: 0 0 0 8px rgba(255, 106, 106, 0); }
 }
 
-/* Responsive: quiet the decorations on small screens so the frame dominates */
-@media (max-width: 640px) {
-    .hero-panel { padding: 0.5rem; }
-    .hero-panel__frame.media-carousel--stage { transform: rotate(-0.6deg); }
-    .hero-panel__side-card { display: none; }
-    .hero-panel__ping { left: 0.6rem; top: -0.3rem; }
-    .hero-panel__chrome-label { display: none; }
+/* ===========================================================
+   HERO — RESPONSIVE / MOBILE
+   Single consolidated mobile block for the homepage hero. All
+   small-screen overrides for .hero-home-shell, .hero-panel and
+   their children live here so layout issues only need to be
+   debugged in one place. Breakpoint matches the layout switch
+   in the template (lg:grid-cols-... only kicks in >= 1024px,
+   so anything under that renders the panel beneath the heading).
+   =========================================================== */
+@media (max-width: 768px) {
+    /* --- Page-level overflow guard ---------------------------------
+       Without this, anything inside the hero that renders even a few
+       pixels wider than the viewport (the rotated panel, gradient
+       beams, the inline-block typed line at large font sizes) pushes
+       the whole body wider than the screen. Because nobody scrolls
+       horizontally on mobile, the visible result is text clipped
+       mid-word at the right edge. `clip` is preferred over `hidden`
+       so we don't accidentally create a scroll container that
+       suppresses position:sticky elsewhere on the page. */
+    html,
+    body {
+        overflow-x: clip;
+    }
+
+    /* --- Heading wrap ----------------------------------------------
+       The typed tagline is display:inline-block and at text-5xl the
+       string "built for teams that need execution." is wider than a
+       phone's content column. Forcing it to a block makes it sit on
+       its own line and wrap inside the parent column instead of
+       stretching the parent.
+       The first heading span (<span class="block">…</span>) is
+       already block via Tailwind, so this matches the visual layout
+       on desktop too — it's purely a wrapping fix. */
+    .hero-home-shell .typed-line {
+        display: block;
+        max-width: 100%;
+    }
+
+    /* The .gradient-text + ::before sheen overlay shouldn't carry the
+       `block` change into a desktop-style inline rendering — keep its
+       text inside the typed-line's box. */
+    .hero-home-shell .typed-line[data-typed-text]::before {
+        max-width: 100%;
+    }
+
+    /* Ease the heading size on phones. The Tailwind text-5xl (3rem)
+       at 48px caps just over what fits cleanly on a 375–430px column,
+       so we drop a touch — clamp keeps it scaling between phones. */
+    .hero-home-shell h1 {
+        font-size: clamp(2.25rem, 9vw, 3rem);
+        line-height: 1.1;
+    }
+
+    /* --- Hero visual panel -----------------------------------------
+       Keep the panel inside the viewport. The base rule already sets
+       max-width: 640px, but on devices narrower than 640px we need it
+       to follow the viewport width exactly. */
+    .hero-panel {
+        max-width: 100%;
+        padding: 0.5rem;
+    }
+
+    /* Drop the slight stylistic rotation on mobile — at narrow widths
+       the rounded corners can otherwise push past the viewport edge. */
+    .hero-panel__frame.media-carousel--stage {
+        transform: none;
+    }
+
+    /* The image's sizing is driven by .hero-panel__screen's 4:3 aspect
+       ratio + object-fit: cover. Re-asserting the cover behaviour here
+       guards against earlier rules that tried to set height:auto, which
+       would have squashed the image to a thin strip. */
+    .hero-panel__image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    /* The floating side card sits outside the frame on desktop for depth.
+       On mobile it would extend past the viewport, so we hide it. */
+    .hero-panel__side-card {
+        display: none;
+    }
+
+    /* Pull the ping badge fully inside the frame so it can't poke
+       past the left edge of the screen. */
+    .hero-panel__ping {
+        left: 0.6rem;
+        top: -0.3rem;
+    }
+
+    /* The "axialfoundry · live preview" label is decorative chrome; it
+       crowds the chip on narrow widths so we drop it on phones. */
+    .hero-panel__chrome-label {
+        display: none;
+    }
 }
 
 
@@ -6524,3 +6642,4 @@ html { scroll-behavior: smooth; }
     outline: 2px solid #4ee7c2;
     outline-offset: 3px;
 }
+

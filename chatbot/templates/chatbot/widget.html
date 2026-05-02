@@ -1,0 +1,513 @@
+{# Axial Foundry Assistant — floating chat widget. Self-initialises, persists session in
+   localStorage, switches to contact-funnel mode automatically on /contact pages, and
+   degrades gracefully if the API is unreachable. Brand-aligned with site theme tokens. #}
+<style>
+  #af-chat-root, #af-chat-root *, #af-chat-root *::before, #af-chat-root *::after {
+    box-sizing: border-box;
+  }
+  #af-chat-bubble {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 56px;
+    height: 56px;
+    border-radius: 9999px;
+    background: linear-gradient(135deg, #1870f8 0%, #0e57d4 100%);
+    border: 1px solid rgba(133, 192, 255, 0.35);
+    box-shadow: 0 12px 32px rgba(8, 17, 31, 0.45), 0 0 0 1px rgba(71, 153, 255, 0.25);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9998;
+    transition: transform 180ms ease, box-shadow 180ms ease;
+  }
+  #af-chat-bubble:hover { transform: translateY(-2px) scale(1.03); }
+  #af-chat-bubble svg { width: 24px; height: 24px; color: #fff; }
+  #af-chat-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    width: 14px;
+    height: 14px;
+    border-radius: 9999px;
+    background: #4ee7c2;
+    border: 2px solid #08111f;
+    display: none;
+  }
+
+  #af-chat-panel {
+    position: fixed;
+    bottom: 96px;
+    right: 24px;
+    width: 360px;
+    max-width: calc(100vw - 32px);
+    height: 540px;
+    max-height: calc(100vh - 120px);
+    background: rgba(11, 18, 33, 0.96);
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(133, 192, 255, 0.18);
+    border-radius: 18px;
+    box-shadow: 0 24px 70px rgba(7, 17, 31, 0.55), 0 0 0 1px rgba(71, 153, 255, 0.10);
+    z-index: 9999;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    color: #e2e8f0;
+  }
+  #af-chat-panel.open { display: flex; }
+
+  #af-chat-header {
+    padding: 14px 16px;
+    background: linear-gradient(135deg, rgba(24, 112, 248, 0.22) 0%, rgba(78, 231, 194, 0.10) 100%);
+    border-bottom: 1px solid rgba(133, 192, 255, 0.16);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  #af-chat-header .af-title {
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  #af-chat-header .af-title .af-dot {
+    width: 8px; height: 8px; border-radius: 9999px;
+    background: #4ee7c2; box-shadow: 0 0 10px rgba(78, 231, 194, 0.7);
+  }
+  #af-chat-actions { display: flex; gap: 6px; align-items: center; }
+  .af-action-btn {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.10);
+    color: #cbd5e1;
+    font-size: 11px;
+    padding: 5px 10px;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: all 160ms ease;
+    font-family: inherit;
+  }
+  .af-action-btn:hover { background: rgba(255,255,255,0.06); color: #fff; }
+  .af-close-btn {
+    background: transparent; border: none; color: #94a3b8;
+    cursor: pointer; padding: 4px; line-height: 0;
+  }
+  .af-close-btn:hover { color: #fff; }
+
+  #af-chat-msgs {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    scroll-behavior: smooth;
+  }
+  #af-chat-msgs::-webkit-scrollbar { width: 6px; }
+  #af-chat-msgs::-webkit-scrollbar-thumb { background: rgba(133, 192, 255, 0.20); border-radius: 9999px; }
+
+  .af-msg {
+    padding: 10px 14px;
+    border-radius: 14px;
+    max-width: 82%;
+    font-size: 14px;
+    line-height: 1.5;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+  }
+  .af-msg.user {
+    align-self: flex-end;
+    background: linear-gradient(135deg, #1870f8 0%, #0e57d4 100%);
+    color: #fff;
+    border-bottom-right-radius: 4px;
+  }
+  .af-msg.assistant {
+    align-self: flex-start;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #e2e8f0;
+    border-bottom-left-radius: 4px;
+  }
+  .af-msg.assistant.error {
+    border-color: rgba(251, 113, 133, 0.30);
+    background: rgba(251, 113, 133, 0.06);
+  }
+  .af-typing {
+    align-self: flex-start;
+    display: inline-flex;
+    gap: 4px;
+    padding: 12px 14px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    border-bottom-left-radius: 4px;
+  }
+  .af-typing span {
+    width: 6px; height: 6px; border-radius: 9999px; background: #85c0ff;
+    animation: af-bounce 1.2s infinite ease-in-out;
+  }
+  .af-typing span:nth-child(2) { animation-delay: 0.15s; }
+  .af-typing span:nth-child(3) { animation-delay: 0.30s; }
+  @keyframes af-bounce {
+    0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+    40% { transform: translateY(-4px); opacity: 1; }
+  }
+
+  #af-chat-form {
+    padding: 12px;
+    border-top: 1px solid rgba(133, 192, 255, 0.14);
+    display: flex;
+    gap: 8px;
+    background: rgba(8, 17, 31, 0.55);
+  }
+  #af-chat-input {
+    flex: 1;
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 10px;
+    color: #e2e8f0;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 160ms ease;
+  }
+  #af-chat-input::placeholder { color: #64748b; }
+  #af-chat-input:focus { border-color: rgba(71, 153, 255, 0.55); }
+  #af-chat-input:disabled { opacity: 0.55; cursor: not-allowed; }
+  #af-chat-send {
+    background: linear-gradient(135deg, #1870f8 0%, #0e57d4 100%);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 0 16px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 13px;
+    transition: opacity 160ms ease, transform 160ms ease;
+  }
+  #af-chat-send:hover:not(:disabled) { transform: translateY(-1px); }
+  #af-chat-send:disabled { opacity: 0.45; cursor: not-allowed; }
+
+  #af-chat-footer {
+    padding: 6px 16px 10px;
+    text-align: center;
+    font-size: 10px;
+    color: #64748b;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 480px) {
+    #af-chat-panel {
+      right: 12px;
+      left: 12px;
+      width: auto;
+      bottom: 84px;
+      height: calc(100vh - 110px);
+    }
+    #af-chat-bubble { right: 16px; bottom: 16px; }
+  }
+
+  html[data-theme="light"] #af-chat-panel {
+    background: rgba(255, 255, 255, 0.98);
+    border-color: rgba(15, 23, 42, 0.10);
+    color: #0f172a;
+  }
+  html[data-theme="light"] #af-chat-header { background: linear-gradient(135deg, rgba(24, 112, 248, 0.10), rgba(78, 231, 194, 0.06)); border-bottom-color: rgba(15,23,42,0.08); }
+  html[data-theme="light"] #af-chat-header .af-title { color: #0f172a; }
+  html[data-theme="light"] .af-action-btn { color: #475569; border-color: rgba(15,23,42,0.10); }
+  html[data-theme="light"] .af-action-btn:hover { background: rgba(15,23,42,0.04); color: #0f172a; }
+  html[data-theme="light"] .af-msg.assistant { background: #f1f5f9; color: #0f172a; border-color: rgba(15,23,42,0.06); }
+  html[data-theme="light"] #af-chat-input { background: #fff; color: #0f172a; border-color: rgba(15,23,42,0.14); }
+  html[data-theme="light"] #af-chat-input::placeholder { color: #94a3b8; }
+  html[data-theme="light"] #af-chat-form { background: #f8fafc; border-top-color: rgba(15,23,42,0.06); }
+  html[data-theme="light"] .af-typing { background: #f1f5f9; border-color: rgba(15,23,42,0.06); }
+</style>
+
+<div id="af-chat-root" aria-live="polite">
+  <button id="af-chat-bubble" type="button" aria-label="Open chat with the Axial Foundry Assistant">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+    </svg>
+    <span id="af-chat-badge" aria-hidden="true"></span>
+  </button>
+  <div id="af-chat-panel" role="dialog" aria-label="Axial Foundry Assistant">
+    <div id="af-chat-header">
+      <div class="af-title">
+        <span class="af-dot" aria-hidden="true"></span>
+        Axial Foundry Assistant
+      </div>
+      <div id="af-chat-actions">
+        <button class="af-action-btn" id="af-mode-toggle" type="button">Contact us</button>
+        <button class="af-close-btn" id="af-chat-close" type="button" aria-label="Close chat">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+    <div id="af-chat-msgs"></div>
+    <form id="af-chat-form">
+      <input id="af-chat-input" type="text" autocomplete="off" placeholder="Ask about our services…" maxlength="2000"/>
+      <button id="af-chat-send" type="submit">Send</button>
+    </form>
+    <div id="af-chat-footer">Axial Foundry · Lahore, Pakistan</div>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  const SESSION_KEY = 'af_chat_session_id';
+  const MODE_KEY    = 'af_chat_mode';
+
+  const API = {
+    start:   '/api/chat/start/',
+    send:    '/api/chat/message/',
+    history: '/api/chat/history/',
+    mode:    '/api/chat/mode/',
+  };
+
+  const els = {
+    bubble:  document.getElementById('af-chat-bubble'),
+    panel:   document.getElementById('af-chat-panel'),
+    msgs:    document.getElementById('af-chat-msgs'),
+    form:    document.getElementById('af-chat-form'),
+    input:   document.getElementById('af-chat-input'),
+    send:    document.getElementById('af-chat-send'),
+    close:   document.getElementById('af-chat-close'),
+    toggle:  document.getElementById('af-mode-toggle'),
+    badge:   document.getElementById('af-chat-badge'),
+  };
+
+  let sessionId = null;
+  let mode = 'chat';
+  let busy = false;
+  let opened = false;
+  let initialised = false;
+
+  try { sessionId = localStorage.getItem(SESSION_KEY) || null; } catch (e) {}
+  try { mode = localStorage.getItem(MODE_KEY) || 'chat'; } catch (e) {}
+
+  const isContactPage = /\/contact(\/|$)/i.test(window.location.pathname);
+  if (isContactPage) mode = 'contact_funnel';
+
+  function setMode(next) {
+    mode = next === 'contact_funnel' ? 'contact_funnel' : 'chat';
+    try { localStorage.setItem(MODE_KEY, mode); } catch (e) {}
+    if (els.toggle) {
+      els.toggle.textContent = mode === 'contact_funnel' ? 'Back to chat' : 'Contact us';
+    }
+    if (els.input) {
+      els.input.placeholder = mode === 'contact_funnel'
+        ? 'Type your answer…'
+        : 'Ask about our services…';
+    }
+  }
+
+  function persistSession(id) {
+    sessionId = id;
+    try { if (id) localStorage.setItem(SESSION_KEY, id); } catch (e) {}
+  }
+
+  function escapeHtml(text) {
+    return String(text || '').replace(/[&<>"']/g, function (c) {
+      return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c];
+    });
+  }
+
+  function addMsg(role, text, opts) {
+    opts = opts || {};
+    const div = document.createElement('div');
+    div.className = 'af-msg ' + (role === 'user' ? 'user' : 'assistant') + (opts.error ? ' error' : '');
+    div.textContent = text;
+    els.msgs.appendChild(div);
+    els.msgs.scrollTop = els.msgs.scrollHeight;
+    return div;
+  }
+
+  function showTyping() {
+    const div = document.createElement('div');
+    div.className = 'af-typing';
+    div.id = 'af-typing-indicator';
+    div.innerHTML = '<span></span><span></span><span></span>';
+    els.msgs.appendChild(div);
+    els.msgs.scrollTop = els.msgs.scrollHeight;
+  }
+  function hideTyping() {
+    const t = document.getElementById('af-typing-indicator');
+    if (t) t.remove();
+  }
+
+  function getCookie(name) {
+    const m = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    return m ? decodeURIComponent(m[2]) : '';
+  }
+
+  async function api(url, opts) {
+    opts = opts || {};
+    const headers = Object.assign(
+      { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      opts.headers || {}
+    );
+    const csrf = getCookie('csrftoken');
+    if (csrf) headers['X-CSRFToken'] = csrf;
+    const res = await fetch(url, {
+      method: opts.method || 'POST',
+      headers: headers,
+      credentials: 'same-origin',
+      body: opts.body ? JSON.stringify(opts.body) : undefined,
+    });
+    if (!res.ok) {
+      const text = await res.text().catch(function () { return ''; });
+      throw new Error('HTTP ' + res.status + ' ' + text);
+    }
+    return res.json();
+  }
+
+  async function startSession() {
+    if (sessionId) return sessionId;
+    const data = await api(API.start, { body: {} });
+    persistSession(data.session_id);
+    return sessionId;
+  }
+
+  async function syncMode() {
+    if (!sessionId) return;
+    try {
+      await api(API.mode, { body: { session_id: sessionId, mode: mode } });
+    } catch (e) { /* non-fatal */ }
+  }
+
+  async function loadHistory() {
+    if (!sessionId) return;
+    try {
+      const data = await api(API.history + '?session_id=' + encodeURIComponent(sessionId), { method: 'GET' });
+      const list = (data && data.messages) || [];
+      els.msgs.innerHTML = '';
+      list.forEach(function (m) { addMsg(m.role, m.content); });
+      if (data && data.mode) setMode(data.mode);
+    } catch (e) { /* non-fatal */ }
+  }
+
+  function showGreeting() {
+    if (els.msgs.children.length > 0) return;
+    if (mode === 'contact_funnel') {
+      addMsg('assistant',
+        "Hi! I can help collect your contact details so the Axial Foundry team can get back to you. Send any message to begin."
+      );
+    } else {
+      addMsg('assistant',
+        "Hi! I'm the Axial Foundry Assistant. Ask me anything about our services, team, or process — or tap \"Contact us\" to share your details."
+      );
+    }
+  }
+
+  async function ensureReady() {
+    if (initialised) return;
+    initialised = true;
+    try {
+      await startSession();
+      await loadHistory();
+      await syncMode();
+    } catch (e) {
+      console.warn('[AF Chat] init failed:', e);
+    }
+    showGreeting();
+  }
+
+  async function openPanel() {
+    if (opened) return;
+    opened = true;
+    els.panel.classList.add('open');
+    els.bubble.setAttribute('aria-expanded', 'true');
+    await ensureReady();
+    setTimeout(function () { els.input && els.input.focus(); }, 80);
+  }
+  function closePanel() {
+    opened = false;
+    els.panel.classList.remove('open');
+    els.bubble.setAttribute('aria-expanded', 'false');
+  }
+
+  async function sendMessage(text) {
+    if (busy) return;
+    text = (text || '').trim();
+    if (!text) return;
+
+    busy = true;
+    els.send.disabled = true;
+    els.input.disabled = true;
+
+    addMsg('user', text);
+    els.input.value = '';
+    showTyping();
+
+    try {
+      if (!sessionId) await startSession();
+      const data = await api(API.send, {
+        body: { session_id: sessionId, message: text, mode: mode },
+      });
+      hideTyping();
+      if (data && data.session_id) persistSession(data.session_id);
+      if (data && data.mode) setMode(data.mode);
+      const reply = (data && data.reply) || 'Sorry, I could not produce a reply right now.';
+      addMsg('assistant', reply, { error: !!(data && data.error) });
+      if (data && data.funnel_done) {
+        // Funnel completed — let the user know they can return to chat.
+        setMode('chat');
+        await syncMode();
+      }
+    } catch (e) {
+      hideTyping();
+      console.warn('[AF Chat] send failed:', e);
+      addMsg('assistant',
+        "I'm having trouble reaching the assistant right now. Please try again in a moment, or email info@axialfoundary.com.",
+        { error: true }
+      );
+    } finally {
+      busy = false;
+      els.send.disabled = false;
+      els.input.disabled = false;
+      els.input.focus();
+    }
+  }
+
+  // ── Event wiring ──────────────────────────────────────────────────────────────
+  els.bubble.addEventListener('click', function () { opened ? closePanel() : openPanel(); });
+  els.close.addEventListener('click', closePanel);
+  els.form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    sendMessage(els.input.value);
+  });
+  els.toggle.addEventListener('click', async function () {
+    const next = mode === 'contact_funnel' ? 'chat' : 'contact_funnel';
+    setMode(next);
+    await syncMode();
+    addMsg('assistant',
+      next === 'contact_funnel'
+        ? "Switched to contact mode. I'll collect a few details — send any message to begin."
+        : "Back to chat mode. Ask me anything about Axial Foundry."
+    );
+  });
+
+  setMode(mode);
+
+  // Auto-prepare session on contact page so the funnel mode is registered server-side.
+  if (isContactPage) {
+    (async function () {
+      try {
+        await startSession();
+        await syncMode();
+      } catch (e) {}
+    })();
+  }
+})();
+</script>
