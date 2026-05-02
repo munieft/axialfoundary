@@ -17,15 +17,15 @@ POSITIONING_STATEMENT = (
 AUTHORITY_POINTS = [
     {
         'title': '4+ years delivering production-grade digital systems',
-        'body': 'Hands-on delivery across applied AI, conversational systems, retrieval, speech workflows, APIs, dashboards, portals, and custom business software — not just one narrow stack.',
+        'body': 'Hands-on delivery across applied AI, conversational systems, retrieval, speech workflows, APIs, dashboards, portals, and custom business software, not just one narrow stack.',
     },
     {
         'title': 'Research-backed engineering, commercially applied',
-        'body': 'Grounded by publication and evaluation work across LREC 2026, EACL 2026, and ChipSAL 2025 without turning the studio into an academic lab.',
+        'body': 'Grounded by publication and evaluation work of team members across LREC 2026, EACL 2026, and ChipSAL 2025 without turning the studio into an academic lab.',
     },
     {
         'title': 'International exposure with practical execution',
-        'body': 'International research and training experience in Germany and Sri Lanka informs a global, product-oriented way of working.',
+        'body': 'Team nembers having International research and training experience in Germany and Sri Lanka informs a global, product-oriented way of working.',
     },
     {
         'title': 'Founder-led delivery from strategy to launch',
@@ -52,7 +52,7 @@ SERVICE_CLUSTERS = [
     {
         'slug': 'software-products',
         'title': 'Software Products',
-        'summary': 'Custom web apps, portals, APIs, dashboards — shaped around real operating needs.',
+        'summary': 'Custom web apps, portals, APIs, dashboards shaped around real operating needs.',
         'image': 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1400&q=75',
         'items': [
             'Custom web applications',
@@ -93,32 +93,32 @@ SERVICE_CLUSTERS = [
 
 WHY_CHOOSE = [
     {
-        'title': 'End-to-end delivery',
+        'title': '1. End-to-end delivery',
         'body': 'Strategy, architecture, UX planning, implementation, QA, launch, and iteration can stay inside one delivery relationship.',
         'image': 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=70',
     },
     {
-        'title': 'Software and AI under one roof',
+        'title': '2. Software and AI under one roof',
         'body': 'The studio can build the surrounding system, not just the model layer, so the outcome actually fits how the business operates.',
         'image': 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=70',
     },
     {
-        'title': 'Founder-led execution',
+        'title': '3. Leading from front',
         'body': 'Decisions stay close to the technical work. That means clearer trade-offs, faster progress, and less translation loss between planning and build.',
         'image': 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=70',
     },
     {
-        'title': 'Custom builds, not generic templates',
+        'title': '4. Custom builds, not generic templates',
         'body': 'Solutions are shaped around the right level of complexity for the client, whether that is a premium website, a data workflow, or a full AI feature.',
         'image': 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=70',
     },
     {
-        'title': 'Business-friendly communication',
+        'title': '5. Business friendly communication',
         'body': 'Technical depth is translated into clear scope, working deliverables, and practical next steps for business buyers and technical stakeholders alike.',
         'image': 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=1200&q=70',
     },
     {
-        'title': 'Research credibility without unnecessary complexity',
+        'title': '6. Research credibility without unnecessary complexity',
         'body': 'The studio can handle evaluation, benchmarking, prompt quality, and system rigor while still keeping delivery focused on business value.',
         'image': 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=70',
     },
@@ -494,6 +494,15 @@ TEAM_GROUPS = [
     {
         'name': 'AI & Engineering',
         'members': [
+                        {
+                'name': 'Afief Tahir',
+                'role': 'Co-founder & Web GIS / Spatial Systems',
+                'bio': 'Web GIS Development Officer at Mines & Minerals, Punjab. Two years at PDMA Punjab including Control Room shift in-charge for province-wide situational monitoring. Contributor to the first-ever Digital Atlas of Pakistan. M.Phil in GIS and Remote Sensing; bridges spatial data with interactive web applications using Mapbox, ArcGIS, and Google Earth Engine.',
+                'avatar': 'avatar-8',
+                'image' : "img/team/afief.jpeg",
+                'links': [],
+                'tags': ['Web GIS', 'Mapbox', 'Earth Engine', 'Spatial systems'],
+            },
             {
                 'name': 'Munief Hassan Tahir',
                 'role': 'Co-founder & ML Engineer (NLP / Speech AI)',
@@ -505,19 +514,11 @@ TEAM_GROUPS = [
                 ],
                 'tags': ['LLMs', 'RAG', 'Speech AI', 'Urdu NLP'],
             },
-            {
-                'name': 'Afief Tahir',
-                'role': 'Co-founder & Web GIS / Spatial Systems',
-                'bio': 'Web GIS Development Officer at Mines & Minerals, Punjab. Two years at PDMA Punjab including Control Room shift in-charge for province-wide situational monitoring. Contributor to the first-ever Digital Atlas of Pakistan. M.Phil in GIS and Remote Sensing; bridges spatial data with interactive web applications using Mapbox, ArcGIS, and Google Earth Engine.',
-                'avatar': 'avatar-8',
-                'image' : "img/team/afief.jpeg",
-                'links': [],
-                'tags': ['Web GIS', 'Mapbox', 'Earth Engine', 'Spatial systems'],
-            },
+
             {
                 'name': 'Hamza Ayoub',
-                'role': 'Mobile App & Game Growth Specialist | Engineering Collaborator ',
-                'bio': 'Seven years in game development and full-stack engineering.  Runs his own software studio and partners with Axial Foundry on senior engineering input for heavier builds and architecture reviews.',
+                'role': 'Mobile App & Game Growth Specialist',
+                'bio': 'Mobile growth specialist with 7+ years in app and game ecosystems, focusing on scaling products through ASO, paid user acquisition, and monetization strategy. Optimises store visibility, conversion funnels, and campaign performance across platforms, while aligning product, marketing, and analytics to drive sustainable growth..',
                 'avatar': 'avatar-2',
                 'image' : "img/team/hamza.jpeg",
                 'links': [
@@ -526,16 +527,15 @@ TEAM_GROUPS = [
                 'tags': ['Senior engineering', 'Architecture', 'Full-stack'],
             },
             {
-                'name': 'Hunain Azam',
-                'role': 'AI Engineer (NLP & Computer Vision)',
-                'bio': 'Builds applied AI across NLP and vision. Co-author on a LoResMT 2026 paper on English–Urdu parallel corpora. Built VocaTrust — a multilingual mental-health assistant using LLaMA-3.1, RAG, PHQ-9 clinical assessment, and a risk-detection module. Active LLM evaluation work at the Center for Language Engineering and computer-vision optimisation work for embedded systems.',
-                'avatar': 'avatar-3',
-                'image' : "img/team/hunain.png",
-                'links': [
-                    {'label': 'GitHub', 'url': 'https://github.com/hunain-datascientist'},
-                ],
-                'tags': ['LLM evaluation', 'RAG', 'Computer vision', 'YOLO'],
-            },
+'name': 'Zeeshan Javed',
+'role': 'Computer Vision & Document AI Engineer',
+'bio': 'Computer Vision engineer with 5+ years building production-grade image and video systems. Specialises in OCR for Urdu and English documents, end-to-end document pipelines, and vision-based analytics using YOLO, OpenCV, and PyTorch. Ships scalable solutions for document automation, visual search, and video intelligence in real-world, messy data environments.',
+'avatar': 'avatar-9',
+'image': "img/team/zeshan.jpg",
+'links': [],
+'tags': ['Computer Vision', 'OCR', 'Document AI', 'OpenCV', 'PyTorch'],
+},
+
             {
                 'name': 'Amina Siddique',
                 'role': 'Software Engineer (Backend & AI)',
@@ -544,6 +544,17 @@ TEAM_GROUPS = [
                 'avatar': 'avatar-4',
                 'links': [],
                 'tags': ['Python', 'Django', 'NestJS', 'PostgreSQL'],
+            },
+                        {
+                'name': 'Hunain Azam',
+                'role': 'AI Engineer (NLP)',
+                'bio': 'Builds applied AI across NLP and vision. Co-author on a LoResMT 2026 paper on English–Urdu parallel corpora. Built VocaTrust — a multilingual mental-health assistant using LLaMA-3.1, RAG, PHQ-9 clinical assessment, and a risk-detection module.',
+                'avatar': 'avatar-3',
+                'image' : "img/team/hunain.png",
+                'links': [
+                    {'label': 'GitHub', 'url': 'https://github.com/hunain-datascientist'},
+                ],
+                'tags': ['LLM evaluation', 'RAG', 'Computer vision', 'YOLO'],
             },
         ],
     },
@@ -554,7 +565,7 @@ TEAM_GROUPS = [
                 'name': 'Hafiza Maham',
                 'role': 'Full-Stack Engineer (Web & AI)',
                 'image' : "img/team/maham.jpeg",
-                'bio': 'Full-stack engineer working across React, Next.js, TypeScript, and Python on both product and AI features. Building Sketch2Design — an AI SaaS that converts hand-drawn wireframes into responsive UI in real-time. Also ships AI agents (Qwen + RAG) and Azure / AKS DevSecOps pipelines. Certified in Generative AI (Google), LangChain, and Prompt Engineering.',
+                'bio': 'Full-stack engineer working across React, Next.js, TypeScript, and Python on both product and AI features. Also ships AI agents (Qwen + RAG) and Azure / AKS DevSecOps pipelines. Certified in Generative AI (Google), LangChain, and Prompt Engineering.',
                 'avatar': 'avatar-7',
                 'links': [
                     {'label': 'LinkedIn', 'url': 'https://www.linkedin.com/in/hafiza-maham-developer/'},
@@ -566,7 +577,7 @@ TEAM_GROUPS = [
                 'name': 'Hadia Shahid',
                 'role': 'Brand & Visual Design',
                 'image' : "img/team/hadia.jpeg",
-                'bio': 'Visual designer leading brand identity, marketing collateral, and the look-and-feel of the studio\u2019s client-facing work.',
+                'bio': 'Graphic designer focused on brand identity, marketing visuals, and cohesive design systems. Creates logos, social media creatives, and client-facing assets with strong attention to typography, color, and visual consistency, ensuring every touchpoint aligns with the brand’s voice and positioning.',
                 'avatar': 'avatar-5',
                 'links': [],
                 'tags': ['Brand', 'Identity', 'Visual design'],
@@ -575,7 +586,7 @@ TEAM_GROUPS = [
                 'name': 'Sajid Munawar',
                 'role': 'Frontend Engineer',
                 'image' : "img/team/sajid.png",
-                'bio': 'Specialises in design-to-code: turning Figma and PDF mockups into production frontends with attention to typography, spacing, and animation detail.',
+                'bio': 'Frontend engineer specialising in React and Next.js, with experience building responsive, high-performance web applications. Focused on translating design into pixel-perfect interfaces, optimising performance, and delivering clean, scalable frontends using modern JavaScript, TypeScript, and UI frameworks.',
                 'avatar': 'avatar-6',
                 'links': [
                     {'label': 'LinkedIn', 'url': 'http://linkedin.com/in/sajid-munawar'},

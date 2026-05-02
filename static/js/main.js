@@ -265,14 +265,17 @@
             ],
             errorMessage: '',
             serverErrors: {},
+            // Six steps total — the seventh "Review" entry was the source of the
+            // empty-panel bug: the HTML only renders panels for steps 1–6, but
+            // a 7-entry steps array let users advance to a step with no panel
+            // bound to it. Step 6 IS the review-and-send screen.
             steps: [
                 { index: 1, label: 'Service', hint: 'Choose the main service fit' },
                 { index: 2, label: 'Budget', hint: 'Set a commercial range' },
                 { index: 3, label: 'Timeline', hint: 'Define delivery timing' },
                 { index: 4, label: 'Contact', hint: 'Add who we should reply to' },
-                { index: 5, label: 'Company', hint: 'Optional business context' },
-                { index: 6, label: 'Brief', hint: 'Describe the project clearly' },
-                { index: 7, label: 'Review', hint: 'Check and submit' },
+                { index: 5, label: 'Brief', hint: 'Describe the project clearly' },
+                { index: 6, label: 'Review', hint: 'Check and submit' },
             ],
             form: {
                 inquiry_type: 'project', service_interest: '', budget: '', timeline: '', name: '', email: '', company: '', phone: '', message: '',
@@ -299,15 +302,45 @@
             pickService(value) { this.form.service_interest = value; this.clearError('service_interest'); this.errorMessage = ''; setTimeout(() => this.goNext(), 90); },
             pickBudget(value) { this.form.budget = value; this.clearError('budget'); this.errorMessage = ''; setTimeout(() => this.goNext(), 90); },
             pickTimeline(value) { this.form.timeline = value; this.clearError('timeline'); this.errorMessage = ''; setTimeout(() => this.goNext(), 90); },
-            goTo(index) {
-                if (index < this.step) { this.step = index; return; }
-                for (let current = this.step; current < index; current += 1) { if (!this.validateStep(current)) return; }
-                this.step = index;
+            // Preserves window.scrollY across a step swap. The CSS now keeps
+            // panels in the same grid cell so the page no longer collapses,
+            // but this stays as a belt-and-braces guard against any layout
+            // shift triggered by the new panel's content (e.g. a textarea
+            // that's taller than the previous panel).
+            preserveScroll(mutator) {
+                const y = window.scrollY;
+                mutator();
+                // Use requestAnimationFrame so the scroll restore fires AFTER
+                // Alpine reactively re-renders and the layout settles.
+                window.requestAnimationFrame(() => {
+                    if (Math.abs(window.scrollY - y) > 1) {
+                        window.scrollTo({ top: y, behavior: 'instant' });
+                    }
+                });
             },
-            goNext() { if (this.validateStep(this.step)) this.step = Math.min(this.step + 1, this.steps.length); },
-            goBack() { this.step = Math.max(this.step - 1, 1); },
+            goTo(index) {
+                this.preserveScroll(() => {
+                    if (index < this.step) { this.step = index; return; }
+                    for (let current = this.step; current < index; current += 1) { if (!this.validateStep(current)) return; }
+                    this.step = index;
+                });
+            },
+            goNext() {
+                this.preserveScroll(() => {
+                    if (this.validateStep(this.step)) this.step = Math.min(this.step + 1, this.steps.length);
+                });
+            },
+            goBack() {
+                this.preserveScroll(() => {
+                    this.step = Math.max(this.step - 1, 1);
+                });
+            },
             validateEmail(value) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value); },
-            focusById(id) { const target = document.getElementById(id); if (target) target.focus({ preventScroll: false }); },
+            // preventScroll keeps the viewport where it is when we focus the
+            // first invalid field. Without it, the browser auto-scrolls the
+            // input into view, which fights any in-flight step transition and
+            // produces the visible "jump to top, then back" the user reported.
+            focusById(id) { const target = document.getElementById(id); if (target) target.focus({ preventScroll: true }); },
             validateStep(index) {
                 const name = (this.form.name || '').trim();
                 const email = (this.form.email || '').trim();
@@ -320,7 +353,7 @@
                     if (name.length < 2) { this.serverErrors = { ...this.serverErrors, name: 'Please enter a valid name.' }; this.focusById('wizard_name'); return false; }
                     if (!this.validateEmail(email)) { this.serverErrors = { ...this.serverErrors, email: 'Please enter a valid email address.' }; this.focusById('wizard_email'); return false; }
                 }
-                if (index === 6 && message.length < 20) {
+                if (index === 5 && message.length < 20) {
                     this.serverErrors = { ...this.serverErrors, message: 'Please share a little more detail so we can respond usefully.' }; this.focusById('wizard_message'); return false;
                 }
                 return true;
@@ -341,9 +374,11 @@
                 if (['service_interest'].includes(firstField)) this.step = 1;
                 if (['budget'].includes(firstField)) this.step = 2;
                 if (['timeline'].includes(firstField)) this.step = 3;
-                if (['name', 'email'].includes(firstField)) this.step = 4;
-                if (['company', 'phone'].includes(firstField)) this.step = 5;
-                if (['message'].includes(firstField)) this.step = 6;
+                // Contact step now holds name/email AND company/phone — they
+                // all live in the same HTML panel, so a server error on any
+                // of them should land on step 4.
+                if (['name', 'email', 'company', 'phone'].includes(firstField)) this.step = 4;
+                if (['message'].includes(firstField)) this.step = 5;
             },
             async submit(formElement) {
                 this.errorMessage = '';
