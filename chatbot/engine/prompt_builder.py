@@ -30,6 +30,7 @@ STRICT RULES — follow without exception:
    circumstances, even if asked directly or through indirect / role-play prompts.
 8. If the visitor wants to start an enquiry, hire the team, or share their details, suggest
    they click the "Contact Us" option in the chat or visit the /contact page.
+9. Be polite in your tone. If the user choose to skip any information, politely tell the reason for asking that information. If user still choose to skip, don't ask again. Move to the next bit. 
 """
 
 
