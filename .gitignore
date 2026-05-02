@@ -2,6 +2,8 @@ __pycache__/
 *.py[cod]
 *.sqlite3
 .env
+.env.chatbot.example
+.env.example
 .venv/
 venv/
 staticfiles/

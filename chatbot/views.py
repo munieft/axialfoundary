@@ -71,7 +71,13 @@ def chat_history(request):
 
 @api_view(['POST'])
 def switch_mode(request):
-    """POST /api/chat/mode/ {"session_id", "mode"} → {"status", "mode"}."""
+    """POST /api/chat/mode/ {"session_id", "mode"} → {"status", "mode", "session_id"}.
+
+    If the supplied session_id does not exist (e.g. stale UUID in localStorage from a
+    previous deployment), we transparently create a fresh session and return its UUID
+    so the client can update its cache. This prevents the 404 churn observed when a
+    visitor lands on the new server with an old session in their browser.
+    """
     sid = request.data.get('session_id')
     mode = request.data.get('mode') or 'chat'
     if mode not in {'chat', 'contact_funnel'}:
@@ -79,13 +85,28 @@ def switch_mode(request):
             {'error': 'mode must be "chat" or "contact_funnel"'},
             status=status.HTTP_400_BAD_REQUEST,
         )
-    try:
-        session = Session.objects.get(session_id=sid)
-    except (Session.DoesNotExist, ValueError):
-        return Response(
-            {'error': 'session not found'},
-            status=status.HTTP_404_NOT_FOUND,
-        )
+
+    session = None
+    if sid:
+        try:
+            session = Session.objects.get(session_id=sid)
+        except (Session.DoesNotExist, ValueError):
+            session = None
+
+    if session is None:
+        ip = _client_ip(request)
+        ua = request.META.get('HTTP_USER_AGENT', '')[:1000]
+        session = Session.objects.create(user_ip=ip or None, user_agent=ua, mode=mode)
+        return Response({
+            'status': 'recreated',
+            'mode': mode,
+            'session_id': str(session.session_id),
+        })
+
     session.mode = mode
     session.save(update_fields=['mode', 'last_active'])
-    return Response({'status': 'ok', 'mode': mode})
+    return Response({
+        'status': 'ok',
+        'mode': mode,
+        'session_id': str(session.session_id),
+    })
