@@ -496,12 +496,14 @@ TEAM_GROUPS = [
         'members': [
                         {
                 'name': 'Afief Tahir',
-                'role': 'Co-founder & Web GIS / Spatial Systems',
-                'bio': 'Web GIS Development Officer at Mines & Minerals, Punjab. Two years at PDMA Punjab including Control Room shift in-charge for province-wide situational monitoring. Contributor to the first-ever Digital Atlas of Pakistan. M.Phil in GIS and Remote Sensing; bridges spatial data with interactive web applications using Mapbox, ArcGIS, and Google Earth Engine.',
+                'role': 'Co-founder & Web GIS Developer / Spatial Data Engineer',
+                'bio': 'Web GIS Development Officer at Mines & Minerals, Punjab. Two years at PDMA Punjab including Control Room shift in-charge for province-wide situational monitoring. Contributor to the first-ever Digital Atlas of Pakistan. M.Phil in GIS and Remote Sensing; bridges spatial data with interactive web applications using Mapbox, OpenLayers, and Geoserver.',
                 'avatar': 'avatar-8',
                 'image' : "img/team/afief.jpeg",
-                'links': [],
-                'tags': ['Web GIS', 'Mapbox', 'Earth Engine', 'Spatial systems'],
+                'links': [
+                     {'label': 'LinkedIn', 'url': 'https://www.linkedin.com/in/afief-tahir-b54074204/'},
+                ],
+                'tags': ['Web GIS', 'Mapbox', 'OpenLayers', 'Spatial Data'],
             },
             {
                 'name': 'Munief Hassan Tahir',
