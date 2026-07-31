@@ -29,7 +29,7 @@ CSRF_TRUSTED_ORIGINS = env_list('CSRF_TRUSTED_ORIGINS', '')
 
 SITE_NAME = 'Axial Foundry'
 SITE_URL = os.getenv('SITE_URL', 'http://127.0.0.1:8000').rstrip('/')
-CONTACT_EMAIL = os.getenv('CONTACT_EMAIL', 'info@axialfoundary.com')
+CONTACT_EMAIL = os.getenv('CONTACT_EMAIL', 'axialfoundary@gmail.com')
 CONTACT_PHONE = os.getenv('CONTACT_PHONE', '+92 308 4155075')
 CONTACT_LOCATION = os.getenv('CONTACT_LOCATION', 'Lahore, Pakistan')
 LEADS_NOTIFICATION_EMAIL = os.getenv('LEADS_NOTIFICATION_EMAIL', CONTACT_EMAIL)
