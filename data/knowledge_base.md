@@ -25,7 +25,7 @@ Key differentiators:
 Location and contact:
 
 - Lahore, Pakistan.
-- Email: info@axialfoundary.com
+- Email: axialfoundary@gmail.com
 - Phone: +92 323 5809900
 
 ## 2. Services and Solution Shapes
@@ -134,7 +134,7 @@ To get in touch you can:
 
 - Use the chatbot's "Contact Us" option to submit your details directly.
 - Visit the /contact page on the website.
-- Email info@axialfoundary.com.
+- Email axialfoundary@gmail.com.
 - Call +92 323 5809900.
 
 ## 8. Privacy and Data Handling
